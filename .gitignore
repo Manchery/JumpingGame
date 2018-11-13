@@ -125,6 +125,3 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 
-# ignore cocos2dx
-
-/cocos2d
