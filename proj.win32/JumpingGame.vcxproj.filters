@@ -10,9 +10,6 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Scene">
-      <UniqueIdentifier>{cd700c97-e3d4-4e0b-97d0-6570d33dff72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Chapter2">
       <UniqueIdentifier>{02b0f78c-cb13-4ec1-b77a-73a1e5a7ef05}</UniqueIdentifier>
     </Filter>
@@ -36,9 +33,6 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\HelpScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Chapter2\Chapter2.cpp">
       <Filter>src\Chapter2</Filter>
     </ClCompile>
@@ -60,6 +54,18 @@
     <ClCompile Include="..\Classes\Chapter12\Chapter12.cpp">
       <Filter>src\Chapter12</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\HelpScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Hero.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -67,9 +73,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\HelpScene.h">
-      <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Chapter2\Chapter2.h">
       <Filter>src\Chapter2</Filter>
@@ -91,6 +94,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Chapter12\Chapter12.h">
       <Filter>src\Chapter12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelpScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Hero.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloScene.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

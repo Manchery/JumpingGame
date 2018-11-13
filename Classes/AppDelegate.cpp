@@ -40,12 +40,10 @@ using namespace CocosDenshion;
 #endif
 
 #include "HelloWorldScene.h"
-#include "Chapter12/Chapter12.h"
-#include "Chapter2/Chapter2.h"
-#include "Chapter2/Chapter2Level1.h"
-#include "Chapter4/Chapter4.h"
-#define START_SCENE Chapter2Level1
-//#define START_SCENE Chapter4
+#include "HelloScene.h"
+#include "GameScene.h"
+//#define START_SCENE GameScene
+#define START_SCENE HelloScene
 
 USING_NS_CC;
 

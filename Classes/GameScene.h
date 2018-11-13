@@ -1,15 +1,16 @@
-#ifndef __CHAPTER2_LEVEL1_H__
-#define __CHAPTER2_LEVEL1_H__
+#ifndef __GAME_SCENE_H__
+#define __GAME_SCENE_H__
 
 #include "cocos2d.h"
 #include "Hero.h"
 
-class Chapter2Level1 : public cocos2d::Scene
+class GameScene : public cocos2d::Scene
 {
 public:
 
 	static cocos2d::Scene* createScene();
 	virtual bool init();
+	void initMap();
 	//virtual bool initWithPhysics();
 
 	// a selector callback
@@ -18,11 +19,11 @@ public:
 	bool onContactEnd(const cocos2d::PhysicsContact &contact);
 	void heroUpdate(float dt);
 
-	CREATE_FUNC(Chapter2Level1);
+	CREATE_FUNC(GameScene);
 
 private:
 	Hero *hero;
 	bool upKeyDown, leftKeyDown, rightKeyDown, downKeyDown;
 };
 
-#endif // __CHAPTER2_LEVEL1_H__
+#endif // __GAME_SCENE_H__

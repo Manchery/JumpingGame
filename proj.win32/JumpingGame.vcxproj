@@ -156,8 +156,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Chapter3\Chapter3.cpp" />
     <ClCompile Include="..\Classes\Chapter4\Chapter4.cpp" />
     <ClCompile Include="..\Classes\Chapter5\Chapter5.cpp" />
+    <ClCompile Include="..\Classes\GameScene.cpp" />
+    <ClCompile Include="..\Classes\HelloScene.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="..\Classes\Scene\HelpScene.cpp" />
+    <ClCompile Include="..\Classes\HelpScene.cpp" />
+    <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,8 +171,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Chapter3\Chapter3.h" />
     <ClInclude Include="..\Classes\Chapter4\Chapter4.h" />
     <ClInclude Include="..\Classes\Chapter5\Chapter5.h" />
+    <ClInclude Include="..\Classes\GameScene.h" />
+    <ClInclude Include="..\Classes\HelloScene.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\Classes\Scene\HelpScene.h" />
+    <ClInclude Include="..\Classes\HelpScene.h" />
+    <ClInclude Include="..\Classes\Hero.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,4 @@
-#include "Chapter2Level1.h"
-#include "Chapter2.h"
+#include "GameScene.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
 #include <algorithm>
@@ -7,10 +6,10 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
-Scene* Chapter2Level1::createScene()
+Scene* GameScene::createScene()
 {
-	//return Chapter2Level1::createWithPhysics();
-	return Chapter2Level1::create();
+	//return GameScene::createWithPhysics();
+	return GameScene::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -21,7 +20,7 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool Chapter2Level1::init()
+bool GameScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -29,13 +28,98 @@ bool Chapter2Level1::init()
 	{
 		return false;
 	}
-	auto physicsWorld = this->getPhysicsWorld();
-	physicsWorld->setGravity(Vec2(0, -500));
-	physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	physicsWorld->setSubsteps(20);
-	
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	//physics
+	auto physicsWorld = this->getPhysicsWorld();
+	physicsWorld->setGravity(Vec2(0, -500));
+	//physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	physicsWorld->setSubsteps(20);
+
+	auto edgeSp = Sprite::create();
+	auto boundBody = PhysicsBody::createEdgeBox(visibleSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
+	edgeSp->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	edgeSp->setPhysicsBody(boundBody);
+	this->addChild(edgeSp, -1);
+	
+	//audio
+	auto audio = SimpleAudioEngine::getInstance();
+	audio->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
+
+	//map
+	initMap();
+
+	//hero
+	hero = Hero::create();
+	hero->setAnchorPoint(Vec2(0, 0));
+	hero->setPosition(10, 100);
+	hero->setName("Hero");
+	hero->setTag(1);
+
+	//contactlistener
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	contactListener->onContactSeparate = CC_CALLBACK_1(GameScene::onContactEnd, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+	this->addChild(hero, 1);
+
+	//keylistener
+	auto keyListener = EventListenerKeyboard::create();
+
+	keyListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		//log("Key with keycode %d pressed", keyCode);
+		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+			rightKeyDown = 1;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+			leftKeyDown = 1;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+			upKeyDown = 1;
+			if (hero->getJumpTimes() < hero->getJumpLimit()) {
+				auto velcolity = hero->getPhysicsBody()->getVelocity();
+				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x,300));
+				hero->setJumpTimes(hero->getJumpTimes()+1);
+
+				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+			}
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+			downKeyDown = 1;
+		}
+	};
+
+	keyListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		//log("Key with keycode %d released", keyCode);
+		/*if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
+			Director::getInstance()->replaceScene(Chapter2::createScene());
+		}*/
+		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+			rightKeyDown = 0; 
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+			leftKeyDown = 0;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+			upKeyDown = 0;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+			downKeyDown = 0;
+		}
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+	this->schedule(schedule_selector(GameScene::heroUpdate), 1.0f/30);
+	return true;
+}
+
+void GameScene::initMap() {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
 	//background 
 	auto backGround = Sprite::create("parkour_images/about.jpg");
 	backGround->setContentSize(visibleSize);
@@ -43,15 +127,6 @@ bool Chapter2Level1::init()
 	backGround->setPosition(Vec2::ZERO);
 	this->addChild(backGround, -1);
 
-	auto audio = SimpleAudioEngine::getInstance();
-	audio->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
-
-	//edgebox
-	auto edgeSp = Sprite::create();
-	auto boundBody = PhysicsBody::createEdgeBox(visibleSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
-	edgeSp->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-	edgeSp->setPhysicsBody(boundBody);
-	this->addChild(edgeSp, -1);
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// create a node to hold non-sprites.
@@ -166,8 +241,8 @@ bool Chapter2Level1::init()
 	{
 		auto sprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
 		sprite->setAnchorPoint(Vec2(0, 0));
-		sprite->setPosition(sX, sY); 
-		
+		sprite->setPosition(sX, sY);
+
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
 		physicsBody->setCategoryBitmask(0x02);    // 0010
@@ -182,74 +257,10 @@ bool Chapter2Level1::init()
 	}
 
 	testSprite = NULL;
-
 	this->addChild(nodeItems, 1);
-
-	hero = Hero::create();
-	hero->setAnchorPoint(Vec2(0, 0));
-	hero->setPosition(10, 100);
-	hero->setName("Hero");
-	hero->setTag(1);
-
-	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(Chapter2Level1::onContactBegin, this);
-	contactListener->onContactSeparate = CC_CALLBACK_1(Chapter2Level1::onContactEnd, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-	this->addChild(hero, 1);
-
-	//keylistener
-	auto keyListener = EventListenerKeyboard::create();
-
-	keyListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d pressed", keyCode);
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 1;
-			if (hero->getJumpTimes() < hero->getJumpLimit()) {
-				auto velcolity = hero->getPhysicsBody()->getVelocity();
-				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x,300));
-				hero->setJumpTimes(hero->getJumpTimes()+1);
-
-				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
-			}
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 1;
-		}
-	};
-
-	keyListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d released", keyCode);
-		if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
-			Director::getInstance()->replaceScene(Chapter2::createScene());
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 0; 
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 0;
-		}
-	};
-
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
-	this->schedule(schedule_selector(Chapter2Level1::heroUpdate), 1.0f/30);
-	return true;
 }
 
-
-void Chapter2Level1::menuExitCallback(Ref* pSender)
+void GameScene::menuExitCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();
@@ -265,23 +276,25 @@ void Chapter2Level1::menuExitCallback(Ref* pSender)
 
 
 }
-bool Chapter2Level1::onContactBegin(const cocos2d::PhysicsContact &contact) {
+bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	log("%d %d", nodeA->getTag(), nodeB->getTag());
+	//log("%d %d", nodeA->getTag(), nodeB->getTag());
 	if (nodeB->getTag() == 1) std::swap(nodeA, nodeB);
-	if (nodeB->getPositionY() + nodeB->getContentSize().height <= nodeA->getPositionY()) {
+	//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, nodeA->getPositionY());
+	auto eps = 0.5f;
+	if (nodeB->getPositionY() + nodeB->getContentSize().height <= nodeA->getPositionY() + eps) {
 		hero->setJumpTimes(0);
 	}
 	return true;
 }
-bool Chapter2Level1::onContactEnd(const cocos2d::PhysicsContact &contact) {
+bool GameScene::onContactEnd(const cocos2d::PhysicsContact &contact) {
 	//log("contact end");
 	return true;
 }
 
-void Chapter2Level1::heroUpdate(float dt)
+void GameScene::heroUpdate(float dt)
 {
 	auto delta = 200.0f;
 	auto velcolity = hero->getPhysicsBody()->getVelocity();
