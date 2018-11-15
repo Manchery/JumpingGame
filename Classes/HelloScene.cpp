@@ -6,6 +6,8 @@ USING_NS_CC;
 
 Scene* HelloScene::createScene()
 {
+	//Size visibleSize = Director::getInstance()->getVisibleSize();
+	//return HelloScene::createWithSize(Size(visibleSize.width,visibleSize.height));
 	return HelloScene::create();
 }
 
@@ -29,13 +31,22 @@ bool HelloScene::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	auto layer = Layer::create();
+	//layer->setContentSize(Size(visibleSize.width*2, visibleSize.height*2));
+	//layer->runAction(MoveBy::create(5,Vec2(-visibleSize.width, -visibleSize.height)));
+	Size layerSize = layer->getContentSize();
+
+	auto parent = layer;
+
+	this->addChild(layer,0);
+
 	auto backGround = Sprite::create("parkour_images/back_spring.png");
-	backGround->setContentSize(visibleSize);
+	backGround->setContentSize(layerSize);
 	backGround->setAnchorPoint(Vec2::ZERO);
 	backGround->setPosition(Vec2::ZERO);
-	this->addChild(backGround, -1);
+	parent->addChild(backGround, -1);
 	
-	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8)); // actual playing size to work with
+	Size playingSize = Size(layerSize.width, layerSize.height - (layerSize.height / 8)); // actual playing size to work with
 
 	auto color = Color4F(1.0f, 0.5f, 0.3f, 1);
 
@@ -52,7 +63,7 @@ bool HelloScene::init()
 	dotNode1->setContentSize(Size(600, 200));
 	dotNode1->drawPolygon(stripe1, verts, color, 0, color);
 
-	dotNode1->setPosition(Vec2(visibleSize.width / 2 - (dotNode1->getContentSize().width / 2),
+	dotNode1->setPosition(Vec2(layerSize.width / 2 - (dotNode1->getContentSize().width / 2),
 		playingSize.height - dotNode1->getContentSize().height));
 
 	auto label = Label::createWithTTF("Super Cocos Aliens", "fonts/Marker Felt.ttf", 64);
@@ -60,7 +71,7 @@ bool HelloScene::init()
 	auto dotNodeSize = dotNode1->getContentSize();
 	label->setPosition(Vec2(dotNodeSize.width / 2, dotNodeSize.height / 2));
 
-	this->addChild(dotNode1, -1);
+	parent->addChild(dotNode1, -1);
 
 	int paddingX = 20;
 	int paddingY = 20;
@@ -84,18 +95,18 @@ bool HelloScene::init()
 	auto player2ScoreSize = player2Score->getContentSize();
 
 	player1->setPosition(Vec2(0 + player1Size.width / 2 + paddingX,
-		visibleSize.height - player1Size.height / 2 - paddingY));
+		layerSize.height - player1Size.height / 2 - paddingY));
 
 	player1Score->setPosition(Vec2(0 + player1->getPositionX() + player1ScoreSize.width + paddingX,
-		visibleSize.height - player1ScoreSize.height / 2 - paddingY));
+		layerSize.height - player1ScoreSize.height / 2 - paddingY));
 
-	player2Score->setPosition(Vec2(visibleSize.width - player2ScoreSize.width / 2 - paddingX,
-		visibleSize.height - player2ScoreSize.height / 2 - paddingY));
+	player2Score->setPosition(Vec2(layerSize.width - player2ScoreSize.width / 2 - paddingX,
+		layerSize.height - player2ScoreSize.height / 2 - paddingY));
 
 	player2->setPosition(Vec2(player2Score->getPositionX() - player2Size.width - paddingX,
-		visibleSize.height - player2Size.height / 2 - paddingY));
+		layerSize.height - player2Size.height / 2 - paddingY));
 
-	this->addChild(labelNode, -1);
+	parent->addChild(labelNode, -1);
 
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,12 +123,12 @@ bool HelloScene::init()
 
 	testSprite->setScale(Director::getInstance()->getContentScaleFactor());
 
-	int howMany = std::ceil(visibleSize.width / spriteSize.width);
+	int howMany = std::ceil(layerSize.width / spriteSize.width);
 
 	int sX = 0; // act as a counter for setPosition x coordinate.
 	int sY = 0; // act as a counter for setPosition y coordinate.
 
-	playingSize = Size(visibleSize.width, visibleSize.height - spriteSize.height);
+	playingSize = Size(layerSize.width, layerSize.height - spriteSize.height);
 
 	for (int i = 0; i < howMany; i++)
 	{
@@ -137,7 +148,7 @@ bool HelloScene::init()
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	testSprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
 
-	sX = visibleSize.width / 2 - testSprite->getContentSize().width;
+	sX = layerSize.width / 2 - testSprite->getContentSize().width;
 	sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
 
 	for (int i = 0; i < 5; i++)
@@ -153,7 +164,7 @@ bool HelloScene::init()
 
 	testSprite = NULL;
 
-	this->addChild(nodeItems, 1);
+	parent->addChild(nodeItems, 1);
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// create a node to hold all sprites
@@ -163,26 +174,25 @@ bool HelloScene::init()
 
 	auto sprite1 = Sprite::create("chapter2/Blue_Front1.png");
 	sprite1->setAnchorPoint(Vec2(0, 0));
-	sprite1->setPosition(100, (visibleSize.height - playingSize.height));
+	sprite1->setPosition(layerSize.width*1/5, (layerSize.height - playingSize.height));
 	spriteNode->addChild(sprite1, 1);
 
 	auto sprite2 = Sprite::create("chapter2/LightBlue_Front1.png");
 	sprite2->setAnchorPoint(Vec2(0, 0));
-	sprite2->setPosition(500, (visibleSize.height - playingSize.height));
+	sprite2->setPosition(layerSize.width * 3 / 5, (layerSize.height - playingSize.height));
 	spriteNode->addChild(sprite2, 1);
 
 	auto sprite3 = Sprite::create("chapter2/White_Front1.png");
 	sprite3->setAnchorPoint(Vec2(0, 0));
-	sprite3->setPosition(800, (visibleSize.height - playingSize.height));
+	sprite3->setPosition(layerSize.width * 4 / 5, (layerSize.height - playingSize.height));
 	spriteNode->addChild(sprite3, 1);
 
-	this->addChild(spriteNode, 1);
+	parent->addChild(spriteNode, 1);
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// create a node to hold menu
 	// create a menu
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	auto menuNode = Node::create();
 
 	auto menuItem1 = MenuItemFont::create("Start Game");
 	menuItem1->setColor(Color3B::ORANGE);
@@ -194,9 +204,10 @@ bool HelloScene::init()
 	});
 
 	auto menu = Menu::create(menuItem1, NULL);
-	menuNode->addChild(menu, 0);
+	menu->setPosition(layerSize.width / 2, layerSize.height / 2);
+	parent->addChild(menu, 2);
 
-	this->addChild(menuNode, 2);
+	//parent->setPosition(-100, -100);
 
 	return true;
 }

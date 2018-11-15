@@ -32,6 +32,16 @@ bool GameScene::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	mapSize = Size(visibleSize.width * 2, visibleSize.height*1.5);
+
+	frontGroundLayer = Layer::create();
+	frontGroundLayer->setContentSize(mapSize);
+	this->addChild(frontGroundLayer, 0);
+
+	backGroundLayer = Layer::create();
+	backGroundLayer->setContentSize(mapSize);
+	this->addChild(backGroundLayer, -1);
+
 	//physics
 	auto physicsWorld = this->getPhysicsWorld();
 	physicsWorld->setGravity(Vec2(0, -500));
@@ -39,10 +49,10 @@ bool GameScene::init()
 	physicsWorld->setSubsteps(20);
 
 	auto edgeSp = Sprite::create();
-	auto boundBody = PhysicsBody::createEdgeBox(visibleSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
-	edgeSp->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	auto boundBody = PhysicsBody::createEdgeBox(mapSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
+	edgeSp->setPosition(mapSize.width / 2, mapSize.height / 2);
 	edgeSp->setPhysicsBody(boundBody);
-	this->addChild(edgeSp, -1);
+	frontGroundLayer->addChild(edgeSp, -1);
 	
 	//audio
 	auto audio = SimpleAudioEngine::getInstance();
@@ -50,6 +60,8 @@ bool GameScene::init()
 
 	//map
 	initMap();
+	//listener
+	initListener();
 
 	//hero
 	hero = Hero::create();
@@ -57,75 +69,22 @@ bool GameScene::init()
 	hero->setPosition(10, 100);
 	hero->setName("Hero");
 	hero->setTag(1);
+	frontGroundLayer->addChild(hero, 1);
 
-	//contactlistener
-	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
-	contactListener->onContactSeparate = CC_CALLBACK_1(GameScene::onContactEnd, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-	this->addChild(hero, 1);
+	this->schedule(schedule_selector(GameScene::heroUpdate), 1.0f / 60);
+	this->schedule(schedule_selector(GameScene::mapUpdate), 1.0f / 60);
 
-	//keylistener
-	auto keyListener = EventListenerKeyboard::create();
-
-	keyListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d pressed", keyCode);
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 1;
-			if (hero->getJumpTimes() < hero->getJumpLimit()) {
-				auto velcolity = hero->getPhysicsBody()->getVelocity();
-				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x,300));
-				hero->setJumpTimes(hero->getJumpTimes()+1);
-
-				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
-			}
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 1;
-		}
-	};
-
-	keyListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d released", keyCode);
-		/*if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
-			Director::getInstance()->replaceScene(Chapter2::createScene());
-		}*/
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 0; 
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 0;
-		}
-	};
-
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
-	this->schedule(schedule_selector(GameScene::heroUpdate), 1.0f/30);
 	return true;
 }
-
 void GameScene::initMap() {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Size mapSize = frontGroundLayer->getContentSize();
 
 	//background 
 	auto backGround = Sprite::create("parkour_images/about.jpg");
-	backGround->setContentSize(visibleSize);
+	backGround->setContentSize(mapSize);
 	backGround->setAnchorPoint(Vec2::ZERO);
 	backGround->setPosition(Vec2::ZERO);
-	this->addChild(backGround, -1);
+	backGroundLayer->addChild(backGround, -1);
 
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,12 +99,12 @@ void GameScene::initMap() {
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
 
-	int howMany = std::ceil(visibleSize.width / testSprite->getContentSize().width);
+	int howMany = std::ceil(mapSize.width / testSprite->getContentSize().width);
 
 	int sX = 0; // act as a counter for setPosition x coordinate.
 	int sY = 0; // act as a counter for setPosition y coordinate.
 
-	auto playingSize = Size(visibleSize.width, visibleSize.height - testSprite->getContentSize().height);
+	auto playingSize = Size(mapSize.width, mapSize.height - testSprite->getContentSize().height);
 
 	for (int i = 0; i < howMany; i++)
 	{
@@ -175,9 +134,9 @@ void GameScene::initMap() {
 	testSprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
 
 	// left side blocks
-	sX = visibleSize.width / 4 - testSprite->getContentSize().width;
+	sX = mapSize.width / 4 - testSprite->getContentSize().width;
 	//sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
-	sY = visibleSize.height - playingSize.height;
+	sY = mapSize.height - playingSize.height;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -205,7 +164,7 @@ void GameScene::initMap() {
 	}
 
 	// right side blocks
-	sX = (visibleSize.width / 2 + visibleSize.width / 4) - testSprite->getContentSize().width;
+	sX = (mapSize.width / 2 + mapSize.width / 4) - testSprite->getContentSize().width;
 	sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
 
 	for (int i = 0; i < 3; i++)
@@ -230,11 +189,11 @@ void GameScene::initMap() {
 			sprite->setName("middleBlock2");
 		}
 
-		this->addChild(sprite, 1);
+		nodeItems->addChild(sprite, 1);
 	}
 
 	// center blocks
-	sX = visibleSize.width / 2 - testSprite->getContentSize().width;
+	sX = mapSize.width / 2 - testSprite->getContentSize().width;
 	sY = (playingSize.height / 2 + playingSize.height / 4) - testSprite->getContentSize().height * 2;
 
 	for (int i = 0; i < 3; i++)
@@ -257,7 +216,61 @@ void GameScene::initMap() {
 	}
 
 	testSprite = NULL;
-	this->addChild(nodeItems, 1);
+	frontGroundLayer->addChild(nodeItems, 1);
+}
+void GameScene::initListener() {
+	//contactlistener
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	contactListener->onContactSeparate = CC_CALLBACK_1(GameScene::onContactEnd, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+	//keylistener
+	auto keyListener = EventListenerKeyboard::create();
+
+	keyListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		//log("Key with keycode %d pressed", keyCode);
+		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+			rightKeyDown = 1;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+			leftKeyDown = 1;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+			upKeyDown = 1;
+			if (hero->getJumpTimes() < hero->getJumpLimit()) {
+				auto velcolity = hero->getPhysicsBody()->getVelocity();
+				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x, 300));
+				hero->setJumpTimes(hero->getJumpTimes() + 1);
+
+				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+			}
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+			downKeyDown = 1;
+		}
+	};
+
+	keyListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		//log("Key with keycode %d released", keyCode);
+		/*if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
+			Director::getInstance()->replaceScene(Chapter2::createScene());
+		}*/
+		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+			rightKeyDown = 0;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+			leftKeyDown = 0;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+			upKeyDown = 0;
+		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+			downKeyDown = 0;
+		}
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 }
 
 void GameScene::menuExitCallback(Ref* pSender)
@@ -273,8 +286,6 @@ void GameScene::menuExitCallback(Ref* pSender)
 
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
 bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
@@ -283,7 +294,7 @@ bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
 	//log("%d %d", nodeA->getTag(), nodeB->getTag());
 	if (nodeB->getTag() == 1) std::swap(nodeA, nodeB);
 	//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, nodeA->getPositionY());
-	auto eps = 0.5f;
+	auto eps = 1.0f;
 	if (nodeB->getPositionY() + nodeB->getContentSize().height <= nodeA->getPositionY() + eps) {
 		hero->setJumpTimes(0);
 	}
@@ -315,4 +326,35 @@ void GameScene::heroUpdate(float dt)
 		hero->silence();
 	}
 	hero->getPhysicsBody()->setVelocity(velcolity);
+}
+void GameScene::mapUpdate(float dt) {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	auto heroBound = Rect::Rect(visibleSize.width / 3, visibleSize.height/3, visibleSize.width / 3, visibleSize.height / 3);
+	auto heroPosition = getHeroGlobalPosition();
+	if (!heroBound.containsPoint(heroPosition)) {
+		//log("out! %f %f",heroPosition.x,heroPosition.y);
+		Vec2 delta=Vec2(0,0);
+		if (heroPosition.x < heroBound.getMinX())
+			delta.x = (heroBound.getMinX() - heroPosition.x);
+		else if (heroPosition.x > heroBound.getMaxX())
+			delta.x = -(heroPosition.x - heroBound.getMaxX());
+
+		if (heroPosition.y < heroBound.getMinY())
+			delta.y = (heroBound.getMinY() - heroPosition.y);
+		else if (heroPosition.y > heroBound.getMaxY())
+			delta.y = -(heroPosition.y - heroBound.getMaxY());
+
+		//log("%f %f", delta.x, delta.y);
+
+		auto mapBound = Rect::Rect(visibleSize.width-mapSize.width, visibleSize.height - mapSize.height, 
+			mapSize.width - visibleSize.width, mapSize.height - visibleSize.height);
+		auto layerPosition = frontGroundLayer->getPosition();
+		layerPosition.x = std::max(std::min(mapBound.getMaxX(), layerPosition.x + delta.x), mapBound.getMinX());
+		layerPosition.y = std::max(std::min(mapBound.getMaxY(), layerPosition.y + delta.y), mapBound.getMinY());
+		frontGroundLayer->setPosition(layerPosition);
+	}
+}
+
+Vec2 GameScene::getHeroGlobalPosition() {
+	return hero->getPosition() + hero->getParent()->getPosition();
 }
