@@ -8,8 +8,15 @@
 enum HeroState {
 	SILENCE = 0,
 	RIGHT,
+	RIGHTSILENCE,
+	LEFTSILENCE,
 	LEFT,
-	JUMP
+	JUMP,
+};
+
+enum HeroType {
+	NORMAL=0,
+	SHOT
 };
 
 class Hero : public cocos2d::Sprite
@@ -17,23 +24,37 @@ class Hero : public cocos2d::Sprite
 public:
 	virtual bool init() override;
 	CREATE_FUNC(Hero); 
-
-	void update();
 	
 	void right();
 	void left();
+	void rightSilence();
+	void leftSilence();
 	void jump();
 	void silence();
+	void sleep();
+
+	void shot();
 
 	HeroState getHeroState();
 	int getJumpTimes();
-	void setJumpTimes(int times);
+	void addJumpTimes();
+	void resetJumpTimes();
 	int getJumpLimit();
 	void setJumpLimit(int times);
+	void setOnGround();
+	void resetOnGround();
+	bool getOnGround();
+	HeroType getHeroType();
+	void setHeroType(HeroType type);
 	
-private:
+protected:
 	HeroState heroState;
 	int jumpTimes,jumpLimit;
+	bool onGround;
+	cocos2d::Animate *rightAnimate,*leftAnimate,*frontAnimate;
+	cocos2d::Texture2D *rightTexture, *leftTexture, *frontTexture, *backTexture;
+	std::string bulletImage;
+	HeroType heroType;
 };
 
 #endif // __HERO_H__

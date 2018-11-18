@@ -213,7 +213,7 @@ bool Chapter2Level1::init()
 			if (hero->getJumpTimes() < hero->getJumpLimit()) {
 				auto velcolity = hero->getPhysicsBody()->getVelocity();
 				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x,300));
-				hero->setJumpTimes(hero->getJumpTimes()+1);
+				hero->addJumpTimes();
 
 				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
 			}
@@ -272,7 +272,7 @@ bool Chapter2Level1::onContactBegin(const cocos2d::PhysicsContact &contact) {
 	log("%d %d", nodeA->getTag(), nodeB->getTag());
 	if (nodeB->getTag() == 1) std::swap(nodeA, nodeB);
 	if (nodeB->getPositionY() + nodeB->getContentSize().height <= nodeA->getPositionY()) {
-		hero->setJumpTimes(0);
+		hero->resetJumpTimes();
 	}
 	return true;
 }

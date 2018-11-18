@@ -41,9 +41,11 @@ using namespace CocosDenshion;
 
 #include "HelloWorldScene.h"
 #include "HelloScene.h"
+#include "TileTestScene.h"
 #include "GameScene.h"
 //#define START_SCENE GameScene
 #define START_SCENE HelloScene
+//#define START_SCENE TileTestScene
 
 USING_NS_CC;
 
@@ -100,7 +102,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setDisplayStats(true);
 
     // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0f / 60);
+    director->setAnimationInterval(1.0f / 60/2);
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);

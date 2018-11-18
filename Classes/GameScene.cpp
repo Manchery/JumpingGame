@@ -1,10 +1,17 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
+#include "PauseScene.h"
+#include "ReviveScene.h"
+#include "common.h"
+#include "Hero.h"
+#include "Enemy.h"
 #include <algorithm>
 
 USING_NS_CC;
 using namespace CocosDenshion;
+
+#define PHYSICS_SUBSTEPS 10
 
 Scene* GameScene::createScene()
 {
@@ -45,18 +52,22 @@ bool GameScene::init()
 	//physics
 	auto physicsWorld = this->getPhysicsWorld();
 	physicsWorld->setGravity(Vec2(0, -500));
-	//physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	physicsWorld->setSubsteps(20);
+	if (PHYSICS_DRAW_DEBUG)
+		physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	physicsWorld->setSubsteps(PHYSICS_SUBSTEPS);
 
 	auto edgeSp = Sprite::create();
 	auto boundBody = PhysicsBody::createEdgeBox(mapSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
+	boundBody->setContactTestBitmask(0xFFFFFFFF);
 	edgeSp->setPosition(mapSize.width / 2, mapSize.height / 2);
 	edgeSp->setPhysicsBody(boundBody);
+	edgeSp->setTag(BORDER_T);
+
 	frontGroundLayer->addChild(edgeSp, -1);
 	
 	//audio
-	auto audio = SimpleAudioEngine::getInstance();
-	audio->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
+	if (AUDIO_PLAY)
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
 
 	//map
 	initMap();
@@ -65,14 +76,28 @@ bool GameScene::init()
 
 	//hero
 	hero = Hero::create();
-	hero->setAnchorPoint(Vec2(0, 0));
+	hero->setAnchorPoint(Vec2::ZERO);
 	hero->setPosition(10, 100);
 	hero->setName("Hero");
-	hero->setTag(1);
+	hero->setTag(HERO_T);
 	frontGroundLayer->addChild(hero, 1);
 
-	this->schedule(schedule_selector(GameScene::heroUpdate), 1.0f / 60);
-	this->schedule(schedule_selector(GameScene::mapUpdate), 1.0f / 60);
+	auto enemy = Enemy::create();
+	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
+	enemy->setAnchorPoint(Vec2::ZERO);
+	enemy->setTrack(testSprite->getContentSize().height, 700, 1400);
+	enemy->setTag(ENEMY_T);
+	enemy->setName("enemy1");
+	enemy->retain();
+	//enemies.push_back(enemy);
+	frontGroundLayer->addChild(enemy, 1);
+	testSprite = NULL;
+
+	revivePoint = hero->getPosition();
+	heroDied = 0;
+
+	this->schedule(schedule_selector(GameScene::heroUpdate));
+	this->schedule(schedule_selector(GameScene::mapUpdate));
 
 	return true;
 }
@@ -118,10 +143,11 @@ void GameScene::initMap() {
 		physicsBody->setCollisionBitmask(0x01);   // 0001
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(3);
+		sprite->setTag(LAND_T);
 
 		sX += sprite->getContentSize().width;
 
+		if (i == 2 || i == 3) continue; 
 		nodeItems->addChild(sprite, -1);
 	}
 
@@ -151,7 +177,7 @@ void GameScene::initMap() {
 		physicsBody->setCollisionBitmask(0x01);   // 0001
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(2);
+		sprite->setTag(SOFT_LAND_T);
 
 		sX += sprite->getContentSize().width;
 
@@ -180,7 +206,7 @@ void GameScene::initMap() {
 		physicsBody->setCollisionBitmask(0x01);   // 0001
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(2);
+		sprite->setTag(SOFT_LAND_T);
 
 		sX += sprite->getContentSize().width;
 
@@ -208,7 +234,7 @@ void GameScene::initMap() {
 		physicsBody->setCollisionBitmask(0x01);   // 0001
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(2);
+		sprite->setTag(SOFT_LAND_T);
 
 		sX += sprite->getContentSize().width;
 
@@ -227,49 +253,8 @@ void GameScene::initListener() {
 
 	//keylistener
 	auto keyListener = EventListenerKeyboard::create();
-
-	keyListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d pressed", keyCode);
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 1;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 1;
-			if (hero->getJumpTimes() < hero->getJumpLimit()) {
-				auto velcolity = hero->getPhysicsBody()->getVelocity();
-				hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x, 300));
-				hero->setJumpTimes(hero->getJumpTimes() + 1);
-
-				//audio->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
-			}
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 1;
-		}
-	};
-
-	keyListener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		//log("Key with keycode %d released", keyCode);
-		/*if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
-			Director::getInstance()->replaceScene(Chapter2::createScene());
-		}*/
-		if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			rightKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			leftKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
-			upKeyDown = 0;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-			downKeyDown = 0;
-		}
-	};
-
+	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 }
 
@@ -291,43 +276,148 @@ bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	//log("%d %d", nodeA->getTag(), nodeB->getTag());
-	if (nodeB->getTag() == 1) std::swap(nodeA, nodeB);
-	//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, nodeA->getPositionY());
-	auto eps = 1.0f;
-	if (nodeB->getPositionY() + nodeB->getContentSize().height <= nodeA->getPositionY() + eps) {
-		hero->setJumpTimes(0);
+
+	if (nodeA->getTag() == BULLET_T) {
+		nodeA->removeFromParentAndCleanup(1);
+		if (nodeB->getTag() == SOFT_LAND_T) {
+			nodeB->retain();
+			destroyedList.push_back(nodeB);
+			nodeB->removeFromParent();
+		}
+		else if (nodeB->getTag() == ENEMY_T) {
+			nodeB->retain();
+			destroyedList.push_back(nodeB);
+			nodeB->removeFromParent(); 
+		}
+		return false;
+	}
+	if (nodeB->getTag() == BULLET_T) {
+		nodeB->removeFromParentAndCleanup(1);
+		if (nodeA->getTag() == SOFT_LAND_T) {
+			nodeA->retain();
+			destroyedList.push_back(nodeA);
+			nodeA->removeFromParent(); 
+		}
+		else if (nodeA->getTag() == ENEMY_T) {
+			nodeA->retain();
+			destroyedList.push_back(nodeA);
+			nodeA->removeFromParent(); 
+		}
+		return false;
+	}
+	if ((nodeA->getTag() == HERO_T && nodeB->getTag() == ENEMY_T) ||
+		(nodeA->getTag() == ENEMY_T && nodeB->getTag() == HERO_T)) {
+		heroDied = 1;
+		return false;
+	}
+
+	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
+	Vec2 heroPosition = hero->getPosition();
+
+	if (nodeB->getTag() == LAND_T || nodeB->getTag()==SOFT_LAND_T) {
+		if (nodeB->getPositionY() + nodeB->getContentSize().height <= heroPosition.y + 5.0f &&
+			nodeB->getPositionY() + nodeB->getContentSize().height >= heroPosition.y - 5.0f) {
+			hero->resetJumpTimes();
+			hero->setOnGround();
+		}
+	}
+	else if (nodeB->getTag() == BORDER_T) {
+		if (heroPosition.y <= 10.0f) {
+			heroDied = 1;
+			return false;
+		}
 	}
 	return true;
 }
 bool GameScene::onContactEnd(const cocos2d::PhysicsContact &contact) {
-	//log("contact end");
+	return true;
+}
+bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
+	//log("Key with keycode %d pressed", keyCode);
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+		rightKeyDown = 1;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+		leftKeyDown = 1;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+		upKeyDown = 1;
+		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
+		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !hero->getOnGround())) {
+			auto velcolity = hero->getPhysicsBody()->getVelocity();
+			hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x, 300));
+			hero->addJumpTimes();
+			hero->resetOnGround();
+			if (AUDIO_PLAY)
+				SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+		}
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+		downKeyDown = 1;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
+		this->gamePause();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_S) {
+		hero->shot();
+	}
+	return true;
+}
+bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+	//log("Key with keycode %d released", keyCode);
+	/*if (keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
+		Director::getInstance()->replaceScene(Chapter2::createScene());
+	}*/
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+		rightKeyDown = 0; lastKey = EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+		leftKeyDown = 0; lastKey = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+		upKeyDown = 0;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
+		downKeyDown = 0;
+	}
 	return true;
 }
 
 void GameScene::heroUpdate(float dt)
 {
+	if (heroDied) {
+		heroDie();
+		return;
+	}
 	auto delta = 200.0f;
 	auto velcolity = hero->getPhysicsBody()->getVelocity();
 	velcolity.x = 0; 
 	//log("%d", Director::getInstance()->getActionManager()->getNumberOfRunningActionsInTarget(hero));
-	if (rightKeyDown^leftKeyDown) {
-		if (rightKeyDown) {
-			velcolity.x += delta;
-			hero->right();
-		}
-		else if (leftKeyDown) {
-			velcolity.x -= delta;
-			hero->left();
-		}
-	}else if (upKeyDown) {
-		hero->jump();
-	}else {
+	if (rightKeyDown && leftKeyDown) {
 		hero->silence();
+	}
+	else if (rightKeyDown) {
+		velcolity.x += delta;
+		hero->right();
+	}
+	else if (leftKeyDown) {
+		velcolity.x -= delta;
+		hero->left();
+	}
+	else {
+		if (lastKey == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+			hero->rightSilence();
+		}
+		else if (lastKey == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+			hero->leftSilence();
+		}
+		else
+			hero->silence();
 	}
 	hero->getPhysicsBody()->setVelocity(velcolity);
 }
 void GameScene::mapUpdate(float dt) {
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	auto heroBound = Rect::Rect(visibleSize.width / 3, visibleSize.height/3, visibleSize.width / 3, visibleSize.height / 3);
 	auto heroPosition = getHeroGlobalPosition();
@@ -357,4 +447,28 @@ void GameScene::mapUpdate(float dt) {
 
 Vec2 GameScene::getHeroGlobalPosition() {
 	return hero->getPosition() + hero->getParent()->getPosition();
+}
+
+void GameScene::screenShot() {
+
+}
+
+void GameScene::gamePause() {
+	Director::getInstance()->pushScene(PauseScene::createScene());
+}
+void GameScene::heroDie() {
+	Director::getInstance()->pushScene(ReviveScene::createScene());
+	hero->setPosition(revivePoint);
+	heroDied = 0;
+	upKeyDown=leftKeyDown=rightKeyDown=downKeyDown=0;
+	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	for (auto node:destroyedList) {
+		auto sprite = (Sprite*)node;
+		frontGroundLayer->addChild(sprite, 1);
+		if (sprite->getTag() == ENEMY_T) {
+			Enemy *enemy = (Enemy*)node;
+			enemy->resetPosition();
+		}
+	}
+	destroyedList.clear();
 }

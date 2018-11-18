@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Hero.h"
+#include "Enemy.h"
 
 USING_NS_CC;
 
@@ -12,25 +13,35 @@ public:
 
 	static cocos2d::Scene* createScene();
 	virtual bool init();
-	void initMap();
-	void initListener();
+	virtual void initMap();
+	virtual void initListener();
 	//virtual bool initWithPhysics();
 
 	// a selector callback
 	void menuExitCallback(cocos2d::Ref* pSender);
 	bool onContactBegin(const cocos2d::PhysicsContact &contact);
 	bool onContactEnd(const cocos2d::PhysicsContact &contact);
+	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 	void heroUpdate(float dt);
 	void mapUpdate(float dt);
 	Vec2 getHeroGlobalPosition();
 
+	void screenShot();
+	void gamePause();
+	void heroDie();
+
 	CREATE_FUNC(GameScene);
 
-private:
+protected:
 	Size mapSize;
 	Layer *frontGroundLayer,*backGroundLayer;
 	Hero *hero;
 	bool upKeyDown, leftKeyDown, rightKeyDown, downKeyDown;
+	cocos2d::EventKeyboard::KeyCode lastKey;
+	Vec2 revivePoint;
+	bool heroDied;
+	std::vector<Node*> destroyedList;
 };
 
 #endif // __GAME_SCENE_H__

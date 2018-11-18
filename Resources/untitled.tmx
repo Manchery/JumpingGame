@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="40">
+ <tileset firstgid="1" source="block_spring.tsx"/>
+ <objectgroup id="3" name="object">
+  <object id="34" name="block" gid="1" x="664.5" y="745.5" width="80" height="80" rotation="1.07993"/>
+  <object id="35" gid="1" x="264.5" y="745.5" width="80" height="80"/>
+  <object id="36" gid="1" x="344.5" y="745.5" width="80" height="80"/>
+  <object id="37" gid="1" x="424.5" y="745.5" width="80" height="80"/>
+  <object id="38" gid="1" x="504.5" y="745.5" width="80" height="80"/>
+  <object id="39" name="block" gid="1" x="584.5" y="745.5" width="80" height="80" rotation="1.07993"/>
+ </objectgroup>
+</map>
