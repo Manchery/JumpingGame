@@ -4,19 +4,20 @@
 #include "cocos2d.h"
 #include "Hero.h"
 #include "Enemy.h"
+#include "common.h"
 
 USING_NS_CC;
 
 class GameScene : public cocos2d::Scene
 {
 public:
-
+	virtual void onEnterTransitionDidFinish();
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	virtual void initMap();
+	void test();
 	virtual void initListener();
 
-	void menuExitCallback(cocos2d::Ref* pSender);
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
 	bool onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve);
 	bool onContactPostSolve(PhysicsContact& contact, const PhysicsContactPostSolve& solve);
@@ -31,12 +32,14 @@ public:
 
 	Vec2 getHeroGlobalPosition();
 
-	void screenShot();
 	void gamePause();
 	void heroDie();
 	void heroJump();
 
 	CREATE_FUNC(GameScene);
+	PhysicsBody* getBoundBody() {
+		return frontGroundLayer->getChildByTag(BORDER_T)->getPhysicsBody();
+	}
 
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;

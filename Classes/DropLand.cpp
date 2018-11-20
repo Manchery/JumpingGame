@@ -21,6 +21,8 @@ bool DropLand::initWithFile(const std::string & filename)
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
+	physicsBody->setCategoryBitmask(LAND_M);
+	physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	//physicsBody->setCategoryBitmask(0x01);    // 0001
 	//physicsBody->setCollisionBitmask(0x06);   // 0110

@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "common.h"
 
 bool Enemy::init() {
 	if (!Sprite::init())
@@ -9,9 +10,9 @@ bool Enemy::init() {
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
+	physicsBody->setCategoryBitmask(ENEMY_M);
+	physicsBody->setCollisionBitmask(HERO_M | LAND_M | BULLET_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
-	//physicsBody->setCategoryBitmask(0x01);    // 0001
-	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 
 	heroState = SILENCE;

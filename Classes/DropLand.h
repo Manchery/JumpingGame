@@ -11,7 +11,6 @@ public:
 	virtual bool initWithFile(const std::string& filename) override;
 	void remove();
 	void drop();
-	void regenerate(float dt);
 };
 
 #endif // __DROP_LAND_H__

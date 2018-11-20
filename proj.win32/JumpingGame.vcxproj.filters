@@ -25,6 +25,12 @@
     <Filter Include="src\Chapter12">
       <UniqueIdentifier>{5a8d5c3e-c74b-4a8c-bcdc-183461d2836c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{34b2195f-2b8a-4cc0-ac3b-9666d8bc01b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Sprite">
+      <UniqueIdentifier>{f9a87e87-c01e-4517-bc06-19f7b3bb629e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,9 +45,6 @@
     <ClCompile Include="..\Classes\Chapter2\Chapter2Level1.cpp">
       <Filter>src\Chapter2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Chapter3\Chapter3.cpp">
       <Filter>src\Chapter3</Filter>
     </ClCompile>
@@ -54,38 +57,50 @@
     <ClCompile Include="..\Classes\Chapter12\Chapter12.cpp">
       <Filter>src\Chapter12</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelpScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Hero.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\TileTestScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelpScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\PauseScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TempScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ReviveScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Enemy.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\TempScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SlidingLand.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\TileTestScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\DropLand.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Enemy.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Hero.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SlidingLand.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SwingLand.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\common.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SlidingTrap.cpp">
+      <Filter>src\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +116,6 @@
     <ClInclude Include="..\Classes\Chapter2\Chapter2Level1.h">
       <Filter>src\Chapter2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Chapter3\Chapter3.h">
       <Filter>src\Chapter3</Filter>
     </ClInclude>
@@ -116,41 +128,50 @@
     <ClInclude Include="..\Classes\Chapter12\Chapter12.h">
       <Filter>src\Chapter12</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelpScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Hero.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TileTestScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PauseScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TempScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ReviveScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\common.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Enemy.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\SlidingLand.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\HelloScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelpScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ReviveScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TempScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TileTestScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\DropLand.h">
-      <Filter>src</Filter>
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Enemy.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Hero.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SlidingLand.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SwingLand.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SlidingTrap.h">
+      <Filter>src\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

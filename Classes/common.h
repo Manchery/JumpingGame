@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __COMMON_H__
+#define __COMMON_H__
+
+#include "cocos2d.h"
 
 #define PHYSICS_DRAW_DEBUG true
 #define AUDIO_PLAY false
@@ -13,11 +16,20 @@
 #define SOFT_LAND_T 102
 #define SLIDING_LAND_T 103
 #define DROP_LAND_T 104
-#define TRAP_T 105
+#define SWING_LAND_T 105
 
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
-{
-	printf("Error while loading: %s\n", filename);
-	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
+#define TRAP_T 200
+#define SLIDING_TRAP_T 201
+
+#define HERO_M 0x01
+#define LAND_M 0x02
+#define ENEMY_M 0x04
+#define BULLET_M 0x08
+
+bool isLand(const cocos2d::Node *node);
+bool isHero(const cocos2d::Node *node);
+bool touchUpSurface(const cocos2d::Node *nodeA, const cocos2d::Node *nodeB);
+
+void problemLoading(const char* filename);
+
+#endif // __COMMON_H__

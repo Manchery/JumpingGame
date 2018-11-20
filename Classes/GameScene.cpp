@@ -8,10 +8,44 @@
 #include "Hero.h"
 #include "Enemy.h"
 #include "DropLand.h"
+#include "SwingLand.h"
+#include "SlidingTrap.h"
 #include <algorithm>
 using namespace CocosDenshion;
 
 #define PHYSICS_SUBSTEPS 10
+
+void GameScene::onEnterTransitionDidFinish()
+{
+	//flush
+	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
+	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
+	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	for (auto node : destroyedList) {
+		auto sprite = (Sprite*)node;
+		frontGroundLayer->addChild(sprite, 1);
+		if (sprite->getTag() == ENEMY_T) {
+			Enemy *enemy = (Enemy*)node;
+			enemy->resetPosition();
+		}
+	}
+	destroyedList.clear();
+	//add joint pin	
+
+	auto sprite = frontGroundLayer->getChildByName("jointtest");
+	if (sprite != nullptr) {
+		this->getPhysicsWorld()->removeJoint(((SwingLand*)sprite)->pin);
+		sprite->removeFromParentAndCleanup(1);
+	}
+	auto swingLand = SwingLand::create("parkour_images/aboutA.png");
+	//swingLand->setAnchorPoint(Vec2::ZERO);
+	swingLand->setPosition(Vec2(300, 300));
+	swingLand->swing();
+	swingLand->setName("jointtest");
+	swingLand->setTag(SWING_LAND_T);
+
+	frontGroundLayer->addChild(swingLand);
+}
 
 Scene* GameScene::createScene()
 {
@@ -51,13 +85,15 @@ bool GameScene::init()
 
 	auto edgeSp = Sprite::create();
 	auto boundBody = PhysicsBody::createEdgeBox(mapSize, PhysicsMaterial(0.0f, 0.0f, 0.0f), 3);
+	boundBody->setCategoryBitmask(LAND_M);
+	boundBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 	boundBody->setContactTestBitmask(0xFFFFFFFF);
 	edgeSp->setPosition(mapSize.width / 2, mapSize.height / 2);
 	edgeSp->setPhysicsBody(boundBody);
 	edgeSp->setTag(BORDER_T);
 
 	frontGroundLayer->addChild(edgeSp, -1);
-	
+
 	//audio
 	if (AUDIO_PLAY)
 		SimpleAudioEngine::getInstance()->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
@@ -127,17 +163,32 @@ void GameScene::initMap() {
 
 	for (int i = 0; i < howMany; i++)
 	{
+		if (i==4 || i==5) {
+			auto slidingTrap = SlidingTrap::create("chapter2/Dark_ZigzagForest_Square.png");
+			slidingTrap->setAnchorPoint(Vec2(0, 0));
+			slidingTrap->setTrack(sX, sY + testSprite->getContentSize().height-slidingTrap->getContentSize().height-5.0f,
+				sY + testSprite->getContentSize().height);
+			slidingTrap->setTag(SLIDING_TRAP_T);
+			frontGroundLayer->addChild(slidingTrap, -1);
+		}
 		auto sprite = Sprite::create("chapter2/ZigzagForest_Square.png");
 		sprite->setAnchorPoint(Vec2(0, 0));
 		sprite->setPosition(sX, sY);
+		sprite->setTag(LAND_T);
 
+		if (i == howMany - 2 || i == howMany - 3) {
+			sprite = Sprite::create("chapter2/Dark_ZigzagForest_Square.png");
+			sprite->setAnchorPoint(Vec2(0, 0));
+			sprite->setPosition(sX, sY);
+			sprite->setTag(TRAP_T);
+		}
+		
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(0x04);    // 0100
-		physicsBody->setCollisionBitmask(0x01);   // 0001
+		physicsBody->setCategoryBitmask(LAND_M);
+		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+		physicsBody->setContactTestBitmask(0xFFFFFFFF);
 		sprite->setPhysicsBody(physicsBody);
-		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(LAND_T);
 
 		sX += sprite->getContentSize().width;
 
@@ -156,7 +207,8 @@ void GameScene::initMap() {
 	auto slidingLand = SlidingLand::create("parkour_images/block_spring.png");
 	slidingLand->setAnchorPoint(Vec2::ZERO);
 	slidingLand->setTrack(mapSize.width / 4 - testSprite->getContentSize().width+100, 160,
-		mapSize.width / 2 - testSprite->getContentSize().width - 100, 700);
+		mapSize.width / 2 - testSprite->getContentSize().width - 100,
+		(playingSize.height / 2 + playingSize.height / 4) - testSprite->getContentSize().height * 2);
 	slidingLand->setTag(SLIDING_LAND_T);
 	frontGroundLayer->addChild(slidingLand, 1);
 
@@ -174,8 +226,8 @@ void GameScene::initMap() {
 
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(0x02);    // 0010
-		physicsBody->setCollisionBitmask(0x01);   // 0001
+		physicsBody->setCategoryBitmask(LAND_M);
+		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 		sprite->setTag(DROP_LAND_T);
@@ -203,8 +255,8 @@ void GameScene::initMap() {
 
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(0x02);    // 0010
-		physicsBody->setCollisionBitmask(0x01);   // 0001
+		physicsBody->setCategoryBitmask(LAND_M);
+		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 		sprite->setTag(SOFT_LAND_T);
@@ -231,8 +283,8 @@ void GameScene::initMap() {
 
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(0x02);    // 0010
-		physicsBody->setCollisionBitmask(0x01);   // 0001
+		physicsBody->setCategoryBitmask(LAND_M);
+		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 		sprite->setTag(SOFT_LAND_T);
@@ -244,7 +296,6 @@ void GameScene::initMap() {
 
 	testSprite = NULL;
 	frontGroundLayer->addChild(nodeItems, 1);
-
 }
 void GameScene::initListener() {
 	//contactlistener
@@ -262,25 +313,15 @@ void GameScene::initListener() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 }
 
-void GameScene::menuExitCallback(Ref* pSender)
-{
-	//Close the cocos2d-x game scene and quit the application
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-
-	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-	//EventCustom customEndEvent("game_scene_close_event");
-	//_eventDispatcher->dispatchEvent(&customEndEvent);
-}
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 	const Vec2 contactPoint=contact.getContactData()->points[0];
+
+	if (nodeA->getTag() == SLIDING_TRAP_T || nodeB->getTag() == SLIDING_TRAP_T) {
+		log("contact");
+	}
 
 	if (nodeA->getTag() == BULLET_T) {
 		nodeA->removeFromParentAndCleanup(1);
@@ -310,18 +351,19 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 		}
 		return false;
 	}
-	if ((nodeA->getTag() == HERO_T && nodeB->getTag() == ENEMY_T) ||
-		(nodeA->getTag() == ENEMY_T && nodeB->getTag() == HERO_T)) {
-		heroDied = 1;
-		return false;
-	}
-	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
-	if (nodeA->getTag()==HERO_T && nodeB->getTag() == BORDER_T) {
-		if (contactPoint.y <= 10.0f) {
+	
+	if (isHero(nodeB)) std::swap(nodeA, nodeB);
+
+	if (isHero(nodeA)) {
+		if (nodeB->getTag() == ENEMY_T || 
+			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
+			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
+			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
 			heroDied = 1;
 			return false;
 		}
 	}
+
 	bool *heroSetOnGround = new bool(false);
 	contact.setData(heroSetOnGround);
 	return true;
@@ -337,19 +379,17 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 	//const Vec2 contactPoint = contact.getContactData()->points[0];
-	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
-	if (nodeA->getTag() == HERO_T) {
+	if (isHero(nodeB)) std::swap(nodeA, nodeB);
+	if (isHero(nodeA)) {
 		bool *heroSetOnGround = (bool*)contact.getData();
 		//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
-		if ((nodeB->getTag() == LAND_T || nodeB->getTag() == SOFT_LAND_T ||
-				nodeB->getTag() == SLIDING_LAND_T || nodeB->getTag() == DROP_LAND_T)) {
-			if (nodeB->getPositionY() + nodeB->getContentSize().height <= hero->getPositionY() + 1.0f &&
-				nodeB->getPositionY() + nodeB->getContentSize().height >= hero->getPositionY() - 1.0f) {
-				if (!(*heroSetOnGround)) {
+		if (isLand(nodeB)) {
+			if (!(*heroSetOnGround)) {
+				if (nodeB->getTag()==SWING_LAND_T || touchUpSurface(hero,nodeB)) {
 					hero->resetJumpTimes();
 					hero->setOnGround();
 					*heroSetOnGround = true;
-					log("on ground");
+					//log("on ground");
 					if (nodeB->getTag() == SLIDING_LAND_T) {
 						hero->setSlidingGround((Sprite*)nodeB);
 					}
@@ -364,27 +404,20 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 	return true;
 }
 bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
-	auto nodeA = contact.getShapeA()->getBody()->getNode();
-	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	const Vec2 contactPoint = contact.getContactData()->points[0];
-
-	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
-
-	if (nodeA->getTag() == HERO_T &&
-		(nodeB->getTag() == LAND_T || nodeB->getTag() == SOFT_LAND_T ||
-			nodeB->getTag() == SLIDING_LAND_T || nodeB->getTag() == DROP_LAND_T)) {
-		log("un ground");
-		if (*((bool*)contact.getData())) {
+	if (contact.getData() == nullptr) 
+		return true;
+	if (*((bool*)contact.getData())){
+		auto nodeA = contact.getShapeA()->getBody()->getNode();
+		auto nodeB = contact.getShapeB()->getBody()->getNode();
+		if (isHero(nodeB)) std::swap(nodeA, nodeB);
+		if (isHero(nodeA) && isLand(nodeB)) {
 			hero->resetOnGround();
 			if (nodeB->getTag() == SLIDING_LAND_T) {
 				hero->setSlidingGround(nullptr);
 			}
-			/*if (nodeB->getTag() == DROP_LAND_T) {
-				log("seperate from dropland");
-			}*/
 		}
+		delete contact.getData();
 	}
-	delete contact.getData();
 	return true;
 }
 
@@ -398,7 +431,7 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 		upKeyDown = 1;
-		log("%d %d", hero->getJumpTimes(), hero->getOnGround());
+		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
 		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0))) {
 			heroJump();
 		}
@@ -451,7 +484,7 @@ void GameScene::heroUpdate(float dt)
 		else hero->silence();
 	}
 
-	auto delta = 200.0f;
+	auto delta = 200.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
 	auto velcolity = hero->getPhysicsBody()->getVelocity(); 
 	
 	//velocityX
@@ -469,7 +502,7 @@ void GameScene::heroUpdate(float dt)
 		velcolity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velcolity.y = 300;
+		velcolity.y = 300.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
 
@@ -530,10 +563,6 @@ Vec2 GameScene::getHeroGlobalPosition() {
 	return hero->getPosition() + hero->getParent()->getPosition();
 }
 
-void GameScene::screenShot() {
-
-}
-
 void GameScene::gamePause() {
 	Director::getInstance()->pushScene(PauseScene::createScene());
 }
@@ -541,17 +570,6 @@ void GameScene::heroDie() {
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	hero->setPosition(revivePoint);
 	heroDied = 0;
-	upKeyDown=leftKeyDown=rightKeyDown=downKeyDown=0;
-	lastKey = EventKeyboard::KeyCode::KEY_NONE;
-	for (auto node:destroyedList) {
-		auto sprite = (Sprite*)node;
-		frontGroundLayer->addChild(sprite, 1);
-		if (sprite->getTag() == ENEMY_T) {
-			Enemy *enemy = (Enemy*)node;
-			enemy->resetPosition();
-		}
-	}
-	destroyedList.clear();
 }
 void GameScene::heroJump() {
 	heroJumped = 1;

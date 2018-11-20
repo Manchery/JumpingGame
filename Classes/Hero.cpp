@@ -9,10 +9,12 @@ bool Hero::init() {
 	this->setTexture("hero/Blue_Front1.png");
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	//physicsBody->setLinearDamping(0.2f);
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
+	physicsBody->setCategoryBitmask(HERO_M);
+	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
-	//physicsBody->setCategoryBitmask(0x01);    // 0001
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 

@@ -1,4 +1,5 @@
 #include "SlidingLand.h"
+#include "common.h"
 #include <cmath>
 #include <algorithm>
 USING_NS_CC;
@@ -24,6 +25,8 @@ bool SlidingLand::initWithFile(const std::string & filename)
 	//physicsBody->setGravityEnable(false);
 	//physicsBody->setRotationEnable(false);
 	physicsBody->setDynamic(false);
+	physicsBody->setCategoryBitmask(LAND_M);
+	physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	//physicsBody->setCategoryBitmask(0x01);    // 0001
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
@@ -40,33 +43,28 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 		this->getPhysicsBody()->setVelocity(Vec2(50.0f,50.0f*(endY-startY)/(fabs(endX-startX))));
 	else
 		this->getPhysicsBody()->setVelocity(Vec2(-50.0f, -50.0f*(endY - startY) / (fabs(endX - startX))));
-	this->unscheduleAllSelectors();
+	this->unscheduleAllCallbacks();
 	this->schedule(schedule_selector(SlidingLand::update));
 }
 
 void SlidingLand::update(float dt)
 {
-	static float stopTime = 0;
-	static Vec2 tempVelocity;
-	float minX = startX, maxX = endX;
-	if (minX > maxX) std::swap(minX, maxX);
-	if ((this->getPositionX()<minX) ||
-		(this->getPositionX() + this->getContentSize().width>maxX)) {
-		if (stopTime == 0) {
-			tempVelocity = this->getPhysicsBody()->getVelocity();
-			this->getPhysicsBody()->setVelocity(Vec2::ZERO);
-		}
+	float minX = std::min(startX,endX), maxX = std::max(startX,endX);
+	auto vel = this->getPhysicsBody()->getVelocity();
+	if (stoped) {
 		stopTime += dt;
-		//log("%f",stopTime);
 		if (stopTime >= 1.0f) {
 			this->getPhysicsBody()->setVelocity(Vec2(-tempVelocity.x, -tempVelocity.y));
-			stopTime = 0;
+			stopTime = 0; stoped = 0;
 		}
 	}
-}
-
-void SlidingLand::setVelocity(cocos2d::Vec2 vel) {
-	this->getPhysicsBody()->setVelocity(vel);
+	else {
+		if ((this->getPositionX() < minX && vel.x < 0) || (this->getPositionX() > maxX && vel.x > 0)) {
+			tempVelocity = this->getPhysicsBody()->getVelocity();
+			this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+			stoped = 1;
+		}
+	}
 }
 
 
