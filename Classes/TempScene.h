@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class TempScene : public cocos2d::Scene
 {
 public:

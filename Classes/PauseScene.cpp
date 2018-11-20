@@ -1,8 +1,6 @@
 #include "PauseScene.h"
 #include "SimpleAudioEngine.h"
 
-USING_NS_CC;
-
 Scene* PauseScene::createScene()
 {
 	return PauseScene::create();

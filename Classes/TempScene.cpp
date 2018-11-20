@@ -1,8 +1,4 @@
 #include "TempScene.h"
-#include "SimpleAudioEngine.h"
-
-USING_NS_CC;
-
 Scene* TempScene::createScene()
 {
 	return TempScene::create();

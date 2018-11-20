@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "TempScene.h"
 
+USING_NS_CC;
+
 class PauseScene : public TempScene
 {
 public:

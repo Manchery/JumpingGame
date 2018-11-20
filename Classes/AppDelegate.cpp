@@ -43,8 +43,8 @@ using namespace CocosDenshion;
 #include "HelloScene.h"
 #include "TileTestScene.h"
 #include "GameScene.h"
-//#define START_SCENE GameScene
-#define START_SCENE HelloScene
+#define START_SCENE GameScene
+//#define START_SCENE HelloScene
 //#define START_SCENE TileTestScene
 
 USING_NS_CC;

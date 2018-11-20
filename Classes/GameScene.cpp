@@ -4,11 +4,11 @@
 #include "PauseScene.h"
 #include "ReviveScene.h"
 #include "common.h"
+#include "SlidingLand.h"
 #include "Hero.h"
 #include "Enemy.h"
+#include "DropLand.h"
 #include <algorithm>
-
-USING_NS_CC;
 using namespace CocosDenshion;
 
 #define PHYSICS_SUBSTEPS 10
@@ -17,13 +17,6 @@ Scene* GameScene::createScene()
 {
 	//return GameScene::createWithPhysics();
 	return GameScene::create();
-}
-
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
-{
-	printf("Error while loading: %s\n", filename);
-	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
@@ -94,10 +87,11 @@ bool GameScene::init()
 	testSprite = NULL;
 
 	revivePoint = hero->getPosition();
-	heroDied = 0;
+	heroDied = heroJumped= 0;
 
 	this->schedule(schedule_selector(GameScene::heroUpdate));
 	this->schedule(schedule_selector(GameScene::mapUpdate));
+	this->schedule(schedule_selector(GameScene::regenerateUpdate));
 
 	return true;
 }
@@ -159,6 +153,13 @@ void GameScene::initMap() {
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	testSprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
 
+	auto slidingLand = SlidingLand::create("parkour_images/block_spring.png");
+	slidingLand->setAnchorPoint(Vec2::ZERO);
+	slidingLand->setTrack(mapSize.width / 4 - testSprite->getContentSize().width+100, 160,
+		mapSize.width / 2 - testSprite->getContentSize().width - 100, 700);
+	slidingLand->setTag(SLIDING_LAND_T);
+	frontGroundLayer->addChild(slidingLand, 1);
+
 	// left side blocks
 	sX = mapSize.width / 4 - testSprite->getContentSize().width;
 	//sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
@@ -167,7 +168,7 @@ void GameScene::initMap() {
 	for (int i = 0; i < 3; i++)
 	{
 
-		auto sprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
+		auto sprite = DropLand::create("parkour_images/block_winter.png");
 		sprite->setAnchorPoint(Vec2(0, 0));
 		sprite->setPosition(sX, sY);
 
@@ -177,7 +178,7 @@ void GameScene::initMap() {
 		physicsBody->setCollisionBitmask(0x01);   // 0001
 		sprite->setPhysicsBody(physicsBody);
 		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(SOFT_LAND_T);
+		sprite->setTag(DROP_LAND_T);
 
 		sX += sprite->getContentSize().width;
 
@@ -243,11 +244,14 @@ void GameScene::initMap() {
 
 	testSprite = NULL;
 	frontGroundLayer->addChild(nodeItems, 1);
+
 }
 void GameScene::initListener() {
 	//contactlistener
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+	contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
+	contactListener->onContactPostSolve = CC_CALLBACK_2(GameScene::onContactPostSolve, this);
 	contactListener->onContactSeparate = CC_CALLBACK_1(GameScene::onContactEnd, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
@@ -272,10 +276,11 @@ void GameScene::menuExitCallback(Ref* pSender)
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
 }
-bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
+bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	const Vec2 contactPoint=contact.getContactData()->points[0];
 
 	if (nodeA->getTag() == BULLET_T) {
 		nodeA->removeFromParentAndCleanup(1);
@@ -310,28 +315,79 @@ bool GameScene::onContactBegin(const cocos2d::PhysicsContact &contact) {
 		heroDied = 1;
 		return false;
 	}
-
 	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
-	Vec2 heroPosition = hero->getPosition();
-
-	if (nodeB->getTag() == LAND_T || nodeB->getTag()==SOFT_LAND_T) {
-		if (nodeB->getPositionY() + nodeB->getContentSize().height <= heroPosition.y + 5.0f &&
-			nodeB->getPositionY() + nodeB->getContentSize().height >= heroPosition.y - 5.0f) {
-			hero->resetJumpTimes();
-			hero->setOnGround();
-		}
-	}
-	else if (nodeB->getTag() == BORDER_T) {
-		if (heroPosition.y <= 10.0f) {
+	if (nodeA->getTag()==HERO_T && nodeB->getTag() == BORDER_T) {
+		if (contactPoint.y <= 10.0f) {
 			heroDied = 1;
 			return false;
 		}
 	}
+	bool *heroSetOnGround = new bool(false);
+	contact.setData(heroSetOnGround);
 	return true;
 }
-bool GameScene::onContactEnd(const cocos2d::PhysicsContact &contact) {
+bool GameScene::onContactPreSolve(PhysicsContact & contact, PhysicsContactPreSolve & solve)
+{
+	//log("pre solve");
 	return true;
 }
+bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContactPostSolve & solve)
+{
+	//log("post solve");
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	//const Vec2 contactPoint = contact.getContactData()->points[0];
+	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
+	if (nodeA->getTag() == HERO_T) {
+		bool *heroSetOnGround = (bool*)contact.getData();
+		//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
+		if ((nodeB->getTag() == LAND_T || nodeB->getTag() == SOFT_LAND_T ||
+				nodeB->getTag() == SLIDING_LAND_T || nodeB->getTag() == DROP_LAND_T)) {
+			if (nodeB->getPositionY() + nodeB->getContentSize().height <= hero->getPositionY() + 1.0f &&
+				nodeB->getPositionY() + nodeB->getContentSize().height >= hero->getPositionY() - 1.0f) {
+				if (!(*heroSetOnGround)) {
+					hero->resetJumpTimes();
+					hero->setOnGround();
+					*heroSetOnGround = true;
+					log("on ground");
+					if (nodeB->getTag() == SLIDING_LAND_T) {
+						hero->setSlidingGround((Sprite*)nodeB);
+					}
+					if (nodeB->getTag() == DROP_LAND_T) {
+						auto dropLand = (DropLand*)nodeB;
+						dropLand->drop();
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	const Vec2 contactPoint = contact.getContactData()->points[0];
+
+	if (nodeB->getTag() == HERO_T) std::swap(nodeA, nodeB);
+
+	if (nodeA->getTag() == HERO_T &&
+		(nodeB->getTag() == LAND_T || nodeB->getTag() == SOFT_LAND_T ||
+			nodeB->getTag() == SLIDING_LAND_T || nodeB->getTag() == DROP_LAND_T)) {
+		log("un ground");
+		if (*((bool*)contact.getData())) {
+			hero->resetOnGround();
+			if (nodeB->getTag() == SLIDING_LAND_T) {
+				hero->setSlidingGround(nullptr);
+			}
+			/*if (nodeB->getTag() == DROP_LAND_T) {
+				log("seperate from dropland");
+			}*/
+		}
+	}
+	delete contact.getData();
+	return true;
+}
+
 bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	//log("Key with keycode %d pressed", keyCode);
 	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
@@ -342,14 +398,9 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 		upKeyDown = 1;
-		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
-		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !hero->getOnGround())) {
-			auto velcolity = hero->getPhysicsBody()->getVelocity();
-			hero->getPhysicsBody()->setVelocity(Vec2(velcolity.x, 300));
-			hero->addJumpTimes();
-			hero->resetOnGround();
-			if (AUDIO_PLAY)
-				SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+		log("%d %d", hero->getJumpTimes(), hero->getOnGround());
+		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0))) {
+			heroJump();
 		}
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
@@ -385,35 +436,43 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
+	//died
 	if (heroDied) {
 		heroDie();
 		return;
 	}
-	auto delta = 200.0f;
-	auto velcolity = hero->getPhysicsBody()->getVelocity();
-	velcolity.x = 0; 
-	//log("%d", Director::getInstance()->getActionManager()->getNumberOfRunningActionsInTarget(hero));
-	if (rightKeyDown && leftKeyDown) {
-		hero->silence();
-	}
-	else if (rightKeyDown) {
-		velcolity.x += delta;
-		hero->right();
-	}
-	else if (leftKeyDown) {
-		velcolity.x -= delta;
-		hero->left();
-	}
+	//heroTexture
+	if (rightKeyDown && leftKeyDown) { hero->silence(); }
+	else if (rightKeyDown) { hero->right(); }
+	else if (leftKeyDown) { hero->left(); }
 	else {
-		if (lastKey == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-			hero->rightSilence();
-		}
-		else if (lastKey == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-			hero->leftSilence();
-		}
-		else
-			hero->silence();
+		if (lastKey == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) { hero->rightSilence(); }
+		else if (lastKey == EventKeyboard::KeyCode::KEY_LEFT_ARROW) { hero->leftSilence(); }
+		else hero->silence();
 	}
+
+	auto delta = 200.0f;
+	auto velcolity = hero->getPhysicsBody()->getVelocity(); 
+	
+	//velocityX
+	velcolity.x = 0; 
+	if (rightKeyDown) velcolity.x += delta;
+	if (leftKeyDown) velcolity.x -= delta;
+	if (hero->getSlidingGround() != nullptr) {
+		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
+		velcolity.x += slidingVel.x;
+	}
+
+	//velocityY
+	if (hero->getSlidingGround() != nullptr) {
+		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
+		velcolity.y = slidingVel.y;
+	}
+	if (heroJumped) {
+		velcolity.y = 300;
+		heroJumped = 0;
+	}
+
 	hero->getPhysicsBody()->setVelocity(velcolity);
 }
 void GameScene::mapUpdate(float dt) {
@@ -445,6 +504,28 @@ void GameScene::mapUpdate(float dt) {
 	}
 }
 
+void GameScene::regenerateUpdate(float dt)
+{
+	for (auto itor = regenList.begin(); itor != regenList.end(); ) {
+		auto heroRect=hero->getBoundingBox(),nodeRect= itor->first->getBoundingBox();
+		itor->second -= dt;
+		if (heroRect.intersectsRect(nodeRect)) {
+			itor->second = 5.0f;
+			//log("cant regen");
+		}
+		if (itor->second <= 0) {
+			frontGroundLayer->addChild(itor->first, 1);
+			itor=regenList.erase(itor);
+		}
+		else itor++;
+	}
+}
+
+void GameScene::addRenerate(Node * node){
+	node->removeFromParent();
+	regenList.push_back(std::make_pair(node, 5.0f));
+}
+
 Vec2 GameScene::getHeroGlobalPosition() {
 	return hero->getPosition() + hero->getParent()->getPosition();
 }
@@ -471,4 +552,10 @@ void GameScene::heroDie() {
 		}
 	}
 	destroyedList.clear();
+}
+void GameScene::heroJump() {
+	heroJumped = 1;
+	hero->addJumpTimes();
+	if (AUDIO_PLAY)
+		SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
 }

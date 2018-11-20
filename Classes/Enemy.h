@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "Hero.h"
 
+USING_NS_CC;
+
 class Enemy : public Hero
 {
 public:

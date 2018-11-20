@@ -43,18 +43,21 @@ public:
 	void setJumpLimit(int times);
 	void setOnGround();
 	void resetOnGround();
-	bool getOnGround();
+	int getOnGround();
 	HeroType getHeroType();
 	void setHeroType(HeroType type);
+	void setSlidingGround(cocos2d::Sprite *_slidingGround);
+	cocos2d::Sprite *getSlidingGround();
 	
 protected:
 	HeroState heroState;
 	int jumpTimes,jumpLimit;
-	bool onGround;
+	int onGround;
 	cocos2d::Animate *rightAnimate,*leftAnimate,*frontAnimate;
 	cocos2d::Texture2D *rightTexture, *leftTexture, *frontTexture, *backTexture;
 	std::string bulletImage;
 	HeroType heroType;
+	cocos2d::Sprite *slidingGround;
 };
 
 #endif // __HERO_H__

@@ -124,13 +124,16 @@ HeroState Hero::getHeroState() { return heroState; }
 HeroType Hero::getHeroType() { return heroType; }
 void Hero::setHeroType(HeroType type){ heroType = type; }
 
+void Hero::setSlidingGround(cocos2d::Sprite *_slidingGround){ slidingGround = _slidingGround; }
+cocos2d::Sprite * Hero::getSlidingGround(){ return slidingGround;}
+
 int Hero::getJumpTimes() { return jumpTimes; }
 void Hero::addJumpTimes() { jumpTimes++; }
 void Hero::resetJumpTimes() { jumpTimes = 0;  }
 int Hero::getJumpLimit() { return jumpLimit; }
 void Hero::setJumpLimit(int times) { jumpLimit = times; }
 
-void Hero::setOnGround() { onGround = 1; }
-void Hero::resetOnGround() { onGround = 0; }
-bool Hero::getOnGround(){ return onGround; }
+void Hero::setOnGround() { onGround++; }
+void Hero::resetOnGround() { onGround--; }
+int Hero::getOnGround(){ return onGround; }
 
