@@ -21,10 +21,15 @@
 #define TRAP_T 200
 #define SLIDING_TRAP_T 201
 
+#define DOOR_T 300
+#define DOOR_KEY_T 301
+
 #define HERO_M 0x01
 #define LAND_M 0x02
 #define ENEMY_M 0x04
 #define BULLET_M 0x08
+#define DOOR_M 0x10
+#define DOOR_KEY_M 0x20
 
 bool isLand(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);

@@ -11,7 +11,7 @@ bool Enemy::init() {
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(ENEMY_M);
-	physicsBody->setCollisionBitmask(HERO_M | LAND_M | BULLET_M);
+	physicsBody->setCollisionBitmask(HERO_M | LAND_M | BULLET_M | DOOR_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	this->setPhysicsBody(physicsBody);
 
@@ -44,6 +44,8 @@ bool Enemy::init() {
 	backTexture = Sprite::create("hero/Dark_Back1.png")->getTexture(); backTexture->retain();
 
 	this->schedule(schedule_selector(Enemy::randomTravel), 4.0f);
+
+	this->setTag(ENEMY_T);
 	
 	return true;
 }

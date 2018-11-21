@@ -102,6 +102,9 @@
     <ClCompile Include="..\Classes\SlidingTrap.cpp">
       <Filter>src\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Door.cpp">
+      <Filter>src\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -171,6 +174,9 @@
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SlidingTrap.h">
+      <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Door.h">
       <Filter>src\Sprite</Filter>
     </ClInclude>
   </ItemGroup>

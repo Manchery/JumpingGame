@@ -13,7 +13,7 @@ bool Hero::init() {
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(HERO_M);
-	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M);
+	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
@@ -50,6 +50,8 @@ bool Hero::init() {
 	frontTexture = Sprite::create("hero/Blue_Front1.png")->getTexture(); frontTexture->retain();
 	backTexture = Sprite::create("hero/Blue_Back1.png")->getTexture(); backTexture->retain();
 	bulletImage = "hero/star.png";
+
+	this->setTag(HERO_T);
 
 	return true;
 }

@@ -32,6 +32,8 @@ bool SlidingLand::initWithFile(const std::string & filename)
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 
+	this->setTag(SLIDING_LAND_T);
+
 	return true;
 }
 

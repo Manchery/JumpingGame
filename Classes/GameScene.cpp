@@ -10,6 +10,7 @@
 #include "DropLand.h"
 #include "SwingLand.h"
 #include "SlidingTrap.h"
+#include "Door.h"
 #include <algorithm>
 using namespace CocosDenshion;
 
@@ -182,6 +183,20 @@ void GameScene::initMap() {
 			sprite->setPosition(sX, sY);
 			sprite->setTag(TRAP_T);
 		}
+		if (i == howMany - 4) {
+			auto door = Door::create("parkour_images/newgameB_rotate.png");
+			door->setAnchorPoint(Vec2(0, 0));
+			door->setTrack(sX, sY+testSprite->getContentSize().height,sY + testSprite->getContentSize().height +100);
+			door->setTag(DOOR_T);
+			auto doorKey = DoorKey::create("parkour_images/accelerate.png");
+			doorKey->setAnchorPoint(Vec2::ZERO);
+			doorKey->setPosition(door->getPositionX()-100,door->getPositionY());
+			doorKey->setDoor(door);
+			doorKey->setTag(DOOR_KEY_T);
+
+			frontGroundLayer->addChild(doorKey, 1);
+			frontGroundLayer->addChild(door, 1);
+		}
 		
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 		physicsBody->setDynamic(false);
@@ -319,8 +334,13 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 	const Vec2 contactPoint=contact.getContactData()->points[0];
 
-	if (nodeA->getTag() == SLIDING_TRAP_T || nodeB->getTag() == SLIDING_TRAP_T) {
-		log("contact");
+	if (nodeA->getTag() == DOOR_KEY_T) {
+		auto doorKey = (DoorKey*)nodeA;
+		doorKey->lock();
+	}
+	if (nodeB->getTag() == DOOR_KEY_T) {
+		auto doorKey = (DoorKey*)nodeB;
+		doorKey->lock();
 	}
 
 	if (nodeA->getTag() == BULLET_T) {

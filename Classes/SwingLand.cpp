@@ -31,6 +31,8 @@ bool SwingLand::initWithFile(const std::string & filename)
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	this->setPhysicsBody(physicsBody);
 
+	this->setTag(SWING_LAND_T);
+
 	return true;
 }
 

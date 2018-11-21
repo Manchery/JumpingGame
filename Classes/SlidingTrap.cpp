@@ -27,8 +27,11 @@ bool SlidingTrap::initWithFile(const std::string & filename)
 	physicsBody->setDynamic(false);
 	physicsBody->setCategoryBitmask(LAND_M);
 	physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+	//physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	physicsBody->setContactTestBitmask(HERO_M | ENEMY_M | BULLET_M);
 	this->setPhysicsBody(physicsBody);
+
+	this->setTag(SLIDING_TRAP_T);
 
 	return true;
 }

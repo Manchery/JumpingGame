@@ -28,6 +28,8 @@ bool DropLand::initWithFile(const std::string & filename)
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 
+	this->setTag(DROP_LAND_T);
+
 	return true;
 }
 void DropLand::remove() {
