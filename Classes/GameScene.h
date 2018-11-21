@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Hero.h"
 #include "Enemy.h"
+#include "FollowEnemy.h"
 #include "common.h"
 
 USING_NS_CC;
@@ -15,7 +16,6 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	virtual void initMap();
-	void test();
 	virtual void initListener();
 
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
@@ -40,6 +40,12 @@ public:
 	PhysicsBody* getBoundBody() {
 		return frontGroundLayer->getChildByTag(BORDER_T)->getPhysicsBody();
 	}
+	Hero* getHero() {
+		return hero;
+	}
+	void addToFrontGround(Node *node,int zOrder=1){
+		frontGroundLayer->addChild(node, zOrder);
+	}
 
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
@@ -47,6 +53,7 @@ protected:
 	std::vector<std::pair<Node*, float> > regenList;
 	Size mapSize;
 	Hero *hero;
+	FollowEnemy *followEnemy;
 	bool upKeyDown, leftKeyDown, rightKeyDown, downKeyDown;
 	cocos2d::EventKeyboard::KeyCode lastKey;
 	Vec2 revivePoint;

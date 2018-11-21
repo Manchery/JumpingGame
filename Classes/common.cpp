@@ -12,7 +12,7 @@ bool isHero(const cocos2d::Node *node) {
 }
 
 bool touchUpSurface(const cocos2d::Node * nodeA, const cocos2d::Node * nodeB){
-	log("%f %f", nodeB->getBoundingBox().getMaxY(), nodeA->getBoundingBox().getMinY());
+	//log("%f %f", nodeB->getBoundingBox().getMaxY(), nodeA->getBoundingBox().getMinY());
 	return (nodeB->getBoundingBox().getMaxY() <= nodeA->getBoundingBox().getMinY() + 5.0f &&
 		nodeB->getBoundingBox().getMaxY() >= nodeA->getBoundingBox().getMinY() - 5.0f);
 }

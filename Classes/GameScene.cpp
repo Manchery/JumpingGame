@@ -10,6 +10,7 @@
 #include "DropLand.h"
 #include "SwingLand.h"
 #include "SlidingTrap.h"
+#include "FollowEnemy.h"
 #include "Door.h"
 #include <algorithm>
 using namespace CocosDenshion;
@@ -105,12 +106,16 @@ bool GameScene::init()
 	initListener();
 
 	//hero
-	hero = Hero::create();
+	hero = Hero::create(); hero->retain();
 	hero->setAnchorPoint(Vec2::ZERO);
 	hero->setPosition(10, 100);
 	hero->setName("Hero");
 	hero->setTag(HERO_T);
 	frontGroundLayer->addChild(hero, 1);
+
+	followEnemy = FollowEnemy::create(hero);
+	followEnemy->retain();
+	frontGroundLayer->addChild(followEnemy, 1);
 
 	auto enemy = Enemy::create();
 	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
@@ -374,8 +379,14 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	
 	if (isHero(nodeB)) std::swap(nodeA, nodeB);
 
+	if (isHero(nodeA) && nodeB->getTag() == FOLLOW_ENEMY_T) {
+		heroDied = 1;
+		//log("die contact");
+		return false;
+	}
+
 	if (isHero(nodeA)) {
-		if (nodeB->getTag() == ENEMY_T || 
+		if (nodeB->getTag() == ENEMY_T ||
 			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
 			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
 			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
@@ -400,6 +411,7 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 	//const Vec2 contactPoint = contact.getContactData()->points[0];
 	if (isHero(nodeB)) std::swap(nodeA, nodeB);
+
 	if (isHero(nodeA)) {
 		bool *heroSetOnGround = (bool*)contact.getData();
 		//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
@@ -464,6 +476,12 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_S) {
 		hero->shot();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_1) {
+		followEnemy->startFollow();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_2) {
+		followEnemy->stopFollow();
 	}
 	return true;
 }
@@ -587,6 +605,8 @@ void GameScene::gamePause() {
 	Director::getInstance()->pushScene(PauseScene::createScene());
 }
 void GameScene::heroDie() {
+	if (followEnemy != nullptr)
+		followEnemy->stopFollow();
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	hero->setPosition(revivePoint);
 	heroDied = 0;
