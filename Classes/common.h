@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG true
+#define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY false
 
 #define HERO_T 1
