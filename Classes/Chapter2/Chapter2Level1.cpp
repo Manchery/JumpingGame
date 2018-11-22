@@ -299,7 +299,7 @@ void Chapter2Level1::heroUpdate(float dt)
 	}else if (upKeyDown) {
 		hero->jump();
 	}else {
-		hero->silence();
+		hero->rightSilence();
 	}
 	hero->getPhysicsBody()->setVelocity(velcolity);
 }

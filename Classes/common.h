@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG false
+#define PHYSICS_DRAW_DEBUG true
 #define AUDIO_PLAY false
 
 #define HERO_T 1
@@ -11,6 +11,7 @@
 #define FOLLOW_ENEMY_T 3
 
 #define BULLET_T 10
+#define COIN_T 11
 
 #define BORDER_T 100
 #define LAND_T 101

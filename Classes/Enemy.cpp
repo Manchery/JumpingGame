@@ -5,7 +5,7 @@ bool Enemy::init() {
 	if (!Sprite::init())
 		return false;
 
-	this->setTexture("hero/Dark_Front1.png");
+	this->setTexture("hero/EnemyRightSilence.png");
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	physicsBody->setGravityEnable(true);
@@ -18,30 +18,22 @@ bool Enemy::init() {
 	heroState = SILENCE;
 
 	auto rightAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		rightAnimation->addSpriteFrameWithFile("hero/Dark_Right" + std::to_string(i) + ".png");
+	for (int i = 1; i <= 4; i++)
+		rightAnimation->addSpriteFrameWithFile("hero/EnemyRight" + std::to_string(i) + ".png");
 	rightAnimation->setDelayPerUnit(0.15f);
 	rightAnimate = Animate::create(rightAnimation);
 	rightAnimate->retain();
 
+
 	auto leftAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		leftAnimation->addSpriteFrameWithFile("hero/Dark_Left" + std::to_string(i) + ".png");
+	for (int i = 1; i <= 4; i++)
+		leftAnimation->addSpriteFrameWithFile("hero/EnemyLeft" + std::to_string(i) + ".png");
 	leftAnimation->setDelayPerUnit(0.15f);
 	leftAnimate = Animate::create(leftAnimation);
 	leftAnimate->retain();
 
-	auto frontAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		frontAnimation->addSpriteFrameWithFile("hero/Dark_Front" + std::to_string(i) + ".png");
-	frontAnimation->setDelayPerUnit(0.15f);
-	frontAnimate = Animate::create(frontAnimation);
-	frontAnimate->retain();
-
-	rightTexture = Sprite::create("hero/Dark_Right1.png")->getTexture(); rightTexture->retain();
-	leftTexture = Sprite::create("hero/Dark_Left1.png")->getTexture(); leftTexture->retain();
-	frontTexture = Sprite::create("hero/Dark_Front1.png")->getTexture(); frontTexture->retain();
-	backTexture = Sprite::create("hero/Dark_Back1.png")->getTexture(); backTexture->retain();
+	rightTexture = Sprite::create("hero/EnemyRightSilence.png")->getTexture(); rightTexture->retain();
+	leftTexture = Sprite::create("hero/EnemyLeftSilence.png")->getTexture(); leftTexture->retain();
 
 	this->schedule(schedule_selector(Enemy::randomTravel), 4.0f);
 
@@ -64,7 +56,10 @@ void Enemy::randomTravel(float dt) {
 	float velocity = 200.0f;
 	Vec2 position = this->getPosition();
 	if (dice == 0) {
-		silence();
+		if (rand() % 2)
+			rightSilence();
+		else
+			leftSilence();
 	}
 	else if (dice % 2 == 0) { //right
 		float finalX = RANDNUM(position.x, posMaxX);

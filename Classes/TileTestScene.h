@@ -6,15 +6,20 @@
 
 USING_NS_CC;
 
-class TileTestScene : public GameScene
+class TileTestScene : public Scene
 {
 public:
 	static cocos2d::Scene* createScene();
 
-	virtual void initMap();
-	virtual void initListener();
+	void drawBackGround(ValueVector & arrObj, int zOrder);
+
+	void drawMap(ValueVector & arrObj, int zOrder);
+
+	virtual bool init() override;
 
 	CREATE_FUNC(TileTestScene);
+private:
+	Layer *frontGroundLayer, *backGroundLayer;
 };
 
 #endif // __TILE_TEST_SCENE_H__

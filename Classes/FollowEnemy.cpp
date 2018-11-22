@@ -21,11 +21,12 @@ bool FollowEnemy::initWithHero(Hero *hero) {
 	this->setAnchorPoint(attachedHero->getAnchorPoint());
 	this->setPosition(attachedHero->getPosition());
 	//this->setTexture(attachedHero->getTexture());
-	this->setTexture("hero/Dark_Front1.png");
+	this->setTexture("hero/HeroRightSilence.png");
 	//this->setVisible(false);
 	this->setOpacity(0);
 
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height);
+	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(FOLLOW_ENEMY_M);
@@ -47,9 +48,10 @@ void FollowEnemy::stopFollow() {
 
 	this->getPhysicsBody()->setVelocity(Vec2::ZERO);
 
+	this->setOpacity(0);
+
 	if (following) {
 		//this->setVisible(false);
-		this->setOpacity(0);
 		this->getPhysicsBody()->setContactTestBitmask(
 			this->getPhysicsBody()->getContactTestBitmask() ^ HERO_M);
 		attachedHero->getPhysicsBody()->setContactTestBitmask(

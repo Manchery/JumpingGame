@@ -30,8 +30,8 @@ public:
 	void rightSilence();
 	void leftSilence();
 	void jump();
-	void silence();
-	void sleep();
+	void rightJump();
+	void leftJump();
 
 	void shot();
 
@@ -41,7 +41,8 @@ public:
 	void resetJumpTimes();
 	int getJumpLimit();
 	void setJumpLimit(int times);
-	void setOnGround();
+	void addOnGround();
+	void decOnGround();
 	void resetOnGround();
 	int getOnGround();
 	HeroType getHeroType();
@@ -53,8 +54,8 @@ protected:
 	HeroState heroState;
 	int jumpTimes,jumpLimit;
 	int onGround;
-	cocos2d::Animate *rightAnimate,*leftAnimate,*frontAnimate;
-	cocos2d::Texture2D *rightTexture, *leftTexture, *frontTexture, *backTexture;
+	cocos2d::Animate *rightAnimate,*leftAnimate;
+	cocos2d::Texture2D *rightTexture, *leftTexture, *jumpTexture, *rightJumpTexture,*leftJumpTexture;
 	std::string bulletImage;
 	HeroType heroType;
 	cocos2d::Sprite *slidingGround;

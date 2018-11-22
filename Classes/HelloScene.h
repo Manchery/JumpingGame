@@ -10,9 +10,6 @@ public:
 
 	virtual bool init();
 
-	// a selector callback
-	void menuExitCallback(cocos2d::Ref* pSender);
-
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelloScene);
 };

@@ -6,9 +6,10 @@ bool Hero::init() {
 	if (!Sprite::init())
 		return false;
 
-	this->setTexture("hero/Blue_Front1.png");
+	this->setTexture("hero/HeroRightSilence.png");
 
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height);
+	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	//physicsBody->setLinearDamping(0.2f);
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
@@ -24,31 +25,26 @@ bool Hero::init() {
 	onGround = 0;
 
 	auto rightAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		rightAnimation->addSpriteFrameWithFile("hero/Blue_Right" + std::to_string(i) + ".png");
-	rightAnimation->setDelayPerUnit(0.15f);
+	for (int i = 1; i <= 4; i++)
+		rightAnimation->addSpriteFrameWithFile("hero/HeroRight" + std::to_string(i) + ".png");
+	rightAnimation->setDelayPerUnit(0.2f);
 	rightAnimate = Animate::create(rightAnimation);
 	rightAnimate->retain();
 
 
 	auto leftAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		leftAnimation->addSpriteFrameWithFile("hero/Blue_Left" + std::to_string(i) + ".png");
-	leftAnimation->setDelayPerUnit(0.15f);
+	for (int i = 1; i <= 4; i++)
+		leftAnimation->addSpriteFrameWithFile("hero/HeroLeft" + std::to_string(i) + ".png");
+	leftAnimation->setDelayPerUnit(0.2f);
 	leftAnimate = Animate::create(leftAnimation);
 	leftAnimate->retain();
 
-	auto frontAnimation = Animation::create();
-	for (int i = 1; i <= 3; i++)
-		frontAnimation->addSpriteFrameWithFile("hero/Blue_Front" + std::to_string(i) + ".png");
-	frontAnimation->setDelayPerUnit(0.15f);
-	frontAnimate = Animate::create(frontAnimation);
-	frontAnimate->retain();
-
-	rightTexture = Sprite::create("hero/Blue_Right1.png")->getTexture(); rightTexture->retain();
-	leftTexture = Sprite::create("hero/Blue_Left1.png")->getTexture(); leftTexture->retain();
-	frontTexture = Sprite::create("hero/Blue_Front1.png")->getTexture(); frontTexture->retain();
-	backTexture = Sprite::create("hero/Blue_Back1.png")->getTexture(); backTexture->retain();
+	rightTexture = Sprite::create("hero/HeroRightSilence.png")->getTexture(); rightTexture->retain();
+	leftTexture = Sprite::create("hero/HeroLeftSilence.png")->getTexture(); leftTexture->retain();
+	jumpTexture = Sprite::create("hero/HeroJump.png")->getTexture(); jumpTexture->retain();
+	rightJumpTexture = Sprite::create("hero/HeroRightJump.png")->getTexture(); rightJumpTexture->retain();
+	leftJumpTexture = Sprite::create("hero/HeroLeftJump.png")->getTexture(); leftJumpTexture->retain();
+	//backTexture = Sprite::create("hero/Blue_Back1.png")->getTexture(); backTexture->retain();
 	bulletImage = "hero/star.png";
 
 	this->setTag(HERO_T);
@@ -81,15 +77,19 @@ void Hero::leftSilence() {
 	heroState = LEFTSILENCE;
 }
 void Hero::jump() {
-	if (heroState != JUMP) {
-		this->stopAllActions();
-		this->runAction(RepeatForever::create(frontAnimate->clone()));
-		heroState = JUMP;
-	}
-}
-void Hero::sleep(){
 	this->stopAllActions();
-	this->setTexture(backTexture);
+	this->setTexture(jumpTexture);
+	heroState = JUMP;
+}
+void Hero::rightJump() {
+	this->stopAllActions();
+	this->setTexture(rightJumpTexture);
+	heroState = JUMP;
+}
+void Hero::leftJump() {
+	this->stopAllActions();
+	this->setTexture(leftJumpTexture);
+	heroState = JUMP;
 }
 void Hero::shot() {
 	auto bullet = Sprite::create(bulletImage);
@@ -118,11 +118,6 @@ void Hero::shot() {
 	}
 	parent->addChild(bullet, 10);
 }
-void Hero::silence() {
-	this->stopAllActions();
-	this->setTexture(frontTexture);
-	heroState = SILENCE;
-}
 
 HeroState Hero::getHeroState() { return heroState; }
 HeroType Hero::getHeroType() { return heroType; }
@@ -137,7 +132,8 @@ void Hero::resetJumpTimes() { jumpTimes = 0;  }
 int Hero::getJumpLimit() { return jumpLimit; }
 void Hero::setJumpLimit(int times) { jumpLimit = times; }
 
-void Hero::setOnGround() { onGround++; }
-void Hero::resetOnGround() { onGround--; }
+void Hero::addOnGround() { onGround++; }
+void Hero::decOnGround() { onGround--; }
+void Hero::resetOnGround(){ onGround = 0; }
 int Hero::getOnGround(){ return onGround; }
 

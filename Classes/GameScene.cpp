@@ -419,7 +419,7 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 			if (!(*heroSetOnGround)) {
 				if (nodeB->getTag()==SWING_LAND_T || touchUpSurface(hero,nodeB)) {
 					hero->resetJumpTimes();
-					hero->setOnGround();
+					hero->addOnGround();
 					*heroSetOnGround = true;
 					//log("on ground");
 					if (nodeB->getTag() == SLIDING_LAND_T) {
@@ -443,7 +443,7 @@ bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
 		auto nodeB = contact.getShapeB()->getBody()->getNode();
 		if (isHero(nodeB)) std::swap(nodeA, nodeB);
 		if (isHero(nodeA) && isLand(nodeB)) {
-			hero->resetOnGround();
+			hero->decOnGround();
 			if (nodeB->getTag() == SLIDING_LAND_T) {
 				hero->setSlidingGround(nullptr);
 			}
@@ -463,7 +463,7 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 		upKeyDown = 1;
-		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
+		log("%d %d", hero->getJumpTimes(), hero->getOnGround());
 		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0))) {
 			heroJump();
 		}
@@ -513,13 +513,24 @@ void GameScene::heroUpdate(float dt)
 		return;
 	}
 	//heroTexture
-	if (rightKeyDown && leftKeyDown) { hero->silence(); }
-	else if (rightKeyDown) { hero->right(); }
-	else if (leftKeyDown) { hero->left(); }
+	if (!hero->getOnGround()) {
+		if (rightKeyDown)
+			hero->rightJump();
+		else if (leftKeyDown)
+			hero->leftJump();
+		else
+			hero->jump();
+	}
 	else {
-		if (lastKey == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) { hero->rightSilence(); }
-		else if (lastKey == EventKeyboard::KeyCode::KEY_LEFT_ARROW) { hero->leftSilence(); }
-		else hero->silence();
+		if (rightKeyDown)
+			hero->right();
+		else if (leftKeyDown)
+			hero->left();
+		else {
+			if (lastKey == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) { hero->rightSilence(); }
+			else if (lastKey == EventKeyboard::KeyCode::KEY_LEFT_ARROW) { hero->leftSilence(); }
+			else hero->rightSilence();
+		}
 	}
 
 	auto delta = 200.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
@@ -608,6 +619,7 @@ void GameScene::heroDie() {
 	if (followEnemy != nullptr)
 		followEnemy->stopFollow();
 	Director::getInstance()->pushScene(ReviveScene::createScene());
+	hero->resetOnGround();
 	hero->setPosition(revivePoint);
 	heroDied = 0;
 }
