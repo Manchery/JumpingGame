@@ -95,6 +95,6 @@ bool TileTestScene::init() {
 		if (objGroup->getGroupName()!="game")
 			drawBackGround(objGroup->getObjects());
 	}
-	drawMap(tileMap->getObjectGroup("game"));
+	drawMap(tileMap->getObjectGroup("game")->getObjects());
 	return true;
 }

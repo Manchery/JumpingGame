@@ -12,6 +12,7 @@
 
 #define BULLET_T 10
 #define COIN_T 11
+#define EXIT_T 12
 
 #define BORDER_T 100
 #define LAND_T 101
@@ -33,6 +34,8 @@
 #define DOOR_M 0x10
 #define DOOR_KEY_M 0x20
 #define FOLLOW_ENEMY_M 0x40
+#define COIN_M 0x80
+#define EXIT_M 0x100
 
 bool isLand(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);

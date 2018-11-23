@@ -20,7 +20,7 @@ bool Enemy::init() {
 	auto rightAnimation = Animation::create();
 	for (int i = 1; i <= 4; i++)
 		rightAnimation->addSpriteFrameWithFile("hero/EnemyRight" + std::to_string(i) + ".png");
-	rightAnimation->setDelayPerUnit(0.15f);
+	rightAnimation->setDelayPerUnit(0.2f);
 	rightAnimate = Animate::create(rightAnimation);
 	rightAnimate->retain();
 
@@ -28,7 +28,7 @@ bool Enemy::init() {
 	auto leftAnimation = Animation::create();
 	for (int i = 1; i <= 4; i++)
 		leftAnimation->addSpriteFrameWithFile("hero/EnemyLeft" + std::to_string(i) + ".png");
-	leftAnimation->setDelayPerUnit(0.15f);
+	leftAnimation->setDelayPerUnit(0.2f);
 	leftAnimate = Animate::create(leftAnimation);
 	leftAnimate->retain();
 

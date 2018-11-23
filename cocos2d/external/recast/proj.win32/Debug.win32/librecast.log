@@ -6,8 +6,8 @@
   DetourPathCorridor.cpp
   DetourPathQueue.cpp
   DetourProximityGrid.cpp
-c:\users\manchery\desktop\jumpinggame\cocos2d\external\recast\detourcrowd\detourobstacleavoidance.cpp(334): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   DetourTileCache.cpp
+c:\users\manchery\desktop\jumpinggame\cocos2d\external\recast\detourcrowd\detourobstacleavoidance.cpp(334): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   DetourTileCacheBuilder.cpp
   DetourAlloc.cpp
   DetourCommon.cpp

@@ -28,10 +28,10 @@
   SkeletonBounds.c
   SkeletonClipping.c
   SkeletonData.c
-  SkeletonJson.c
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\spine\skeletonbinary.c(310): warning C4018: “<”: 有符号/无符号不匹配
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\spine\skeletonbinary.c(372): warning C4018: “<”: 有符号/无符号不匹配
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\spine\skeletonbinary.c(484): warning C4018: “<”: 有符号/无符号不匹配
+  SkeletonJson.c
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\spine\skeletonbinary.c(649): warning C4018: “<”: 有符号/无符号不匹配
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\spine\skeletonbinary.c(652): warning C4018: “<”: 有符号/无符号不匹配
   Skin.c

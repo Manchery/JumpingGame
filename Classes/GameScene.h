@@ -15,8 +15,11 @@ public:
 	virtual void onEnterTransitionDidFinish();
 	static cocos2d::Scene* createScene();
 	virtual bool init();
-	virtual void initMap();
+	//virtual void initMap();
+	virtual void initMap(const std::string &tmxFile);
 	virtual void initListener();
+	virtual void initDashboard();
+	virtual void initBackgroundMusic();
 
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
 	bool onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve);
@@ -24,9 +27,9 @@ public:
 	bool onContactEnd(cocos2d::PhysicsContact &contact);
 	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
-	void heroUpdate(float dt);
-	void mapUpdate(float dt);
-	void regenerateUpdate(float dt);
+	virtual void heroUpdate(float dt);
+	virtual void mapUpdate(float dt);
+	virtual void regenerateUpdate(float dt);
 
 	void addRenerate(Node * node);
 
@@ -35,6 +38,15 @@ public:
 	void gamePause();
 	void heroDie();
 	void heroJump();
+
+	void messageSingleLine(const std::string &mes);
+	void messageDoubleLine(const std::string &mes1,const std::string &mes2);
+	void switchScene(float dt);
+	void gameWin();
+
+	void drawBackGround(ValueVector & arrObj, int zOrder);
+
+	void drawMap(ValueVector & arrObj);
 
 	CREATE_FUNC(GameScene);
 	PhysicsBody* getBoundBody() {
@@ -58,6 +70,7 @@ protected:
 	cocos2d::EventKeyboard::KeyCode lastKey;
 	Vec2 revivePoint;
 	bool heroDied,heroJumped;
+	int coinCount,coinTotal;
 };
 
 #endif // __GAME_SCENE_H__

@@ -240,8 +240,8 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\external\xxhash\xxhash.c(312): war
   CCData.cpp
   CCDataVisitor.cpp
   CCDirector.cpp
-  CCEvent.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\base\ccdirector.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  CCEvent.cpp
   CCEventAcceleration.cpp
   CCEventController.cpp
   CCEventCustom.cpp
@@ -313,6 +313,7 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\base\ccdirector.cpp : warnin
   CCActionTimeline.cpp
   CCActionTimelineCache.cpp
   CCActionTimelineNode.cpp
+  CCBoneNode.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -323,7 +324,6 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\ActionTimeline\CCActionTimelineCache.cpp)
-  CCBoneNode.cpp
   CCFrame.cpp
   CCSkeletonNode.cpp
   CCSkinNode.cpp
@@ -423,6 +423,7 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\CheckBoxReader\CheckBoxReader.cpp)
   ComAudioReader.cpp
+  GameMapReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -433,30 +434,29 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ComAudioReader\ComAudioReader.cpp)
-  GameMapReader.cpp
   GameNode3DReader.cpp
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.cpp)
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.cpp)
   ImageViewReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp)
   LayoutReader.cpp
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp)
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -472,22 +472,22 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp)
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.cpp)
   ListViewReader.cpp
   LoadingBarReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
@@ -495,30 +495,30 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ListViewReader\ListViewReader.cpp)
+  NodeReaderDefine.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ListViewReader\ListViewReader.cpp)
-  NodeReaderDefine.cpp
   NodeReaderProtocol.cpp
   NodeReader.cpp
-  PageViewReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LoadingBarReader\LoadingBarReader.cpp)
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\NodeReader\NodeReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\LoadingBarReader\LoadingBarReader.cpp)
+  PageViewReader.cpp
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\NodeReader\NodeReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -546,28 +546,18 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ParticleReader\ParticleReader.cpp)
   ProjectNodeReader.cpp
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp)
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp)
   ScrollViewReader.cpp
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp)
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp)
   SingleNodeReader.cpp
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.cpp)
-c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
-          with
-          [
-              T=float
-          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.cpp)
   BoneNodeReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
@@ -580,6 +570,16 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\SingleNodeReader\SingleNodeReader.cpp)
   SkeletonNodeReader.cpp
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.cpp)
+c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1593): warning C4305: “参数”: 从“double”到“T”截断
+          with
+          [
+              T=float
+          ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.cpp)
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -646,6 +646,7 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\TextAtlasReader\TextAtlasReader.cpp)
   TextBMFontReader.cpp
   TextFieldReader.cpp
+  TextReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -656,7 +657,6 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\TextBMFontReader\TextBMFontReader.cpp)
-  TextReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -711,7 +711,6 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\UserCameraReader\UserCameraReader.cpp)
-  WidgetReader.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -722,9 +721,11 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\Particle3DReader\Particle3DReader.cpp)
+  WidgetReader.cpp
   CCAffineTransform.cpp
   CCGeometry.cpp
   CCVertex.cpp
+  Mat4.cpp
 c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\csparsebinary_generated.h(1546): warning C4305: “参数”: 从“double”到“T”截断
           with
           [
@@ -735,7 +736,6 @@ c:\users\manchery\desktop\jumpinggame\cocos2d\cocos\editor-support\cocostudio\cs
           [
               T=float
           ] (编译源文件 ..\editor-support\cocostudio\WidgetReader\WidgetReader.cpp)
-  Mat4.cpp
   MathUtil.cpp
   Quaternion.cpp
   TransformUtils.cpp

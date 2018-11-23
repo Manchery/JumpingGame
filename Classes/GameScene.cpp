@@ -1,6 +1,6 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
-#include "HelloWorldScene.h"
+#include "HelloScene.h"
 #include "PauseScene.h"
 #include "ReviveScene.h"
 #include "common.h"
@@ -12,6 +12,7 @@
 #include "SlidingTrap.h"
 #include "FollowEnemy.h"
 #include "Door.h"
+#include <sstream>
 #include <algorithm>
 using namespace CocosDenshion;
 
@@ -23,30 +24,36 @@ void GameScene::onEnterTransitionDidFinish()
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
 	lastKey = EventKeyboard::KeyCode::KEY_NONE;
-	for (auto node : destroyedList) {
-		auto sprite = (Sprite*)node;
-		frontGroundLayer->addChild(sprite, 1);
-		if (sprite->getTag() == ENEMY_T) {
-			Enemy *enemy = (Enemy*)node;
-			enemy->resetPosition();
+
+	if (heroDied) {
+		for (auto node : destroyedList) {
+			auto sprite = (Sprite*)node;
+			frontGroundLayer->addChild(sprite, 1);
+			if (sprite->getTag() == ENEMY_T) {
+				Enemy *enemy = (Enemy*)node;
+				enemy->resetPosition();
+			}
+			if (sprite->getTag() == COIN_T)
+				coinCount--;
 		}
+		destroyedList.clear();
+		heroDied = 0;
 	}
-	destroyedList.clear();
 	//add joint pin	
 
-	auto sprite = frontGroundLayer->getChildByName("jointtest");
-	if (sprite != nullptr) {
-		this->getPhysicsWorld()->removeJoint(((SwingLand*)sprite)->pin);
-		sprite->removeFromParentAndCleanup(1);
-	}
-	auto swingLand = SwingLand::create("parkour_images/aboutA.png");
-	//swingLand->setAnchorPoint(Vec2::ZERO);
-	swingLand->setPosition(Vec2(300, 300));
-	swingLand->swing();
-	swingLand->setName("jointtest");
-	swingLand->setTag(SWING_LAND_T);
+	//auto sprite = frontGroundLayer->getChildByName("jointtest");
+	//if (sprite != nullptr) {
+	//	this->getPhysicsWorld()->removeJoint(((SwingLand*)sprite)->pin);
+	//	sprite->removeFromParentAndCleanup(1);
+	//}
+	//auto swingLand = SwingLand::create("parkour_images/aboutA.png");
+	////swingLand->setAnchorPoint(Vec2::ZERO);
+	//swingLand->setPosition(Vec2(300, 300));
+	//swingLand->swing();
+	//swingLand->setName("jointtest");
+	//swingLand->setTag(SWING_LAND_T);
 
-	frontGroundLayer->addChild(swingLand);
+	//frontGroundLayer->addChild(swingLand);
 }
 
 Scene* GameScene::createScene()
@@ -55,32 +62,164 @@ Scene* GameScene::createScene()
 	return GameScene::create();
 }
 
-// on "init" you need to initialize your instance
+void GameScene::drawBackGround(ValueVector &arrObj, int zOrder = 0) {
+	for (auto object : arrObj)
+	{
+		auto dic = object.asValueMap();
+		std::string type = dic.at("type").asString();
+		float width = dic.at("width").asFloat();
+		float height = dic.at("height").asFloat();
+		float x = dic.at("x").asFloat();
+		float y = dic.at("y").asFloat() + height;
+		float rotation = dic.at("rotation").asFloat();
+		bool flippedX = (dic.at("gid").asFloat() > 2e9);
+
+		if (type != "") {
+			auto sprite = Sprite::create("map/" + type + ".png");
+			sprite->setContentSize(Size(width, height));
+			sprite->setAnchorPoint(Vec2::ZERO);
+			sprite->setPosition(x, y);
+			if (rotation != 0)
+				sprite->setRotation(rotation);
+			if (flippedX)
+				sprite->setFlippedX(true);
+			if (type == "shadow")
+				sprite->setOpacity(64);
+			backGroundLayer->addChild(sprite, zOrder);
+		}
+	}
+}
+void GameScene::drawMap(ValueVector &arrObj) {
+	for (auto object : arrObj)
+	{
+		auto dic = object.asValueMap();
+		std::string type = dic.at("type").asString();
+		std::string name = dic.at("name").asString();
+		float width = dic.at("width").asFloat();
+		float height = dic.at("height").asFloat();
+		float x = dic.at("x").asFloat();
+		float y = dic.at("y").asFloat() + height;
+
+		bool flippedX = (dic.at("gid").asFloat() > 2e9);
+
+		if (type == "") continue;
+
+		if (name == "Hero") {
+			hero = Hero::create(); hero->retain();
+			hero->setAnchorPoint(Vec2::ZERO);
+			hero->setPosition(x, y);
+			hero->setName("Hero");
+			hero->setTag(HERO_T);
+			frontGroundLayer->addChild(hero, 1);
+		}
+		else {
+			auto sprite = Sprite::create("map/" + type + ".png");
+			sprite->setContentSize(Size(width, height));
+			sprite->setAnchorPoint(Vec2::ZERO);
+			sprite->setPosition(x, y);
+			if (flippedX)
+				sprite->setFlippedX(true);
+			auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+
+			if (name == "Land") {
+				sprite->setTag(LAND_T);
+
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(LAND_M);
+				physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				frontGroundLayer->addChild(sprite, 0);
+			}
+			else if (name == "Coin") {
+				coinTotal++;
+
+				sprite->setTag(COIN_T);
+
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(COIN_M);
+				physicsBody->setCollisionBitmask(HERO_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				frontGroundLayer->addChild(sprite, 0);
+			}
+			else if (name == "Exit") {
+				sprite->setTag(EXIT_T);
+				sprite->setName("Exit");
+
+				auto physicsBody = PhysicsBody::createBox(sprite->getContentSize()*0.3, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(EXIT_M);
+				physicsBody->setCollisionBitmask(HERO_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				frontGroundLayer->addChild(sprite, 0);
+			}
+		}
+
+	}
+}
+
 bool GameScene::init()
 {
-	//////////////////////////////
-	// 1. super init first
 	if (!Scene::initWithPhysics())
 	{
 		return false;
 	}
+	
+	initMap("map/chapter0.tmx");
+	initBackgroundMusic();
+	initDashboard();
+	initListener();
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	/*followEnemy = FollowEnemy::create(hero);
+	followEnemy->retain();
+	frontGroundLayer->addChild(followEnemy, 1);*/
 
-	mapSize = Size(visibleSize.width * 2, visibleSize.height*1.5);
+	/*auto enemy = Enemy::create();
+	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
+	enemy->setAnchorPoint(Vec2::ZERO);
+	enemy->setTrack(testSprite->getContentSize().height, 700, 1400);
+	enemy->setTag(ENEMY_T);
+	enemy->setName("enemy1");
+	enemy->retain();
+	//enemies.push_back(enemy);
+	frontGroundLayer->addChild(enemy, 1);
+	testSprite = NULL;*/
+
+	revivePoint = hero->getPosition();
+	heroDied = heroJumped= 0;
+
+	this->schedule(schedule_selector(GameScene::heroUpdate));
+	this->schedule(schedule_selector(GameScene::mapUpdate));
+	this->schedule(schedule_selector(GameScene::regenerateUpdate));
+
+	return true;
+}
+void GameScene::initMap(const std::string & tmxFile){
+	auto tileMap = TMXTiledMap::create(tmxFile);
+
+	mapSize = Size(tileMap->getMapSize().width*tileMap->getTileSize().width,
+		tileMap->getMapSize().height*tileMap->getTileSize().height);
 
 	frontGroundLayer = Layer::create();
+	frontGroundLayer->setAnchorPoint(Vec2::ZERO);
+	frontGroundLayer->setPosition(Vec2::ZERO);
 	frontGroundLayer->setContentSize(mapSize);
 	this->addChild(frontGroundLayer, 0);
 
 	backGroundLayer = Layer::create();
+	backGroundLayer->setAnchorPoint(Vec2::ZERO);
+	backGroundLayer->setPosition(Vec2::ZERO);
 	backGroundLayer->setContentSize(mapSize);
 	this->addChild(backGroundLayer, -1);
 
 	//physics
 	auto physicsWorld = this->getPhysicsWorld();
-	physicsWorld->setGravity(Vec2(0, -500));
+	physicsWorld->setGravity(Vec2(0, -1000));
 	if (PHYSICS_DRAW_DEBUG)
 		physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	physicsWorld->setSubsteps(PHYSICS_SUBSTEPS);
@@ -96,48 +235,21 @@ bool GameScene::init()
 
 	frontGroundLayer->addChild(edgeSp, -1);
 
-	//audio
-	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
+	//background
+	auto layerColor = LayerColor::create(Color4B::Color4B(39, 185, 154, 255));
+	layerColor->setContentSize(mapSize);
+	backGroundLayer->addChild(layerColor, -1);
+	auto objGroups = tileMap->getObjectGroups();
+	for (auto objGroup : objGroups) {
+		if (objGroup->getGroupName() != "game")
+			drawBackGround(objGroup->getObjects());
+	}
 
+	coinTotal = coinCount = 0;
 	//map
-	initMap();
-	//listener
-	initListener();
-
-	//hero
-	hero = Hero::create(); hero->retain();
-	hero->setAnchorPoint(Vec2::ZERO);
-	hero->setPosition(10, 100);
-	hero->setName("Hero");
-	hero->setTag(HERO_T);
-	frontGroundLayer->addChild(hero, 1);
-
-	followEnemy = FollowEnemy::create(hero);
-	followEnemy->retain();
-	frontGroundLayer->addChild(followEnemy, 1);
-
-	auto enemy = Enemy::create();
-	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
-	enemy->setAnchorPoint(Vec2::ZERO);
-	enemy->setTrack(testSprite->getContentSize().height, 700, 1400);
-	enemy->setTag(ENEMY_T);
-	enemy->setName("enemy1");
-	enemy->retain();
-	//enemies.push_back(enemy);
-	frontGroundLayer->addChild(enemy, 1);
-	testSprite = NULL;
-
-	revivePoint = hero->getPosition();
-	heroDied = heroJumped= 0;
-
-	this->schedule(schedule_selector(GameScene::heroUpdate));
-	this->schedule(schedule_selector(GameScene::mapUpdate));
-	this->schedule(schedule_selector(GameScene::regenerateUpdate));
-
-	return true;
+	drawMap(tileMap->getObjectGroup("game")->getObjects());
 }
-void GameScene::initMap() {
+/*void GameScene::initMap() {
 	Size mapSize = frontGroundLayer->getContentSize();
 
 	//background 
@@ -316,7 +428,7 @@ void GameScene::initMap() {
 
 	testSprite = NULL;
 	frontGroundLayer->addChild(nodeItems, 1);
-}
+}*/
 void GameScene::initListener() {
 	//contactlistener
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -331,6 +443,36 @@ void GameScene::initListener() {
 	keyListener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+}
+
+void GameScene::initDashboard(){
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	int padding = 50;
+
+	auto coinScoreBoard = Node::create();
+	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
+	auto scoreLabel = Label::createWithTTF(sstr.str(), "fonts/Marker Felt.ttf", 64);
+	scoreLabel->setAnchorPoint(Vec2(1.0f, 1.0f)); scoreLabel->setPosition(Vec2::ZERO);
+	scoreLabel->setName("ScoreLabel");
+
+	auto label = Label::createWithTTF("Coin", "fonts/Marker Felt.ttf", 64);
+	label->setAnchorPoint(Vec2(1.0f, 1.0f));
+	label->setPosition(Vec2(-(scoreLabel->getContentSize().width) - padding, 0.0f));
+
+	coinScoreBoard->addChild(label, 0);
+	coinScoreBoard->addChild(scoreLabel, 0);
+	coinScoreBoard->setName("CoinScoreBoard");
+	coinScoreBoard->setAnchorPoint(Vec2(1.0f, 1.0f));
+	coinScoreBoard->setPosition(Vec2(visibleSize.width - padding, visibleSize.height - padding));
+
+	this->addChild(coinScoreBoard, 100);
+}
+
+void GameScene::initBackgroundMusic(){
+	if (AUDIO_PLAY)
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
 }
 
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
@@ -391,6 +533,17 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
 			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
 			heroDied = 1;
+			return false;
+		}
+		if (nodeB->getTag() == COIN_T) {
+			coinCount++;
+			nodeB->retain();
+			destroyedList.push_back(nodeB);
+			nodeB->removeFromParent();
+			return false;
+		}
+		if (nodeB->getTag() == EXIT_T) {
+			gameWin();
 			return false;
 		}
 	}
@@ -463,7 +616,7 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
 		upKeyDown = 1;
-		log("%d %d", hero->getJumpTimes(), hero->getOnGround());
+		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
 		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0))) {
 			heroJump();
 		}
@@ -533,7 +686,7 @@ void GameScene::heroUpdate(float dt)
 		}
 	}
 
-	auto delta = 200.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
+	auto delta = 400.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
 	auto velcolity = hero->getPhysicsBody()->getVelocity(); 
 	
 	//velocityX
@@ -551,14 +704,14 @@ void GameScene::heroUpdate(float dt)
 		velcolity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velcolity.y = 300.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
+		velcolity.y = 600.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
 
 	hero->getPhysicsBody()->setVelocity(velcolity);
 }
 void GameScene::mapUpdate(float dt) {
-
+	//camera
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	auto heroBound = Rect::Rect(visibleSize.width / 3, visibleSize.height/3, visibleSize.width / 3, visibleSize.height / 3);
 	auto heroPosition = getHeroGlobalPosition();
@@ -582,8 +735,13 @@ void GameScene::mapUpdate(float dt) {
 		auto layerPosition = frontGroundLayer->getPosition();
 		layerPosition.x = std::max(std::min(mapBound.getMaxX(), layerPosition.x + delta.x), mapBound.getMinX());
 		layerPosition.y = std::max(std::min(mapBound.getMaxY(), layerPosition.y + delta.y), mapBound.getMinY());
-		frontGroundLayer->setPosition(layerPosition);
+		frontGroundLayer->setPosition(layerPosition); 
+		backGroundLayer->setPosition(layerPosition);
 	}
+	//dashboard
+	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
+	auto scoreLabel=(Label*)this->getChildByName("CoinScoreBoard")->getChildByName("ScoreLabel");
+	scoreLabel->setString(sstr.str());
 }
 
 void GameScene::regenerateUpdate(float dt)
@@ -621,11 +779,110 @@ void GameScene::heroDie() {
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	hero->resetOnGround();
 	hero->setPosition(revivePoint);
-	heroDied = 0;
+	//heroDied = 0; // onEnter
 }
 void GameScene::heroJump() {
 	heroJumped = 1;
 	hero->addJumpTimes();
 	if (AUDIO_PLAY)
 		SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+}
+
+void GameScene::messageSingleLine(const std::string & mes)
+{
+	float padding = 50,sx = std::max(400.0f,mes.length()*25.0f+64+64), sy = 200;
+	auto nodeItems = Node::create();
+
+	auto messageBox = Sprite::create("ui/messageBox.png");
+	messageBox->setContentSize(Size(sx, sy));
+
+	auto line = Label::createWithTTF(mes, "fonts/Marker Felt.ttf", 64);
+	line->setAnchorPoint(Vec2(0.0, 0.5));
+	line->setPosition(Vec2(-sx/2+64,0.0f));
+
+	nodeItems->addChild(messageBox, 0);
+	nodeItems->addChild(line,1);
+
+	auto moveTo = MoveTo::create(0.5f, 
+		Vec2(padding + sx / 2, Director::getInstance()->getVisibleSize().height - padding - sy / 2));
+	auto fadeOut = FadeOut::create(2.0f);
+	auto remove = CallFunc::create(CC_CALLBACK_0(Sprite::removeFromParent, nodeItems));
+	nodeItems->setPosition(padding + sx / 2, 
+		Director::getInstance()->getVisibleSize().height + padding + sy / 2);
+
+	nodeItems->runAction(Sequence::create(moveTo,DelayTime::create(4.0f+2.0f), remove, nullptr));
+	line->runAction(Sequence::create(DelayTime::create(0.5f + 4.0f), fadeOut->clone(), nullptr));
+	messageBox->runAction(Sequence::create(DelayTime::create(0.5f + 4.0f), fadeOut->clone(), nullptr));
+
+	this->addChild(nodeItems, 10);
+
+}
+
+void GameScene::messageDoubleLine(const std::string & mes1, const std::string & mes2)
+{
+	float padding = 50;
+	float sx = std::max(400.0f,std::max(mes1.length() * 20.0f + 64 + 64, mes2.length() * 20.0f + 64 + 64)), sy = 200;
+	auto nodeItems = Node::create();
+
+	auto messageBox = Sprite::create("ui/messageBox.png");
+	messageBox->setContentSize(Size(sx, sy));
+
+	auto line1 = Label::createWithTTF(mes1, "fonts/Marker Felt.ttf", 48);
+	line1->setAnchorPoint(Vec2(0.0, 0.5));
+	line1->setPosition(Vec2(-sx / 2 + 64, 32));
+
+	auto line2 = Label::createWithTTF(mes2, "fonts/Marker Felt.ttf", 48);
+	line2->setAnchorPoint(Vec2(0.0, 0.5));
+	line2->setPosition(Vec2(-sx / 2 + 64, -32));
+
+	nodeItems->addChild(messageBox, 0);
+	nodeItems->addChild(line1, 1);
+	nodeItems->addChild(line2, 2);
+
+	auto moveTo = MoveTo::create(0.5f,
+		Vec2(padding + sx / 2, Director::getInstance()->getVisibleSize().height - padding - sy / 2));
+	auto fadeOut = FadeOut::create(2.0f);
+	auto remove = CallFunc::create(CC_CALLBACK_0(Sprite::removeFromParent, nodeItems));
+	nodeItems->setPosition(padding + sx / 2,
+		Director::getInstance()->getVisibleSize().height + padding + sy / 2);
+
+	nodeItems->runAction(Sequence::create(moveTo, DelayTime::create(4.0f + 2.0f), remove, nullptr));
+	line1->runAction(Sequence::create(DelayTime::create(0.5f + 4.0f), fadeOut->clone(), nullptr));
+	line2->runAction(Sequence::create(DelayTime::create(0.5f + 4.0f), fadeOut->clone(), nullptr));
+	messageBox->runAction(Sequence::create(DelayTime::create(0.5f + 4.0f), fadeOut->clone(), nullptr));
+
+	this->addChild(nodeItems, 10);
+}
+
+void GameScene::switchScene(float dt)
+{
+	Director::getInstance()->replaceScene(HelloScene::createScene());
+}
+
+void GameScene::gameWin()
+{
+	this->unscheduleAllCallbacks();
+	_eventDispatcher->removeEventListenersForTarget(this);
+
+	auto exit=(Sprite*)frontGroundLayer->getChildByName("Exit");
+	exit->setTexture("map/exit.png");
+
+	auto heroModel = Sprite::createWithTexture(hero->getTexture());
+	auto jumpBy = JumpBy::create(0.8f, Vec2::ZERO, 100, 2);
+	auto delay = DelayTime::create(1.0f);
+
+	heroModel->setAnchorPoint(Vec2::ZERO);
+	heroModel->setPosition(hero->getPosition());
+	heroModel->runAction(RepeatForever::create(Sequence::create(jumpBy, delay, nullptr)));
+	frontGroundLayer->addChild(heroModel, 10);
+
+	auto firework = Sprite::create("hero/firework.png");
+	firework->setPosition(heroModel->getPosition() + heroModel->getContentSize()*0.5); 
+	firework->runAction(RepeatForever::create(Sequence::create(jumpBy->clone(), delay->clone(), nullptr)));
+	frontGroundLayer->addChild(firework, 9);
+
+	//hero->setVisible(false);
+	hero->removeFromParent();
+	
+	scheduleOnce(schedule_selector(GameScene::switchScene), 4.0f);
 }

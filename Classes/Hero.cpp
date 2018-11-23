@@ -14,8 +14,8 @@ bool Hero::init() {
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(HERO_M);
-	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M);
-	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M);
+	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | COIN_M | EXIT_M);
+	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M | COIN_M | EXIT_M);
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 
@@ -45,7 +45,7 @@ bool Hero::init() {
 	rightJumpTexture = Sprite::create("hero/HeroRightJump.png")->getTexture(); rightJumpTexture->retain();
 	leftJumpTexture = Sprite::create("hero/HeroLeftJump.png")->getTexture(); leftJumpTexture->retain();
 	//backTexture = Sprite::create("hero/Blue_Back1.png")->getTexture(); backTexture->retain();
-	bulletImage = "hero/star.png";
+	bulletImage = "hero/bullet.png";
 
 	this->setTag(HERO_T);
 
@@ -84,12 +84,12 @@ void Hero::jump() {
 void Hero::rightJump() {
 	this->stopAllActions();
 	this->setTexture(rightJumpTexture);
-	heroState = JUMP;
+	heroState = RIGHTJUMP;
 }
 void Hero::leftJump() {
 	this->stopAllActions();
 	this->setTexture(leftJumpTexture);
-	heroState = JUMP;
+	heroState = LEFTJUMP;
 }
 void Hero::shot() {
 	auto bullet = Sprite::create(bulletImage);
@@ -104,7 +104,7 @@ void Hero::shot() {
 	auto parent = this->getParent();
 	auto heroPosition = Vec2(this->getPosition().x+this->getContentSize().width/2,
 		this->getPosition().y+this->getContentSize().height/2);
-	if (heroState == LEFT || heroState == LEFTSILENCE) {
+	if (heroState == LEFT || heroState == LEFTSILENCE || heroState == LEFTJUMP) {
 		float sx = heroPosition.x - this->getContentSize().width / 2 - bullet->getContentSize().width / 2 - 10.0f;
 		float sy = heroPosition.y;
 		bullet->setPosition(sx, sy);

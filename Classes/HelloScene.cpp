@@ -1,6 +1,7 @@
 #include "HelloScene.h"
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
+#include "Chapter0Level1.h"
 
 USING_NS_CC;
 
@@ -39,7 +40,7 @@ bool HelloScene::init()
 
 	auto menuItemStart = MenuItemImage::create("ui/buttonStartNormal.png", "ui/buttonStartSelected.png");
 	menuItemStart->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(GameScene::createScene());
+		Director::getInstance()->replaceScene(Chapter0Level1::createScene());
 	});
 	menuItemStart->setPositionY(180);
 

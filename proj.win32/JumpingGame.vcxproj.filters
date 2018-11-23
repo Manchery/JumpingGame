@@ -31,6 +31,9 @@
     <Filter Include="src\Sprite">
       <UniqueIdentifier>{f9a87e87-c01e-4517-bc06-19f7b3bb629e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Chapter">
+      <UniqueIdentifier>{ce47ac07-0b69-4932-8fce-338703b22428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +111,9 @@
     <ClCompile Include="..\Classes\FollowEnemy.cpp">
       <Filter>src\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Chapter0Level1.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -184,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FollowEnemy.h">
       <Filter>src\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter0Level1.h">
+      <Filter>src\Chapter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
