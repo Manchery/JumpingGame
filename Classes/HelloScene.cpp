@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
 #include "Chapter0Level1.h"
+#include "Chapter0Level2.h"
 
 USING_NS_CC;
 
@@ -46,7 +47,7 @@ bool HelloScene::init()
 
 	auto menuItemHelp = MenuItemImage::create("ui/buttonHelpNormal.png", "ui/buttonHelpSelected.png");
 	menuItemHelp->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(GameScene::createScene());
+		Director::getInstance()->replaceScene(Chapter0Level2::createScene());
 	});
 	menuItemHelp->setPositionY(120);
 

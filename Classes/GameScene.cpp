@@ -35,6 +35,8 @@ void GameScene::onEnterTransitionDidFinish()
 			}
 			if (sprite->getTag() == COIN_T)
 				coinCount--;
+			if (sprite->getTag() == GAME_KEY_T)
+				gotGameKey=0;
 		}
 		destroyedList.clear();
 		heroDied = 0;
@@ -132,9 +134,18 @@ void GameScene::drawMap(ValueVector &arrObj) {
 				sprite->setPhysicsBody(physicsBody);
 				frontGroundLayer->addChild(sprite, 0);
 			}
-			else if (name == "Coin") {
-				coinTotal++;
+			else if (name == "Trap") {
+				sprite->setTag(TRAP_T);
 
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(LAND_M);
+				physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				frontGroundLayer->addChild(sprite, 0);
+			}
+			else if (name == "Coin") {
 				sprite->setTag(COIN_T);
 
 				physicsBody->setDynamic(false);
@@ -145,11 +156,22 @@ void GameScene::drawMap(ValueVector &arrObj) {
 				sprite->setPhysicsBody(physicsBody);
 				frontGroundLayer->addChild(sprite, 0);
 			}
+			else if (name == "GameKey") {
+				sprite->setTag(GAME_KEY_T);
+
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(GAME_KEY_M);
+				physicsBody->setCollisionBitmask(HERO_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				frontGroundLayer->addChild(sprite, 0);
+			}
 			else if (name == "Exit") {
 				sprite->setTag(EXIT_T);
 				sprite->setName("Exit");
 
-				auto physicsBody = PhysicsBody::createBox(sprite->getContentSize()*0.3, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+				auto physicsBody = PhysicsBody::createBox(sprite->getContentSize()*0.3f, PhysicsMaterial(0.1f, 0.0f, 0.0f));
 				physicsBody->setDynamic(false);
 				physicsBody->setCategoryBitmask(EXIT_M);
 				physicsBody->setCollisionBitmask(HERO_M);
@@ -170,7 +192,7 @@ bool GameScene::init()
 		return false;
 	}
 	
-	initMap("map/chapter0.tmx");
+	initMap("map/chapter0.tmx",Color4B::Color4B(39,185,154,255));
 	initBackgroundMusic();
 	initDashboard();
 	initListener();
@@ -191,7 +213,8 @@ bool GameScene::init()
 	testSprite = NULL;*/
 
 	revivePoint = hero->getPosition();
-	heroDied = heroJumped= 0;
+	heroDied = heroJumped = 0;
+	gotGameKey = 0; needGameKey = 0;
 
 	this->schedule(schedule_selector(GameScene::heroUpdate));
 	this->schedule(schedule_selector(GameScene::mapUpdate));
@@ -199,7 +222,7 @@ bool GameScene::init()
 
 	return true;
 }
-void GameScene::initMap(const std::string & tmxFile){
+void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundColor){
 	auto tileMap = TMXTiledMap::create(tmxFile);
 
 	mapSize = Size(tileMap->getMapSize().width*tileMap->getTileSize().width,
@@ -219,7 +242,7 @@ void GameScene::initMap(const std::string & tmxFile){
 
 	//physics
 	auto physicsWorld = this->getPhysicsWorld();
-	physicsWorld->setGravity(Vec2(0, -1000));
+	physicsWorld->setGravity(Vec2(0, -1500));
 	if (PHYSICS_DRAW_DEBUG)
 		physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	physicsWorld->setSubsteps(PHYSICS_SUBSTEPS);
@@ -236,7 +259,7 @@ void GameScene::initMap(const std::string & tmxFile){
 	frontGroundLayer->addChild(edgeSp, -1);
 
 	//background
-	auto layerColor = LayerColor::create(Color4B::Color4B(39, 185, 154, 255));
+	auto layerColor = LayerColor::create(backgroundColor);
 	layerColor->setContentSize(mapSize);
 	backGroundLayer->addChild(layerColor, -1);
 	auto objGroups = tileMap->getObjectGroups();
@@ -244,8 +267,7 @@ void GameScene::initMap(const std::string & tmxFile){
 		if (objGroup->getGroupName() != "game")
 			drawBackGround(objGroup->getObjects());
 	}
-
-	coinTotal = coinCount = 0;
+	
 	//map
 	drawMap(tileMap->getObjectGroup("game")->getObjects());
 }
@@ -472,7 +494,7 @@ void GameScene::initDashboard(){
 
 void GameScene::initBackgroundMusic(){
 	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playBackgroundMusic("parkour_sounds/spring_music.wav", true);
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/spring_music.wav", true);
 }
 
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
@@ -532,6 +554,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
 			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
 			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
+			log("die");
 			heroDied = 1;
 			return false;
 		}
@@ -542,8 +565,18 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			nodeB->removeFromParent();
 			return false;
 		}
+		if (nodeB->getTag() == GAME_KEY_T) {
+			gotGameKey = 1;
+			nodeB->retain();
+			destroyedList.push_back(nodeB);
+			nodeB->removeFromParent();
+			return false;
+		}
 		if (nodeB->getTag() == EXIT_T) {
-			gameWin();
+			if (gotGameKey || !needGameKey)
+				gamePass();
+			else
+				messageSingleLine("No key to open it...");
 			return false;
 		}
 	}
@@ -687,28 +720,29 @@ void GameScene::heroUpdate(float dt)
 	}
 
 	auto delta = 400.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
-	auto velcolity = hero->getPhysicsBody()->getVelocity(); 
+	auto velocity = hero->getPhysicsBody()->getVelocity();
 	
 	//velocityX
-	velcolity.x = 0; 
-	if (rightKeyDown) velcolity.x += delta;
-	if (leftKeyDown) velcolity.x -= delta;
+	velocity.x = 0;
+	if (rightKeyDown) velocity.x += delta;
+	if (leftKeyDown) velocity.x -= delta;
 	if (hero->getSlidingGround() != nullptr) {
 		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
-		velcolity.x += slidingVel.x;
+		velocity.x += slidingVel.x;
 	}
 
 	//velocityY
 	if (hero->getSlidingGround() != nullptr) {
 		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
-		velcolity.y = slidingVel.y;
+		velocity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velcolity.y = 600.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
+		velocity.y = 600.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
+	velocity.y = std::max(-1200.0f, velocity.y);
 
-	hero->getPhysicsBody()->setVelocity(velcolity);
+	hero->getPhysicsBody()->setVelocity(velocity);
 }
 void GameScene::mapUpdate(float dt) {
 	//camera
@@ -785,7 +819,7 @@ void GameScene::heroJump() {
 	heroJumped = 1;
 	hero->addJumpTimes();
 	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
+		SimpleAudioEngine::getInstance()->playEffect("sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
 }
 
 void GameScene::messageSingleLine(const std::string & mes)
@@ -859,7 +893,7 @@ void GameScene::switchScene(float dt)
 	Director::getInstance()->replaceScene(HelloScene::createScene());
 }
 
-void GameScene::gameWin()
+void GameScene::win()
 {
 	this->unscheduleAllCallbacks();
 	_eventDispatcher->removeEventListenersForTarget(this);
@@ -885,4 +919,9 @@ void GameScene::gameWin()
 	hero->removeFromParent();
 	
 	scheduleOnce(schedule_selector(GameScene::switchScene), 4.0f);
+}
+
+void GameScene::gamePass()
+{
+	win();
 }

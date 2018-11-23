@@ -77,28 +77,28 @@
    <image width="96" height="64" source="keyYellowStroked.png"/>
   </tile>
   <tile id="25">
-   <image width="192" height="64" source="platform1.png"/>
+   <image width="192" height="41" source="platform1.png"/>
   </tile>
   <tile id="26">
-   <image width="192" height="64" source="platform2.png"/>
+   <image width="192" height="41" source="platform2.png"/>
   </tile>
   <tile id="27">
-   <image width="192" height="64" source="platform3.png"/>
+   <image width="192" height="41" source="platform3.png"/>
   </tile>
   <tile id="28">
-   <image width="192" height="64" source="platform4.png"/>
+   <image width="197" height="41" source="platform4.png"/>
   </tile>
   <tile id="29">
-   <image width="256" height="96" source="platformBase1.png"/>
+   <image width="256" height="72" source="platformBase1.png"/>
   </tile>
   <tile id="30">
-   <image width="256" height="96" source="platformBase2.png"/>
+   <image width="256" height="72" source="platformBase2.png"/>
   </tile>
   <tile id="31">
-   <image width="256" height="96" source="platformBase3.png"/>
+   <image width="260" height="72" source="platformBase3.png"/>
   </tile>
   <tile id="32">
-   <image width="256" height="96" source="platformBase4.png"/>
+   <image width="256" height="72" source="platformBase4.png"/>
   </tile>
   <tile id="33">
    <image width="128" height="96" source="platformBlock1.png"/>
@@ -207,7 +207,7 @@
   <object id="1" type="earthWall2" gid="14" x="0" y="1440" width="2528" height="385"/>
   <object id="79" type="earthWall2" gid="14" x="448" y="1087" width="512" height="320"/>
   <object id="169" type="earthWall" gid="62" x="1216" y="991" width="256" height="160"/>
-  <object id="172" type="earthWall" gid="62" x="992" y="1023" width="256" height="160"/>
+  <object id="172" type="earthWall" gid="62" x="992" y="1024" width="256" height="160"/>
   <object id="177" type="earthWall" gid="62" x="512" y="735" width="256" height="160"/>
  </objectgroup>
  <objectgroup id="3" name="ground">
@@ -315,103 +315,103 @@
     <property name="map" value="scene/game/map/sandbox2.json"/>
    </properties>
   </object>
-  <object id="222" name="Land" type="platformBase2" gid="31" x="0" y="1088" width="256" height="96">
+  <object id="222" name="Land" type="platformBase2" gid="31" x="0" y="1064" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="223" name="Land" type="platformBase2" gid="31" x="256" y="1088" width="256" height="96">
+  <object id="223" name="Land" type="platformBase2" gid="31" x="256" y="1064" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="224" name="Land" type="platformBase1" gid="30" x="1216" y="896" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="floating" type="bool" value="true"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="225" name="Land" type="platformBase2" gid="31" x="512" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="226" name="Land" type="platformBase2" gid="31" x="768" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="227" name="Land" type="platformBase2" gid="31" x="992" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="228" name="Land" type="platformBase2" gid="31" x="1248" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="229" name="Land" type="platformBase2" gid="31" x="448" y="832" width="256" height="96">
+  <object id="224" name="Land" type="platformBase1" gid="30" x="1216" y="872" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" type="bool" value="true"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="230" name="Land" type="platformBase2" gid="31" x="704" y="832" width="256" height="96">
+  <object id="225" name="Land" type="platformBase2" gid="31" x="512" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="226" name="Land" type="platformBase2" gid="31" x="768" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="227" name="Land" type="platformBase2" gid="31" x="992" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="228" name="Land" type="platformBase2" gid="31" x="1248" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="229" name="Land" type="platformBase2" gid="31" x="448" y="808" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" type="bool" value="true"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="231" name="Land" type="platformBase2" gid="31" x="1760" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="232" name="Land" type="platformBase2" gid="31" x="2016" y="1088" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="233" name="Land" type="platformBase1" gid="30" x="992" y="960" width="256" height="96">
+  <object id="230" name="Land" type="platformBase2" gid="31" x="704" y="808" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" type="bool" value="true"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="234" name="Land" type="platformBase1" gid="30" x="1472" y="1024" width="256" height="96">
+  <object id="231" name="Land" type="platformBase2" gid="31" x="1760" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="232" name="Land" type="platformBase2" gid="31" x="2016" y="1064" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="233" name="Land" type="platformBase1" gid="30" x="992" y="936" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" type="bool" value="true"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="235" name="Land" type="platformBase1" gid="30" x="512" y="672" width="256" height="96">
+  <object id="234" name="Land" type="platformBase1" gid="30" x="1472" y="1000" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" type="bool" value="true"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="236" name="Land" type="platformBase2" gid="31" x="1504" y="1088" width="256" height="96">
+  <object id="235" name="Land" type="platformBase1" gid="30" x="512" y="648" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="floating" type="bool" value="true"/>
+    <property name="friction" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="236" name="Land" type="platformBase2" gid="31" x="1504" y="1064" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" type="float" value="1"/>
    </properties>
   </object>
-  <object id="237" name="Land" type="platformBase2" gid="31" x="2272" y="1088" width="256" height="96">
+  <object id="237" name="Land" type="platformBase2" gid="31" x="2272" y="1064" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" type="float" value="1"/>

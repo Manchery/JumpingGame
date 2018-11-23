@@ -13,6 +13,7 @@
 #define BULLET_T 10
 #define COIN_T 11
 #define EXIT_T 12
+#define GAME_KEY_T 13
 
 #define BORDER_T 100
 #define LAND_T 101
@@ -36,6 +37,9 @@
 #define FOLLOW_ENEMY_M 0x40
 #define COIN_M 0x80
 #define EXIT_M 0x100
+#define GAME_KEY_M 0x200
+
+const int chapterCoinTotal[] = { 12};
 
 bool isLand(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);

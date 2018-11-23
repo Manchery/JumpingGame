@@ -15,8 +15,8 @@ public:
 	virtual void onEnterTransitionDidFinish();
 	static cocos2d::Scene* createScene();
 	virtual bool init();
+	virtual void initMap(const std::string & tmxFile, const Color4B & backgroundColor);
 	//virtual void initMap();
-	virtual void initMap(const std::string &tmxFile);
 	virtual void initListener();
 	virtual void initDashboard();
 	virtual void initBackgroundMusic();
@@ -41,8 +41,9 @@ public:
 
 	void messageSingleLine(const std::string &mes);
 	void messageDoubleLine(const std::string &mes1,const std::string &mes2);
-	void switchScene(float dt);
-	void gameWin();
+	virtual void switchScene(float dt);
+	void win();
+	virtual void gamePass();
 
 	void drawBackGround(ValueVector & arrObj, int zOrder);
 
@@ -58,6 +59,9 @@ public:
 	void addToFrontGround(Node *node,int zOrder=1){
 		frontGroundLayer->addChild(node, zOrder);
 	}
+	void setCoinCount(int count) {
+		coinCount = count;
+	}
 
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
@@ -71,6 +75,7 @@ protected:
 	Vec2 revivePoint;
 	bool heroDied,heroJumped;
 	int coinCount,coinTotal;
+	bool needGameKey, gotGameKey;
 };
 
 #endif // __GAME_SCENE_H__

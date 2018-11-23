@@ -10,21 +10,6 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Chapter2">
-      <UniqueIdentifier>{02b0f78c-cb13-4ec1-b77a-73a1e5a7ef05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Chapter3">
-      <UniqueIdentifier>{66fe0f17-3b94-4db9-a6bb-cdcee527a8e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Chapter4">
-      <UniqueIdentifier>{d22b5c84-164d-40fa-8802-598257d81624}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Chapter5">
-      <UniqueIdentifier>{25be7819-5a9e-4613-8fcb-cdc15b29a832}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Chapter12">
-      <UniqueIdentifier>{5a8d5c3e-c74b-4a8c-bcdc-183461d2836c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Scene">
       <UniqueIdentifier>{34b2195f-2b8a-4cc0-ac3b-9666d8bc01b1}</UniqueIdentifier>
     </Filter>
@@ -41,24 +26,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter2\Chapter2.cpp">
-      <Filter>src\Chapter2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter2\Chapter2Level1.cpp">
-      <Filter>src\Chapter2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter3\Chapter3.cpp">
-      <Filter>src\Chapter3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter4\Chapter4.cpp">
-      <Filter>src\Chapter4</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter5\Chapter5.cpp">
-      <Filter>src\Chapter5</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Chapter12\Chapter12.cpp">
-      <Filter>src\Chapter12</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
       <Filter>src\Scene</Filter>
@@ -114,6 +81,9 @@
     <ClCompile Include="..\Classes\Chapter0Level1.cpp">
       <Filter>src\Chapter</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Chapter0Level2.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -121,24 +91,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter2\Chapter2.h">
-      <Filter>src\Chapter2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter2\Chapter2Level1.h">
-      <Filter>src\Chapter2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter3\Chapter3.h">
-      <Filter>src\Chapter3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter4\Chapter4.h">
-      <Filter>src\Chapter4</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter5\Chapter5.h">
-      <Filter>src\Chapter5</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Chapter12\Chapter12.h">
-      <Filter>src\Chapter12</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\common.h">
       <Filter>src</Filter>
@@ -192,6 +144,9 @@
       <Filter>src\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Chapter0Level1.h">
+      <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter0Level2.h">
       <Filter>src\Chapter</Filter>
     </ClInclude>
   </ItemGroup>

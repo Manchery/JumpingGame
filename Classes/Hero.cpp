@@ -14,8 +14,8 @@ bool Hero::init() {
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(HERO_M);
-	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | COIN_M | EXIT_M);
-	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M | COIN_M | EXIT_M);
+	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | COIN_M | EXIT_M | GAME_KEY_M);
+	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M | COIN_M | EXIT_M | GAME_KEY_M);
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 

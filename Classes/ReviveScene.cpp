@@ -22,7 +22,7 @@ bool ReviveScene::init()
 	background->runAction(seq);
 
 	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playEffect("parkour_sounds/gameover.wav", false, 1.0f, 1.0f, 1.0f);
+		SimpleAudioEngine::getInstance()->playEffect("sounds/gameover.wav", false, 1.0f, 1.0f, 1.0f);
 
 	this->scheduleOnce(schedule_selector(ReviveScene::goBack),1.0f);
 	return true;
