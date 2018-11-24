@@ -71,5 +71,9 @@ void Chapter0Level2::switchScene(float dt)
 void Chapter0Level2::gamePass()
 {
 	win();
+	auto userData = UserDefault::getInstance();
+	userData->setBoolForKey("chapter0Pass",true);
+	auto record= userData->getIntegerForKey("chapter0CoinCount");
+	userData->setIntegerForKey("chapter0CoinCount", std::max(record,coinCount));
 }
 

@@ -550,11 +550,12 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	}
 
 	if (isHero(nodeA)) {
+		auto hero = (Hero*)nodeA;
 		if (nodeB->getTag() == ENEMY_T ||
 			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
 			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
 			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
-			log("die");
+			//log("die");
 			heroDied = 1;
 			return false;
 		}
@@ -629,6 +630,7 @@ bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
 		auto nodeB = contact.getShapeB()->getBody()->getNode();
 		if (isHero(nodeB)) std::swap(nodeA, nodeB);
 		if (isHero(nodeA) && isLand(nodeB)) {
+			auto hero = (Hero*)nodeA;
 			hero->decOnGround();
 			if (nodeB->getTag() == SLIDING_LAND_T) {
 				hero->setSlidingGround(nullptr);
@@ -737,7 +739,7 @@ void GameScene::heroUpdate(float dt)
 		velocity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velocity.y = 600.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
+		velocity.y = 650.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
 	velocity.y = std::max(-1200.0f, velocity.y);

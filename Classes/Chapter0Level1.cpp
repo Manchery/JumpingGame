@@ -38,6 +38,8 @@ bool Chapter0Level1::init()
 
 	//messageSingleLine("Press up key to jump");
 	messageDoubleLine("Hello!", "You are now Sticker Knight.");
+
+	logUserDefault();
 	return true;
 }
 
@@ -70,7 +72,7 @@ void Chapter0Level1::switchScene(float dt)
 {
 	Chapter0Level2* scene=(Chapter0Level2*)Chapter0Level2::createScene();
 	scene->setCoinCount(this->coinCount);
-	Director::getInstance()->replaceScene(scene);
+	Director::getInstance()->replaceScene(TransitionCrossFade::create(1.0f,scene));
 }
 
 void Chapter0Level1::gamePass()

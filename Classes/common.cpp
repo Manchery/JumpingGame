@@ -25,3 +25,20 @@ void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
+
+void logUserDefault()
+{
+	auto userData = UserDefault::getInstance();
+	log("save path %s", (userData->getXMLFilePath()).c_str());
+	log("isExisted %d",(int)userData->getBoolForKey("isExisted")); 
+	log("audio %d", userData->getIntegerForKey("audio"));
+	log("resolution %s", (userData->getStringForKey("resolution")).c_str());
+	for (int i = 0; i < 7; i++) {
+		std::stringstream sstr;
+		sstr << "chapter" << i << "CoinCount";
+		log("%s %d", sstr.str().c_str(),userData->getIntegerForKey(sstr.str().c_str()));
+		sstr.str("");
+		sstr << "chapter" << i << "Pass";
+		log("%s %d", sstr.str().c_str(), (int)(userData->getBoolForKey(sstr.str().c_str())));
+	}
+}

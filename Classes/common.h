@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG true
+#define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY false
 
 #define HERO_T 1
@@ -39,12 +39,13 @@
 #define EXIT_M 0x100
 #define GAME_KEY_M 0x200
 
-const int chapterCoinTotal[] = { 12};
+const int chapterCoinTotal[] = { 12,12,12,12,12,12,12};
 
 bool isLand(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);
 bool touchUpSurface(const cocos2d::Node *nodeA, const cocos2d::Node *nodeB);
 
 void problemLoading(const char* filename);
+void logUserDefault();
 
 #endif // __COMMON_H__

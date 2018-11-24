@@ -120,7 +120,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -156,12 +156,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Door.cpp" />
     <ClCompile Include="..\Classes\DropLand.cpp" />
     <ClCompile Include="..\Classes\Enemy.cpp" />
+    <ClCompile Include="..\Classes\EntryScene.cpp" />
     <ClCompile Include="..\Classes\FollowEnemy.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\HelloScene.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\HelpScene.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
+    <ClCompile Include="..\Classes\OptionScene.cpp" />
     <ClCompile Include="..\Classes\PauseScene.cpp" />
     <ClCompile Include="..\Classes\ReviveScene.cpp" />
     <ClCompile Include="..\Classes\SlidingLand.cpp" />
@@ -179,12 +181,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Door.h" />
     <ClInclude Include="..\Classes\DropLand.h" />
     <ClInclude Include="..\Classes\Enemy.h" />
+    <ClInclude Include="..\Classes\EntryScene.h" />
     <ClInclude Include="..\Classes\FollowEnemy.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\HelloScene.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\HelpScene.h" />
     <ClInclude Include="..\Classes\Hero.h" />
+    <ClInclude Include="..\Classes\OptionScene.h" />
     <ClInclude Include="..\Classes\PauseScene.h" />
     <ClInclude Include="..\Classes\ReviveScene.h" />
     <ClInclude Include="..\Classes\SlidingLand.h" />

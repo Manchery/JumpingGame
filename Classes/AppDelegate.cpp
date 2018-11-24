@@ -43,6 +43,7 @@ using namespace CocosDenshion;
 #include "HelloScene.h"
 #include "TileTestScene.h"
 #include "GameScene.h"
+#include <sstream>
 //#define START_SCENE GameScene
 #define START_SCENE HelloScene
 //#define START_SCENE TileTestScene
@@ -86,13 +87,38 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+	//default option
+
+	if (!UserDefault::getInstance()->getBoolForKey("isExisted")) {
+		auto userData = UserDefault::getInstance();
+		userData->setBoolForKey("isExisted", true);
+		userData->setIntegerForKey("audio", 100);
+		userData->setStringForKey("resolution", "large");
+		for (int i = 0; i < 7; i++) {
+			std::stringstream sstr;
+			sstr << "chapter" << i <<"CoinCount" ;
+			userData->setIntegerForKey(sstr.str().c_str(), 0);
+			sstr.str("");
+			sstr << "chapter" << i << "Pass";
+			userData->setBoolForKey(sstr.str().c_str(), false);
+		}
+	}
+
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
-		//glview = GLViewImpl::createWithFullScreen("JumpingGame Manchery");
+		auto resolutionOption = UserDefault::getInstance()->getStringForKey("resolution");
+		//glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
+		if (resolutionOption=="large")
+			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
+		else if (resolutionOption == "medium")
+			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
+		else if(resolutionOption == "small")
+			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, smallResolutionSize.width, smallResolutionSize.height));
+		else if(resolutionOption == "fullscreen")
+			glview = GLViewImpl::createWithFullScreen("JumpingGame Manchery");
 #else
         glview = GLViewImpl::create("JumpingGame Manchery");
 #endif

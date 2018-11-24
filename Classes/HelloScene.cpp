@@ -3,6 +3,8 @@
 #include "SimpleAudioEngine.h"
 #include "Chapter0Level1.h"
 #include "Chapter0Level2.h"
+#include "OptionScene.h"
+#include "EntryScene.h"
 
 USING_NS_CC;
 
@@ -28,40 +30,43 @@ bool HelloScene::init()
 	this->addChild(backGround, -1);
 
 	auto title = Sprite::create("ui/title.png");
+	title->setContentSize(title->getContentSize()*2.0f);
 	title->setPosition(visibleSize.width / 2, visibleSize.height / 4 * 3);
 	this->addChild(title, 1);
 
 	auto heroModel = Sprite::create("map/hero.png");
-	heroModel->setPosition(100, 100);
+	heroModel->setPosition(100, visibleSize.height*0.29f);
 	auto jumpBy = JumpBy::create(0.8f, Vec2::ZERO, 100, 2);
 	auto delay = DelayTime::create(1.0f);
 	heroModel->runAction(RepeatForever::create(Sequence::create(jumpBy, delay, nullptr)));
 
 	this->addChild(heroModel, 1);
 
+	int height = 128,padding=0,sy=0;
+
 	auto menuItemStart = MenuItemImage::create("ui/buttonStartNormal.png", "ui/buttonStartSelected.png");
 	menuItemStart->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(Chapter0Level1::createScene());
+		Director::getInstance()->replaceScene(EntryScene::createScene());
 	});
-	menuItemStart->setPositionY(180);
+	menuItemStart->setPositionY(sy+(height+padding)*3);
 
 	auto menuItemHelp = MenuItemImage::create("ui/buttonHelpNormal.png", "ui/buttonHelpSelected.png");
 	menuItemHelp->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(Chapter0Level2::createScene());
+		Director::getInstance()->replaceScene(Chapter0Level1::createScene());
 	});
-	menuItemHelp->setPositionY(120);
+	menuItemHelp->setPositionY(sy + (height + padding) *2);
 
 	auto menuItemOption = MenuItemImage::create("ui/buttonOptionNormal.png", "ui/buttonOptionSelected.png");
 	menuItemOption->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(GameScene::createScene());
+		Director::getInstance()->replaceScene(OptionScene::createScene());
 	});
-	menuItemOption->setPositionY(60);
+	menuItemOption->setPositionY(sy + (height + padding));
 
 	auto menuItemExit = MenuItemImage::create("ui/buttonExitNormal.png", "ui/buttonExitSelected.png");
 	menuItemExit->setCallback([&](Ref *sender) {
 		Director::getInstance()->end();
 	});
-	menuItemExit->setPositionY(0);
+	menuItemExit->setPositionY(sy);
 
 	auto menu = Menu::create(menuItemStart, menuItemHelp, menuItemOption, menuItemExit,NULL);
 	menu->setAnchorPoint(Vec2(0.5f, 0.0f));
