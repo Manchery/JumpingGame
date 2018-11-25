@@ -81,10 +81,10 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello Manchery", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Hello Manchery", "fonts/GermaniaOne-Regular.ttf", 24);
     if (label == nullptr)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        problemLoading("'fonts/GermaniaOne-Regular.ttf'");
     }
     else
     {
@@ -111,13 +111,13 @@ bool HelloWorld::init()
         this->addChild(sprite, 0);
     }
 
-	auto startLabel = Label::createWithTTF("Start", "fonts/Marker Felt.ttf", 36);
+	auto startLabel = Label::createWithTTF("Start", "fonts/GermaniaOne-Regular.ttf", 36);
 	auto startItem = MenuItemLabel::create(startLabel, CC_CALLBACK_1(HelloWorld::menuExitCallback, this));
 	startItem->setPosition(0, 0);
-	auto helpLabel = Label::createWithTTF("Help", "fonts/Marker Felt.ttf", 36);
+	auto helpLabel = Label::createWithTTF("Help", "fonts/GermaniaOne-Regular.ttf", 36);
 	auto helpItem = MenuItemLabel::create(helpLabel, CC_CALLBACK_1(HelloWorld::menuHelpCallback, this));
 	helpItem->setPosition(0, -visibleSize.height/10);
-	auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 36);
+	auto exitLabel = Label::createWithTTF("Exit", "fonts/GermaniaOne-Regular.ttf", 36);
 	auto exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(HelloWorld::menuExitCallback, this));
 	exitItem->setPosition(0, -visibleSize.height/10*2);
 	

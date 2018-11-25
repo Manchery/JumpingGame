@@ -8,8 +8,9 @@ bool Hero::init() {
 
 	this->setTexture("hero/HeroRightSilence.png");
 
-	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height);
+	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height*0.8);
 	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	physicsBody->setPositionOffset(Vec2(0, -this->getContentSize().height*0.2/2));
 	//physicsBody->setLinearDamping(0.2f);
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);

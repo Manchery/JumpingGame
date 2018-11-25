@@ -92,18 +92,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	if (!UserDefault::getInstance()->getBoolForKey("isExisted")) {
 		auto userData = UserDefault::getInstance();
 		userData->setBoolForKey("isExisted", true);
-		userData->setIntegerForKey("audio", 100);
-		userData->setStringForKey("resolution", "large");
-		for (int i = 0; i < 7; i++) {
-			std::stringstream sstr;
-			sstr << "chapter" << i <<"CoinCount" ;
-			userData->setIntegerForKey(sstr.str().c_str(), 0);
-			sstr.str("");
-			sstr << "chapter" << i << "Pass";
-			userData->setBoolForKey(sstr.str().c_str(), false);
-		}
+		setOptionDefault();
+		setGameDefault();
 	}
-
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();

@@ -16,7 +16,7 @@ bool PauseScene::init()
 
 	auto menuItem1 = MenuItemFont::create("Resume");
 	menuItem1->setColor(Color3B::ORANGE);
-	menuItem1->setFontNameObj("fonts/Marker Felt.ttf");
+	menuItem1->setFontNameObj("fonts/GermaniaOne-Regular.ttf");
 	menuItem1->setFontSizeObj(64);
 
 	menuItem1->setCallback([&](Ref *sender) {

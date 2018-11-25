@@ -114,6 +114,26 @@ void GameScene::drawMap(ValueVector &arrObj) {
 			hero->setTag(HERO_T);
 			frontGroundLayer->addChild(hero, 1);
 		}
+		else if (name == "Enemy") {
+			float minX=dic.at("minX").asFloat(), maxX=dic.at("maxX").asFloat();
+			auto enemy = Enemy::create();
+			enemy->setAnchorPoint(Vec2::ZERO);
+			enemy->setTrack(y, minX, maxX);
+			enemy->setTag(ENEMY_T);
+			//enemy->setName("enemy1");
+			enemy->retain();
+			//enemies.push_back(enemy);
+			frontGroundLayer->addChild(enemy, 1);
+		}
+		else if (name == "SlidingTrap") {
+			auto slidingTrap = SlidingTrap::create("map/" + type + ".png");
+
+			slidingTrap->setAnchorPoint(Vec2(0, 0));
+			slidingTrap->setTrack(x,y-slidingTrap->getContentSize().height-10.0f, y);
+
+			slidingTrap->setTag(SLIDING_TRAP_T);
+			frontGroundLayer->addChild(slidingTrap, -1);
+		}
 		else {
 			auto sprite = Sprite::create("map/" + type + ".png");
 			sprite->setContentSize(Size(width, height));
@@ -475,11 +495,11 @@ void GameScene::initDashboard(){
 
 	auto coinScoreBoard = Node::create();
 	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
-	auto scoreLabel = Label::createWithTTF(sstr.str(), "fonts/Marker Felt.ttf", 64);
+	auto scoreLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 64);
 	scoreLabel->setAnchorPoint(Vec2(1.0f, 1.0f)); scoreLabel->setPosition(Vec2::ZERO);
 	scoreLabel->setName("ScoreLabel");
 
-	auto label = Label::createWithTTF("Coin", "fonts/Marker Felt.ttf", 64);
+	auto label = Label::createWithTTF("Coin", "fonts/GermaniaOne-Regular.ttf", 64);
 	label->setAnchorPoint(Vec2(1.0f, 1.0f));
 	label->setPosition(Vec2(-(scoreLabel->getContentSize().width) - padding, 0.0f));
 
@@ -553,8 +573,8 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 		auto hero = (Hero*)nodeA;
 		if (nodeB->getTag() == ENEMY_T ||
 			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
-			(nodeB->getTag()==TRAP_T && touchUpSurface(hero,nodeB)) ||
-			(nodeB->getTag() == SLIDING_TRAP_T && touchUpSurface(hero, nodeB))){
+			(nodeB->getTag()==TRAP_T /*&& touchUpSurface(hero,nodeB)*/) ||
+			(nodeB->getTag() == SLIDING_TRAP_T /*&& touchUpSurface(hero, nodeB)*/ )){
 			//log("die");
 			heroDied = 1;
 			return false;
@@ -742,7 +762,7 @@ void GameScene::heroUpdate(float dt)
 		velocity.y = 650.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
-	velocity.y = std::max(-1200.0f, velocity.y);
+	velocity.y = std::max(-800.0f, velocity.y);
 
 	hero->getPhysicsBody()->setVelocity(velocity);
 }
@@ -832,7 +852,7 @@ void GameScene::messageSingleLine(const std::string & mes)
 	auto messageBox = Sprite::create("ui/messageBox.png");
 	messageBox->setContentSize(Size(sx, sy));
 
-	auto line = Label::createWithTTF(mes, "fonts/Marker Felt.ttf", 64);
+	auto line = Label::createWithTTF(mes, "fonts/GermaniaOne-Regular.ttf", 64);
 	line->setAnchorPoint(Vec2(0.0, 0.5));
 	line->setPosition(Vec2(-sx/2+64,0.0f));
 
@@ -863,11 +883,11 @@ void GameScene::messageDoubleLine(const std::string & mes1, const std::string & 
 	auto messageBox = Sprite::create("ui/messageBox.png");
 	messageBox->setContentSize(Size(sx, sy));
 
-	auto line1 = Label::createWithTTF(mes1, "fonts/Marker Felt.ttf", 48);
+	auto line1 = Label::createWithTTF(mes1, "fonts/GermaniaOne-Regular.ttf", 48);
 	line1->setAnchorPoint(Vec2(0.0, 0.5));
 	line1->setPosition(Vec2(-sx / 2 + 64, 32));
 
-	auto line2 = Label::createWithTTF(mes2, "fonts/Marker Felt.ttf", 48);
+	auto line2 = Label::createWithTTF(mes2, "fonts/GermaniaOne-Regular.ttf", 48);
 	line2->setAnchorPoint(Vec2(0.0, 0.5));
 	line2->setPosition(Vec2(-sx / 2 + 64, -32));
 

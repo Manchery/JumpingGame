@@ -1,6 +1,8 @@
 #include "cocos2d.h"
 #include "common.h"
+#include "SimpleAudioEngine.h"
 USING_NS_CC;
+using namespace CocosDenshion;
 
 bool isLand(const cocos2d::Node *node) {
 	int tag = node->getTag();
@@ -40,5 +42,24 @@ void logUserDefault()
 		sstr.str("");
 		sstr << "chapter" << i << "Pass";
 		log("%s %d", sstr.str().c_str(), (int)(userData->getBoolForKey(sstr.str().c_str())));
+	}
+}
+
+void setOptionDefault(){ 
+	auto userData = UserDefault::getInstance();
+	userData->setIntegerForKey("audio", DEFAULT_VOLUMN);
+	SimpleAudioEngine::getInstance()->setEffectsVolume(DEFAULT_VOLUMN / 100.0f);
+	userData->setStringForKey("resolution", DEFAULT_RESOLUTION);
+}
+
+void setGameDefault(){
+	auto userData = UserDefault::getInstance();
+	for (int i = 0; i < 7; i++) {
+		std::stringstream sstr;
+		sstr << "chapter" << i << "CoinCount";
+		userData->setIntegerForKey(sstr.str().c_str(), 0);
+		sstr.str("");
+		sstr << "chapter" << i << "Pass";
+		userData->setBoolForKey(sstr.str().c_str(), false);
 	}
 }

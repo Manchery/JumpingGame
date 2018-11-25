@@ -48,4 +48,9 @@ bool touchUpSurface(const cocos2d::Node *nodeA, const cocos2d::Node *nodeB);
 void problemLoading(const char* filename);
 void logUserDefault();
 
+#define DEFAULT_VOLUMN 100
+#define DEFAULT_RESOLUTION "fullscreen"
+void setOptionDefault();
+void setGameDefault();
+
 #endif // __COMMON_H__

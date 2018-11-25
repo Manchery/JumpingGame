@@ -7,7 +7,9 @@ bool Enemy::init() {
 
 	this->setTexture("hero/EnemyRightSilence.png");
 
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height*0.8);
+	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	physicsBody->setPositionOffset(Vec2(0, -this->getContentSize().height*0.2 / 2));
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(ENEMY_M);
@@ -56,10 +58,7 @@ void Enemy::randomTravel(float dt) {
 	float velocity = 200.0f;
 	Vec2 position = this->getPosition();
 	if (dice == 0) {
-		if (rand() % 2)
-			rightSilence();
-		else
-			leftSilence();
+		return;
 	}
 	else if (dice % 2 == 0) { //right
 		float finalX = RANDNUM(position.x, posMaxX);
@@ -68,7 +67,8 @@ void Enemy::randomTravel(float dt) {
 		auto moveTo = MoveTo::create(duration, Vec2(finalX, position.y));
 		//auto repeat = Repeat::create(rightAnimate, duration / 0.45f);
 		right();
-		this->runAction(moveTo);
+		this->runAction(Sequence::create(moveTo, 
+			CallFunc::create(CC_CALLBACK_0(Enemy::rightSilence, this)),nullptr));
 	}
 	else {
 		float finalX = RANDNUM(posMinX,position.x);
@@ -77,6 +77,7 @@ void Enemy::randomTravel(float dt) {
 		auto moveTo = MoveTo::create(duration, Vec2(finalX, position.y));
 		//auto repeat = Repeat::create(rightAnimate, duration / 0.45f);
 		left();
-		this->runAction(moveTo);
+		this->runAction(Sequence::create(moveTo,
+			CallFunc::create(CC_CALLBACK_0(Enemy::leftSilence, this)), nullptr));
 	}
 }

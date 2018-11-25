@@ -3,6 +3,7 @@
 #include "SimpleAudioEngine.h"
 #include "ui/CocosGUI.h"
 #include "HelloScene.h"
+#include "common.h"
 #include <iostream>
 
 using namespace CocosDenshion;
@@ -34,26 +35,98 @@ bool OptionScene::init()
 
 	auto optionBackGround=Sprite::create("ui/helpBackground.png");
 	optionBackGround->setPosition(visibleSize / 2);
-	optionBackGround->setContentSize(Size(visibleSize.width / 2, visibleSize.height*0.8));
+	optionBackGround->setContentSize(Size(visibleSize.width / 2, visibleSize.height*0.9));
 	this->addChild(optionBackGround, -1);
 
-	//add the menu item for back to main menu
-	auto label = LabelTTF::create("MainMenu", "Marker Felt.ttf", 32);
-	auto menuItem = MenuItemLabel::create(label);
-	menuItem->setCallback([&](cocos2d::Ref *sender) {
-		Director::getInstance()->replaceScene(HelloScene::createScene());
+	//add options
+	initResolutionSet();
+	initAudioSet();
+	initResetOption();
+	initResetGame();
+
+	//back to main scene
+
+	backButton = Button::create("ui/buttonBackNormal.png", "ui/buttonBackSelected.png");
+	backButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+		switch (type) {
+		case ui::Widget::TouchEventType::BEGAN:
+			break;
+		case ui::Widget::TouchEventType::ENDED: {
+			Director::getInstance()->replaceScene(HelloScene::createScene());
+		}break;
+		default:
+			break;
+		}
 	});
 
-	auto menu = Menu::create(menuItem, nullptr);
-	menu->setPosition(Vec2::ZERO);
-	menuItem->setPosition(Vec2(100,100));
-	this->addChild(menu, 1);
+	auto sy = (optionBackGround->getContentSize().height - 40 * 2) / 14;
 
-	//add options
-	addResolutionSet();
-	addAudioSet();
-	addResetOptions();
-	addResetGame();
+	auto menuNode = Node::create();
+
+	auto titleLabel = Label::createWithTTF("OPTION", "fonts/GermaniaOne-Regular.ttf", 128);
+	titleLabel->setPosition(Vec2(0,6*sy));
+	menuNode->addChild(titleLabel);
+
+	auto resolutionLabel= Label::createWithTTF("Resolution", "fonts/GermaniaOne-Regular.ttf", 72);
+	resolutionLabel->setAnchorPoint(Vec2(0, 0.5));
+	resolutionLabel->setPosition(Vec2(-optionBackGround->getContentSize().width / 2 + 120, 4.5*sy));
+	menuNode->addChild(resolutionLabel);
+
+	auto smallLabel = Label::createWithTTF("480 x 320", "fonts/GermaniaOne-Regular.ttf", 72);
+	smallLabel->setAnchorPoint(Vec2(0, 0.5));
+	smallLabel->setPosition(Vec2(-60, 4.5*sy));
+	menuNode->addChild(smallLabel);
+	resolutionCheckbox[0]->setPosition(Vec2(optionBackGround->getContentSize().width / 2 - 160,4.5*sy));
+	menuNode->addChild(resolutionCheckbox[0]);
+
+	auto mediumLabel = Label::createWithTTF("1024 x 768", "fonts/GermaniaOne-Regular.ttf", 72);
+	mediumLabel->setAnchorPoint(Vec2(0, 0.5));
+	mediumLabel->setPosition(Vec2(-60, 3.5*sy));
+	menuNode->addChild(mediumLabel);
+	resolutionCheckbox[1]->setPosition(Vec2(optionBackGround->getContentSize().width / 2 - 160, 3.5*sy));
+	menuNode->addChild(resolutionCheckbox[1]);
+
+	auto largeLabel = Label::createWithTTF("2048 x 1536", "fonts/GermaniaOne-Regular.ttf", 72);
+	largeLabel->setAnchorPoint(Vec2(0, 0.5));
+	largeLabel->setPosition(Vec2(-60, 2.5*sy));
+	menuNode->addChild(largeLabel);
+	resolutionCheckbox[2]->setPosition(Vec2(optionBackGround->getContentSize().width / 2 - 160, 2.5*sy));
+	menuNode->addChild(resolutionCheckbox[2]);
+
+	auto fullscreenLabel = Label::createWithTTF("Full Screen", "fonts/GermaniaOne-Regular.ttf", 72);
+	fullscreenLabel->setAnchorPoint(Vec2(0, 0.5));
+	fullscreenLabel->setPosition(Vec2(-60, 1.5*sy));
+	menuNode->addChild(fullscreenLabel);
+	resolutionCheckbox[3]->setPosition(Vec2(optionBackGround->getContentSize().width / 2 - 160, 1.5*sy));
+	menuNode->addChild(resolutionCheckbox[3]);
+
+	auto volumnLabel = Label::createWithTTF("Volumn", "fonts/GermaniaOne-Regular.ttf", 72);
+	volumnLabel->setAnchorPoint(Vec2(0, 0.5));
+	volumnLabel->setPosition(Vec2(-optionBackGround->getContentSize().width / 2 + 120, 0.5*sy));
+	menuNode->addChild(volumnLabel);
+	volumnSlider->setAnchorPoint(Vec2(0, 0.5));
+	volumnSlider->setPosition(Vec2(-60, 0.5*sy));
+	menuNode->addChild(volumnSlider);
+
+	std::stringstream sstr;
+	sstr << "User Data are saved in\n" << UserDefault::getInstance()->getXMLFilePath()<<"\n";
+	sstr << "To implement resolution option, you need to restart.";
+	auto hintLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 24, 
+		Size::ZERO,TextHAlignment::CENTER);
+	hintLabel->setPosition(Vec2(0,-0.5*sy));
+	menuNode->addChild(hintLabel);
+
+	resetOptionButton->setPosition(Vec2(0, -2*sy-sy/4));
+	menuNode->addChild(resetOptionButton);
+
+	resetGameButton->setPosition(Vec2(0, -3*sy-sy/2));
+	menuNode->addChild(resetGameButton);
+
+	backButton->setPosition(Vec2(0, -4*sy - sy));
+	menuNode->addChild(backButton);
+
+	menuNode->setPosition(visibleSize / 2);
+	this->addChild(menuNode, 1);
 
 	return true;
 }
@@ -63,7 +136,7 @@ bool OptionScene::init()
 static const std::string resolutionOption[] = {
 	"small","medium","large","fullscreen"
 };
-void OptionScene::addResolutionSet() 
+void OptionScene::initResolutionSet()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	for (int i = 0; i < 4; i++) {
@@ -96,11 +169,11 @@ void OptionScene::addResolutionSet()
 		});
 		if (UserDefault::getInstance()->getStringForKey("resolution") == resolutionOption[i])
 			resolutionCheckbox[i]->setSelected(true);
-		this->addChild(resolutionCheckbox[i]);
+		//this->addChild(resolutionCheckbox[i]);
 	}
 }
 
-void OptionScene::addAudioSet(){
+void OptionScene::initAudioSet(){
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	volumnSlider = Slider::create();
@@ -130,89 +203,73 @@ void OptionScene::addAudioSet(){
 
 	volumnSlider->setPercent(UserDefault::getInstance()->getIntegerForKey("audio"));
 
-	this->addChild(volumnSlider);
+	//this->addChild(volumnSlider);
 }
 
-void OptionScene::addResetOptions()
+void OptionScene::initResetOption()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	auto button = Button::create("ui/Button_Normal.png", "ui/Button_Press.png", "ui/Button_Disable.png");
+	resetOptionButton = Button::create("ui/buttonResetOptionNormal.png", "ui/buttonResetOptionSelected.png");
 
-	button->setTitleText("Reset options");
-	button->setPosition(visibleSize/2);
+	//button->setTitleText("Reset options");
+	resetOptionButton->setPosition(visibleSize/2);
 
-	button->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+	resetOptionButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 		switch (type){
 			case ui::Widget::TouchEventType::BEGAN:
 				break;
 			case ui::Widget::TouchEventType::ENDED: {
-				auto userData = UserDefault::getInstance();
-
-				userData->setIntegerForKey("audio", 100);
-				volumnSlider->setPercent(100);
-				SimpleAudioEngine::getInstance()->setEffectsVolume(1.0f);
-
-				userData->setStringForKey("resolution", "large");
+				setOptionDefault();
+				volumnSlider->setPercent(DEFAULT_VOLUMN);
 				for (int i=0;i<4;i++)
-					if (i==2)
+					if (resolutionOption [i]==DEFAULT_RESOLUTION)
 						resolutionCheckbox[i]->setSelected(true);
 					else
 						resolutionCheckbox[i]->setSelected(false);
-
-				log("reset options");
-			}
-				break;
+				//log("reset options");
+			}break;
 			default:
 				break;
 		}
 	});
 
-	this->addChild(button);
+	//this->addChild(button);
 }
 
-void OptionScene::addResetGame()
+void OptionScene::initResetGame()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	auto button = Button::create("ui/Button_Normal.png", "ui/Button_Press.png", "ui/Button_Disable.png");
+	resetGameButton = Button::create("ui/buttonResetGameNormal.png", "ui/buttonResetGameSelected.png");
 
-	button->setTitleText("Reset Game");
-	button->setTag(0);
-	button->setPosition(Vec2(visibleSize.width/2,visibleSize.height/4));
+	//button->setTitleText("Reset Game");
+	resetGameButton->setTag(0);
+	resetGameButton->setPosition(Vec2(visibleSize.width/2,visibleSize.height/4));
 
-	button->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+	resetGameButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 		switch (type) {
 		case ui::Widget::TouchEventType::BEGAN:
 			break;
 		case ui::Widget::TouchEventType::ENDED: {
 			auto button = (Button*)sender;
 			if (button->getTag() == 0) {
-				button->loadTextureNormal("ui/Button_Normal_Sure.png");
-				button->loadTexturePressed("ui/Button_Pressed_Sure.png");
+				button->loadTextureNormal("ui/buttonSureNormal.png");
+				button->loadTexturePressed("ui/buttonSureSelected.png");
 				button->setTag(1);
-				button->setTitleText("Sure?");
+				//button->setTitleText("Sure?");
 			}
 			else {
-				log("reset game");
-				auto userData = UserDefault::getInstance();
-				for (int i = 0; i <= 7; i++) {
-					std::stringstream sstr;
-					sstr << "chapter" << i << "CoinCount";
-					userData->setIntegerForKey(sstr.str().c_str(), 0);
-					sstr.str("");
-					sstr << "chapter" << i << "Pass";
-					userData->setBoolForKey(sstr.str().c_str(), false);
-				}
-				button->loadTextureNormal("ui/Button_Normal.png");
-				button->loadTexturePressed("ui/Button_Pressed.png");
+				//log("reset game");
+				setGameDefault();
+				button->loadTextureNormal("ui/buttonResetGameNormal.png");
+				button->loadTexturePressed("ui/buttonResetGameSelected.png");
 				button->setTag(0);
-				button->setTitleText("Reset Game");
+				//button->setTitleText("Reset Game");
 			}
-		}
-			break;
+		}break;
 		default:
 			break;
 		}
 	});
 
-	this->addChild(button);
+	//this->addChild(button);
 }

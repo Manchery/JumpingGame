@@ -85,11 +85,11 @@ Node * EntryScene::chapterEntry(int idx)
 	snapshot->setPosition(Vec2(0, -size.height*0.25 + size.height * 0.1));
 	nodeItems->addChild(snapshot, 0);
 
-	auto chapterLabel= Label::createWithTTF(chapterName[idx], "fonts/Marker Felt.ttf", 64);
+	auto chapterLabel= Label::createWithTTF(chapterName[idx], "fonts/GermaniaOne-Regular.ttf", 64);
 	sstr2 << "chapter" << idx << "CoinCount";
 	sstr.str(""); sstr << "coin "<< UserDefault::getInstance()->getIntegerForKey(sstr2.str().c_str())
 		<<"/"<<chapterCoinTotal[idx];
-	auto coinLabel = Label::createWithTTF(sstr.str(), "fonts/Marker Felt.ttf", 32);
+	auto coinLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 32);
 
 	chapterLabel->setPosition(Vec2(0,size.height/2-20-32));
 	coinLabel->setPosition(Vec2(0, size.height / 2 - 20 - 64-20-32));
