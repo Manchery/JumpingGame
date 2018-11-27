@@ -5,7 +5,8 @@
 #include "Chapter0Level2.h"
 #include "OptionScene.h"
 #include "EntryScene.h"
-
+#include "HelpScene.h"
+using namespace CocosDenshion;
 USING_NS_CC;
 
 Scene* HelloScene::createScene()
@@ -52,13 +53,13 @@ bool HelloScene::init()
 
 	auto menuItemHelp = MenuItemImage::create("ui/buttonHelpNormal.png", "ui/buttonHelpSelected.png");
 	menuItemHelp->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(Chapter0Level1::createScene());
+		Director::getInstance()->pushScene(HelpScene::createScene());
 	});
 	menuItemHelp->setPositionY(sy + (height + padding) *2);
 
 	auto menuItemOption = MenuItemImage::create("ui/buttonOptionNormal.png", "ui/buttonOptionSelected.png");
 	menuItemOption->setCallback([&](Ref *sender) {
-		Director::getInstance()->replaceScene(OptionScene::createScene());
+		Director::getInstance()->pushScene(OptionScene::createScene(true));
 	});
 	menuItemOption->setPositionY(sy + (height + padding));
 
@@ -72,6 +73,10 @@ bool HelloScene::init()
 	menu->setAnchorPoint(Vec2(0.5f, 0.0f));
 	menu->setPosition(visibleSize.width / 2, visibleSize.height / 4);
 	this->addChild(menu, 2);
+
+	if (AUDIO_PLAY) {
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/titletheme.wav", true);
+	}
 
 	return true;
 }

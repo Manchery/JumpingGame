@@ -18,6 +18,7 @@ public:
 	virtual bool init();
 	virtual void initMap(const std::string & tmxFile, const Color4B & backgroundColor) override;
 	virtual void initListener() override;
+	virtual void initBackgroundMusic() override;
 
 	virtual void heroUpdate(float dt) override;
 	virtual void mapUpdate(float dt) override;

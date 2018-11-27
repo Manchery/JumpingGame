@@ -41,21 +41,10 @@ void GameScene::onEnterTransitionDidFinish()
 		destroyedList.clear();
 		heroDied = 0;
 	}
-	//add joint pin	
 
-	//auto sprite = frontGroundLayer->getChildByName("jointtest");
-	//if (sprite != nullptr) {
-	//	this->getPhysicsWorld()->removeJoint(((SwingLand*)sprite)->pin);
-	//	sprite->removeFromParentAndCleanup(1);
-	//}
-	//auto swingLand = SwingLand::create("parkour_images/aboutA.png");
-	////swingLand->setAnchorPoint(Vec2::ZERO);
-	//swingLand->setPosition(Vec2(300, 300));
-	//swingLand->swing();
-	//swingLand->setName("jointtest");
-	//swingLand->setTag(SWING_LAND_T);
-
-	//frontGroundLayer->addChild(swingLand);
+	for (auto swingLand : swingLands) {
+		swingLand->swing(this);
+	}
 }
 
 Scene* GameScene::createScene()
@@ -91,7 +80,8 @@ void GameScene::drawBackGround(ValueVector &arrObj, int zOrder = 0) {
 		}
 	}
 }
-void GameScene::drawMap(ValueVector &arrObj) {
+void GameScene::drawMap(const TMXTiledMap *tileMap) {
+	auto arrObj = tileMap->getObjectGroup("game")->getObjects();
 	for (auto object : arrObj)
 	{
 		auto dic = object.asValueMap();
@@ -103,6 +93,7 @@ void GameScene::drawMap(ValueVector &arrObj) {
 		float y = dic.at("y").asFloat() + height;
 
 		bool flippedX = (dic.at("gid").asFloat() > 2e9);
+		float rotation = dic.at("rotation").asFloat();
 
 		if (type == "") continue;
 
@@ -115,7 +106,7 @@ void GameScene::drawMap(ValueVector &arrObj) {
 			frontGroundLayer->addChild(hero, 1);
 		}
 		else if (name == "Enemy") {
-			float minX=dic.at("minX").asFloat(), maxX=dic.at("maxX").asFloat();
+			float minX = dic.at("minX").asFloat(), maxX = dic.at("maxX").asFloat();
 			auto enemy = Enemy::create();
 			enemy->setAnchorPoint(Vec2::ZERO);
 			enemy->setTrack(y, minX, maxX);
@@ -127,12 +118,33 @@ void GameScene::drawMap(ValueVector &arrObj) {
 		}
 		else if (name == "SlidingTrap") {
 			auto slidingTrap = SlidingTrap::create("map/" + type + ".png");
-
+			slidingTrap->setContentSize(Size(width, height));
 			slidingTrap->setAnchorPoint(Vec2(0, 0));
-			slidingTrap->setTrack(x,y-slidingTrap->getContentSize().height-10.0f, y);
+			slidingTrap->setTrack(x, y - slidingTrap->getContentSize().height - 10.0f, y);
 
 			slidingTrap->setTag(SLIDING_TRAP_T);
 			frontGroundLayer->addChild(slidingTrap, -1);
+		}
+		else if (name == "SlidingLand") {
+			auto slidingLand = SlidingLand::create("map/" + type + ".png");
+			slidingLand->setContentSize(Size(width, height));
+			slidingLand->setAnchorPoint(Vec2::ZERO);
+			float startX= dic.at("startX").asFloat(),startY= mapSize.height-dic.at("startY").asFloat();
+			float endX = dic.at("endX").asFloat(), endY = mapSize.height - dic.at("endY").asFloat();
+			slidingLand->setTrack(startX,startY,endX,endY);
+			slidingLand->setTag(SLIDING_LAND_T);
+			frontGroundLayer->addChild(slidingLand, 1);
+		}
+		else if (name == "SwingLand") {
+			auto swingLand = SwingLand::create("map/" + type + ".png");
+			//swingLand->setContentSize(Size(width, height));
+			swingLand->setPosition(Vec2(x+swingLand->getContentSize().width/2, 
+				y+swingLand->getContentSize().height/2));
+			swingLand->setTag(SWING_LAND_T);
+			swingLand->retain();
+
+			swingLands.push_back(swingLand);
+			frontGroundLayer->addChild(swingLand);
 		}
 		else {
 			auto sprite = Sprite::create("map/" + type + ".png");
@@ -152,6 +164,12 @@ void GameScene::drawMap(ValueVector &arrObj) {
 				physicsBody->setContactTestBitmask(0xFFFFFFFF);
 
 				sprite->setPhysicsBody(physicsBody);
+				if (rotation != 0)
+					sprite->setRotation(rotation);
+
+				if (dic.find("revivePoint")!=dic.end() && dic.at("revivePoint").asBool())
+					sprite->setName("RevivePoint");
+
 				frontGroundLayer->addChild(sprite, 0);
 			}
 			else if (name == "Trap") {
@@ -203,6 +221,32 @@ void GameScene::drawMap(ValueVector &arrObj) {
 		}
 
 	}
+	arrObj = tileMap->getObjectGroup("bounds")->getObjects();
+	for (auto object : arrObj)
+	{
+		auto dic = object.asValueMap();
+		float width = dic.at("width").asFloat();
+		float height = dic.at("height").asFloat();
+		float x = dic.at("x").asFloat();
+		float y = dic.at("y").asFloat();// +height;
+
+		auto sprite = Sprite::create("map/earthWall.png");
+		sprite->setOpacity(0);
+		sprite->setContentSize(Size(width, height));
+		sprite->setAnchorPoint(Vec2::ZERO);
+		sprite->setPosition(x, y);
+		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+		
+		sprite->setTag(LAND_T);
+
+		physicsBody->setDynamic(false);
+		physicsBody->setCategoryBitmask(LAND_M);
+		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+		physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+		sprite->setPhysicsBody(physicsBody);
+		frontGroundLayer->addChild(sprite, 0);
+	}
 }
 
 bool GameScene::init()
@@ -221,17 +265,6 @@ bool GameScene::init()
 	followEnemy->retain();
 	frontGroundLayer->addChild(followEnemy, 1);*/
 
-	/*auto enemy = Enemy::create();
-	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
-	enemy->setAnchorPoint(Vec2::ZERO);
-	enemy->setTrack(testSprite->getContentSize().height, 700, 1400);
-	enemy->setTag(ENEMY_T);
-	enemy->setName("enemy1");
-	enemy->retain();
-	//enemies.push_back(enemy);
-	frontGroundLayer->addChild(enemy, 1);
-	testSprite = NULL;*/
-
 	revivePoint = hero->getPosition();
 	heroDied = heroJumped = 0;
 	gotGameKey = 0; needGameKey = 0;
@@ -239,6 +272,7 @@ bool GameScene::init()
 	this->schedule(schedule_selector(GameScene::heroUpdate));
 	this->schedule(schedule_selector(GameScene::mapUpdate));
 	this->schedule(schedule_selector(GameScene::regenerateUpdate));
+	this->schedule(schedule_selector(GameScene::messageUpdate));
 
 	return true;
 }
@@ -289,7 +323,7 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 	}
 	
 	//map
-	drawMap(tileMap->getObjectGroup("game")->getObjects());
+	drawMap(tileMap);
 }
 /*void GameScene::initMap() {
 	Size mapSize = frontGroundLayer->getContentSize();
@@ -571,8 +605,19 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 
 	if (isHero(nodeA)) {
 		auto hero = (Hero*)nodeA;
-		if (nodeB->getTag() == ENEMY_T ||
-			(nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
+		if (nodeB->getTag() == ENEMY_T) {
+			/*if (touchUpSurface(hero, nodeB)) {
+				nodeB->retain();
+				destroyedList.push_back(nodeB);
+				nodeB->removeFromParent();
+				return false;
+			}
+			else {*/
+			heroDied = 1;
+			return false;
+			//}
+		}
+		if ((nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
 			(nodeB->getTag()==TRAP_T /*&& touchUpSurface(hero,nodeB)*/) ||
 			(nodeB->getTag() == SLIDING_TRAP_T /*&& touchUpSurface(hero, nodeB)*/ )){
 			//log("die");
@@ -635,6 +680,11 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 					if (nodeB->getTag() == DROP_LAND_T) {
 						auto dropLand = (DropLand*)nodeB;
 						dropLand->drop();
+					}
+					if (nodeB->getName() == "RevivePoint") {
+						setRevivePoint(Vec2(nodeB->getPositionX()+nodeB->getContentSize().width/2-hero->getContentSize().width/2,
+							nodeB->getPositionY()+nodeB->getContentSize().height+20.0f));
+						//nodeB->setName("");
 					}
 				}
 			}
@@ -815,6 +865,16 @@ void GameScene::regenerateUpdate(float dt)
 		}
 		else itor++;
 	}
+}
+
+void GameScene::messageUpdate(float dt)
+{
+}
+
+void GameScene::setRevivePoint(Vec2 revive)
+{
+	revivePoint = revive;
+	destroyedList.clear();
 }
 
 void GameScene::addRenerate(Node * node){

@@ -34,6 +34,22 @@ bool EntryScene::init()
 	backGround->setPosition(Vec2::ZERO);
 	this->addChild(backGround, -1);
 
+	auto backButton = Button::create("ui/buttonBackNormal.png", "ui/buttonBackSelected.png");
+	backButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+		switch (type) {
+		case ui::Widget::TouchEventType::BEGAN:
+			break;
+		case ui::Widget::TouchEventType::ENDED: {
+			Director::getInstance()->replaceScene(HelloScene::createScene());
+		}break;
+		default:
+			break;
+		}
+	});
+	backButton->setPosition(Vec2(visibleSize.width-50-backButton->getContentSize().width/2,
+		visibleSize.height - 50 - backButton->getContentSize().height / 2));
+	this->addChild(backButton);
+
 	auto node = chapterEntry(0);
 	node->setPosition(visibleSize / 2);
 	this->addChild(node, 1);

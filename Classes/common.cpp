@@ -14,11 +14,18 @@ bool isHero(const cocos2d::Node *node) {
 }
 
 bool touchUpSurface(const cocos2d::Node * nodeA, const cocos2d::Node * nodeB){
-	//log("%f %f", nodeB->getBoundingBox().getMaxY(), nodeA->getBoundingBox().getMinY());
-	//log("%d", (int)(nodeB->getBoundingBox().getMaxY() <= nodeA->getBoundingBox().getMinY() + 10.0f &&
-	//	nodeB->getBoundingBox().getMaxY() >= nodeA->getBoundingBox().getMinY() - 10.0f));
+	/*PhysicsShapeBox *shapeA = (PhysicsShapeBox*)(nodeA->getPhysicsBody()->getShape(0)),
+		*shapeB= (PhysicsShapeBox*)(nodeB->getPhysicsBody()->getShape(0)); 
+	auto underSurface = (nodeA->getBoundingBox().getMaxY()+ nodeA->getBoundingBox().getMinY())/2
+		+ nodeA->getPhysicsBody()->getPositionOffset().y
+		-shapeA->getSize().height/2;
+	auto topSurface = (nodeA->getBoundingBox().getMaxY() + nodeA->getBoundingBox().getMinY()) / 2
+		+ nodeA->getPhysicsBody()->getPositionOffset().y
+		- shapeA->getSize().height / 2;
+	//log("%f %f", underSurface, topSurface);*/
 	return (nodeB->getBoundingBox().getMaxY() <= nodeA->getBoundingBox().getMinY() + 10.0f &&
 		nodeB->getBoundingBox().getMaxY() >= nodeA->getBoundingBox().getMinY() - 10.0f);
+	//return (topSurface <= underSurface + 10.0f && topSurface >= underSurface - 10.0f);
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -47,8 +54,9 @@ void logUserDefault()
 
 void setOptionDefault(){ 
 	auto userData = UserDefault::getInstance();
-	userData->setIntegerForKey("audio", DEFAULT_VOLUMN);
+	/*userData->setIntegerForKey("audio", DEFAULT_VOLUMN);
 	SimpleAudioEngine::getInstance()->setEffectsVolume(DEFAULT_VOLUMN / 100.0f);
+	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(DEFAULT_VOLUMN / 100.0f);*/
 	userData->setStringForKey("resolution", DEFAULT_RESOLUTION);
 }
 

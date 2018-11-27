@@ -7,19 +7,17 @@ using namespace cocos2d::ui;
 class OptionScene : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(bool canResetGame=0);
 
-	virtual bool init();
+	virtual bool init(bool canResetGame);
 	void initResolutionSet();
-	void initAudioSet();
+	//void initAudioSet();
 	void initResetOption();
 	void initResetGame();
 
-	// implement the "static create()" method manually
-	CREATE_FUNC(OptionScene);
 private:
 	CheckBox* resolutionCheckbox[4];
-	Slider * volumnSlider;
+	//Slider * volumnSlider;
 	Button *resetOptionButton,*resetGameButton,*backButton;
 
 };

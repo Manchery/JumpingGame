@@ -99,7 +99,9 @@ void Hero::shot() {
 	auto physicsBody = PhysicsBody::createBox(bullet->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
-	physicsBody->setContactTestBitmask(0xFFFFFFFF);
+	physicsBody->setCategoryBitmask(BULLET_M);
+	physicsBody->setCollisionBitmask(0xFFFFFFFF ^ COIN_M);
+	physicsBody->setContactTestBitmask(0xFFFFFFFF^COIN_M);
 	bullet->setPhysicsBody(physicsBody);
 
 	auto parent = this->getParent();
@@ -108,6 +110,7 @@ void Hero::shot() {
 	if (heroState == LEFT || heroState == LEFTSILENCE || heroState == LEFTJUMP) {
 		float sx = heroPosition.x - this->getContentSize().width / 2 - bullet->getContentSize().width / 2 - 10.0f;
 		float sy = heroPosition.y;
+		bullet->setFlippedX(true);
 		bullet->setPosition(sx, sy);
 		bullet->getPhysicsBody()->setVelocity(Vec2(-500, 0));
 	}

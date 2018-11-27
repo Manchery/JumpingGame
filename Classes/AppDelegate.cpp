@@ -44,11 +44,13 @@ using namespace CocosDenshion;
 #include "TileTestScene.h"
 #include "GameScene.h"
 #include <sstream>
+#include "SimpleAudioEngine.h"
 //#define START_SCENE GameScene
 #define START_SCENE HelloScene
 //#define START_SCENE TileTestScene
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(2048, 1536);
 //static cocos2d::Size designResolutionSize = cocos2d::Size(2528, 1440);
@@ -95,6 +97,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		setOptionDefault();
 		setGameDefault();
 	}
+
+	/*SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(
+		UserDefault::getInstance()->getIntegerForKey("audio") / 100.0f);
+	SimpleAudioEngine::getInstance()->setEffectsVolume(
+		UserDefault::getInstance()->getIntegerForKey("audio") / 100.0f);*/
+
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();

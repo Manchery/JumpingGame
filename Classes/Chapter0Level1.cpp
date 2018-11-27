@@ -3,6 +3,7 @@
 #include "Chapter0Level1.h"
 #include "Chapter0Level2.h"
 #include "HelloScene.h"
+#include "SwingLand.h"
 using namespace CocosDenshion;
 
 cocos2d::Scene * Chapter0Level1::createScene()
@@ -38,6 +39,9 @@ bool Chapter0Level1::init()
 
 	//messageSingleLine("Press up key to jump");
 	messageDoubleLine("Hello!", "You are now Sticker Knight.");
+	toldMove = toldCoin= toldExit=false;
+
+	this->schedule(schedule_selector(GameScene::messageUpdate));
 
 	logUserDefault();
 	return true;
@@ -51,6 +55,11 @@ void Chapter0Level1::initMap(const std::string & tmxFile, const Color4B & backgr
 void Chapter0Level1::initListener()
 {
 	GameScene::initListener();
+}
+
+void Chapter0Level1::initBackgroundMusic()
+{
+
 }
 
 void Chapter0Level1::heroUpdate(float dt)
@@ -68,11 +77,33 @@ void Chapter0Level1::regenerateUpdate(float dt)
 	GameScene::regenerateUpdate(dt);
 }
 
+void Chapter0Level1::messageUpdate(float dt)
+{
+	/*if (!toldMove) {
+		if (hero->getPositionX() >= 6 * 32) {
+			messageDoubleLine("Press right & left key to move", "and up key to jump!");
+			toldMove = 1;
+		}
+	}
+	if (!toldCoin) {
+		if (hero->getPositionX() >= 26 * 32) {
+			messageSingleLine("Diamonds! Collect them!");
+			toldCoin = 1;
+		}
+	}
+	if (!toldExit) {
+		if (hero->getPositionX() >= 60 * 32) {
+			messageSingleLine("Keep Going, and explore the castle!");
+			toldExit = 1;
+		}
+	}*/
+}
+
 void Chapter0Level1::switchScene(float dt)
 {
 	Chapter0Level2* scene=(Chapter0Level2*)Chapter0Level2::createScene();
 	scene->setCoinCount(this->coinCount);
-	Director::getInstance()->replaceScene(TransitionCrossFade::create(1.0f,scene));
+	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f,scene));
 }
 
 void Chapter0Level1::gamePass()

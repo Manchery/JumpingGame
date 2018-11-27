@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "FollowEnemy.h"
 #include "common.h"
+#include "SwingLand.h"
 
 USING_NS_CC;
 
@@ -30,6 +31,9 @@ public:
 	virtual void heroUpdate(float dt);
 	virtual void mapUpdate(float dt);
 	virtual void regenerateUpdate(float dt);
+	virtual void messageUpdate(float dt);
+
+	void setRevivePoint(Vec2 revive);
 
 	void addRenerate(Node * node);
 
@@ -47,7 +51,7 @@ public:
 
 	void drawBackGround(ValueVector & arrObj, int zOrder);
 
-	void drawMap(ValueVector & arrObj);
+	void drawMap(const TMXTiledMap * tileMap);
 
 	CREATE_FUNC(GameScene);
 	PhysicsBody* getBoundBody() {
@@ -67,6 +71,7 @@ protected:
 	Layer *frontGroundLayer, *backGroundLayer;
 	std::vector<Node*> destroyedList;
 	std::vector<std::pair<Node*, float> > regenList;
+	std::vector<SwingLand*> swingLands;
 	Size mapSize;
 	Hero *hero;
 	FollowEnemy *followEnemy;

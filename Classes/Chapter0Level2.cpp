@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Chapter0Level2.h"
 #include "HelloScene.h"
+#include "SwingLand.h"
 using namespace CocosDenshion;
 
 cocos2d::Scene * Chapter0Level2::createScene()
@@ -46,6 +47,10 @@ void Chapter0Level2::initMap(const std::string & tmxFile, const Color4B & backgr
 void Chapter0Level2::initListener()
 {
 	GameScene::initListener();
+}
+
+void Chapter0Level2::initBackgroundMusic()
+{
 }
 
 void Chapter0Level2::heroUpdate(float dt)

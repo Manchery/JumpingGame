@@ -33,9 +33,6 @@
     <ClCompile Include="..\Classes\HelloScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\HelpScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
@@ -46,9 +43,6 @@
       <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\TempScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\TileTestScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\DropLand.cpp">
@@ -107,9 +101,6 @@
     <ClInclude Include="..\Classes\HelloScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\HelpScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
@@ -120,9 +111,6 @@
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\TempScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TileTestScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\DropLand.h">

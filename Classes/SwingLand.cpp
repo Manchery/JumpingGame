@@ -36,36 +36,42 @@ bool SwingLand::initWithFile(const std::string & filename)
 	return true;
 }
 
-void SwingLand::swing()
+void SwingLand::swing(GameScene* scene)
 {
-	auto scene = (GameScene*)(Director::getInstance()->getRunningScene());
+	//auto scene = (GameScene*)(Director::getInstance()->getRunningScene());
+	scene->getPhysicsWorld()->removeJoint(pin);
+	this->unscheduleAllCallbacks();
+
 	auto boundBody=scene->getBoundBody();
-	pin = PhysicsJointPin::construct(this->getPhysicsBody(), boundBody, this->getPosition());
+	auto pos = this->getPosition() + this->getParent()->getPosition();
+	pin = PhysicsJointPin::construct(this->getPhysicsBody(), boundBody, pos);
 	scene->getPhysicsWorld()->addJoint(pin);
+
+	clock = state = 0;
 	this->schedule(schedule_selector(SwingLand::update));
 }
 
 void SwingLand::swingClockwise()
 {
-	this->getPhysicsBody()->setAngularVelocity(4*PI);
+	this->getPhysicsBody()->setAngularVelocity(2*PI);
 }
 
 void SwingLand::swingAnticlockwise()
 {
-	this->getPhysicsBody()->setAngularVelocity(-4 * PI);
+	this->getPhysicsBody()->setAngularVelocity(-2 * PI);
 }
 
 void SwingLand::stopSwing()
 {
 	this->getPhysicsBody()->setAngularVelocity(0.0f);
+	this->setRotation(0.0f);
 }
 
 void SwingLand::update(float dt)
 {
-	static float clock=0;
-	static int state = 0;
 	clock += dt;
-	if (clock >= 4.0f) {
+	if (((state==0 || state==2) && clock >= 4.0f) ||
+		((state == 1 || state == 3) && clock >= 8.0f)) {
 		clock = 0;
 		state=(state+1)%4;
 		if (state == 0 || state == 2) {

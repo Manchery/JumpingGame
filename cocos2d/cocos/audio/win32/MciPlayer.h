@@ -28,6 +28,7 @@
 #include "platform/CCStdC.h"
 #include <mmsystem.h>
 #include <string>
+#include <Digitalv.h>
 using namespace std;
 
 
@@ -84,6 +85,12 @@ public:
     @return Sound's ID
     */
     UINT GetSoundID();
+
+	// @volume value ranges from 0 .. 1000
+	void SetVolume(UINT volume);
+
+	// @return value ranges from 0 .. 1000
+	UINT GetVolume() const;
 
 private:
     friend LRESULT WINAPI _SoundPlayProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
