@@ -16,7 +16,7 @@
 #include <algorithm>
 using namespace CocosDenshion;
 
-#define PHYSICS_SUBSTEPS 10
+#define PHYSICS_SUBSTEPS 5
 
 void GameScene::onEnterTransitionDidFinish()
 {
@@ -24,6 +24,7 @@ void GameScene::onEnterTransitionDidFinish()
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
 	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	heroJumped = heroBounced = 0;
 
 	if (heroDied) {
 		for (auto node : destroyedList) {
@@ -41,16 +42,28 @@ void GameScene::onEnterTransitionDidFinish()
 		destroyedList.clear();
 		heroDied = 0;
 	}
-
-	for (auto swingLand : swingLands) {
-		swingLand->swing(this);
-	}
 }
 
 Scene* GameScene::createScene()
 {
 	//return GameScene::createWithPhysics();
 	return GameScene::create();
+}
+
+void GameScene::commonInitAfterMap(){
+	initBackgroundMusic();
+	initDashboard();
+	initListener();
+
+	revivePoint = hero->getPosition();
+	heroDied = heroJumped = heroBounced = 0;
+	gotGameKey = 0; needGameKey = 0;
+
+	this->schedule(schedule_selector(GameScene::heroUpdate));
+	this->schedule(schedule_selector(GameScene::mapUpdate));
+	this->schedule(schedule_selector(GameScene::regenerateUpdate));
+	this->schedule(schedule_selector(GameScene::messageUpdate));
+	this->schedule(schedule_selector(GameScene::timerUpdate));
 }
 
 void GameScene::drawBackGround(ValueVector &arrObj, int zOrder = 0) {
@@ -135,16 +148,57 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			slidingLand->setTag(SLIDING_LAND_T);
 			frontGroundLayer->addChild(slidingLand, 1);
 		}
-		else if (name == "SwingLand") {
-			auto swingLand = SwingLand::create("map/" + type + ".png");
-			//swingLand->setContentSize(Size(width, height));
+		else if (name == "SwingLand" || name=="SwingTrap") {
+			auto swingLand = SwingLand::create("map/" + type + ".png",width,height, name == "SwingTrap");
 			swingLand->setPosition(Vec2(x+swingLand->getContentSize().width/2, 
 				y+swingLand->getContentSize().height/2));
-			swingLand->setTag(SWING_LAND_T);
-			swingLand->retain();
+			if (name=="SwingLand") swingLand->setTag(SWING_LAND_T);
+			else if (name=="SwingTrap") swingLand->setTag(SWING_TRAP_T);
 
-			swingLands.push_back(swingLand);
 			frontGroundLayer->addChild(swingLand);
+		}
+		else if (name == "DropLand") {
+			auto dropLand = DropLand::create("map/" + type + ".png");
+			dropLand->setContentSize(Size(width, height));
+			dropLand->setAnchorPoint(Vec2::ZERO);
+			dropLand->setPosition(x, y);
+			dropLand->setTag(DROP_LAND_T);
+
+			frontGroundLayer->addChild(dropLand, 1);
+		}
+		else if (name == "Door") {
+			auto door = Door::create("map/" + type + ".png",width,height);
+			door->setAnchorPoint(Vec2::ZERO);
+			door->setTrack(x,y,y+door->getContentSize().height);
+			door->setTag(DOOR_T);
+
+			if (dic.find("open")!=dic.end() && dic.at("open").asBool())
+				door->move();
+
+			int id = dic.at("doorID").asInt();
+			std::stringstream sstr; sstr << "Door" << id;
+			door->setName(sstr.str());
+
+			frontGroundLayer->addChild(door, 1);
+		}
+		else if (name == "DoorKey") {
+
+			auto doorKey = DoorKey::create("map/" + type + ".png");
+			doorKey->setContentSize(Size(width, height));
+			doorKey->setAnchorPoint(Vec2::ZERO);
+			doorKey->setPosition(Vec2(x,y));
+			doorKey->setTag(DOOR_KEY_T);
+
+			int id = dic.at("door").asInt();
+			std::stringstream sstr; sstr << "Door" << id;
+			doorKey->addDoor((Door*)(frontGroundLayer->getChildByName(sstr.str())));
+			if (dic.find("door2") != dic.end()) {
+				id = dic.at("door2").asInt();
+				sstr.str(""); sstr << "Door" << id;
+				doorKey->addDoor((Door*)(frontGroundLayer->getChildByName(sstr.str())));
+			}
+
+			frontGroundLayer->addChild(doorKey, 1);
 		}
 		else {
 			auto sprite = Sprite::create("map/" + type + ".png");
@@ -169,6 +223,22 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 
 				if (dic.find("revivePoint")!=dic.end() && dic.at("revivePoint").asBool())
 					sprite->setName("RevivePoint");
+				if (dic.find("jump") != dic.end() && dic.at("jump").asBool())
+					sprite->setName("Jump");
+
+				frontGroundLayer->addChild(sprite, 0);
+			}
+			else if (name == "SoftLand") {
+				sprite->setTag(SOFT_LAND_T);
+
+				physicsBody->setDynamic(false);
+				physicsBody->setCategoryBitmask(LAND_M);
+				physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
+				physicsBody->setContactTestBitmask(0xFFFFFFFF);
+
+				sprite->setPhysicsBody(physicsBody);
+				if (rotation != 0)
+					sprite->setRotation(rotation);
 
 				frontGroundLayer->addChild(sprite, 0);
 			}
@@ -181,6 +251,8 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				physicsBody->setContactTestBitmask(0xFFFFFFFF);
 
 				sprite->setPhysicsBody(physicsBody);
+				if (rotation != 0)
+					sprite->setRotation(rotation);
 				frontGroundLayer->addChild(sprite, 0);
 			}
 			else if (name == "Coin") {
@@ -257,23 +329,11 @@ bool GameScene::init()
 	}
 	
 	initMap("map/chapter0.tmx",Color4B::Color4B(39,185,154,255));
-	initBackgroundMusic();
-	initDashboard();
-	initListener();
+	commonInitAfterMap();
 
 	/*followEnemy = FollowEnemy::create(hero);
 	followEnemy->retain();
 	frontGroundLayer->addChild(followEnemy, 1);*/
-
-	revivePoint = hero->getPosition();
-	heroDied = heroJumped = 0;
-	gotGameKey = 0; needGameKey = 0;
-
-	this->schedule(schedule_selector(GameScene::heroUpdate));
-	this->schedule(schedule_selector(GameScene::mapUpdate));
-	this->schedule(schedule_selector(GameScene::regenerateUpdate));
-	this->schedule(schedule_selector(GameScene::messageUpdate));
-
 	return true;
 }
 void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundColor){
@@ -296,7 +356,7 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 
 	//physics
 	auto physicsWorld = this->getPhysicsWorld();
-	physicsWorld->setGravity(Vec2(0, -1500));
+	physicsWorld->setGravity(Vec2(0, -2000));
 	if (PHYSICS_DRAW_DEBUG)
 		physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	physicsWorld->setSubsteps(PHYSICS_SUBSTEPS);
@@ -544,6 +604,13 @@ void GameScene::initDashboard(){
 	coinScoreBoard->setPosition(Vec2(visibleSize.width - padding, visibleSize.height - padding));
 
 	this->addChild(coinScoreBoard, 100);
+
+	auto timeLabel = Label::createWithTTF("0", "fonts/GermaniaOne-Regular.ttf", 64);
+
+	timeLabel->setAnchorPoint(Vec2(1.0f, 1.0f));
+	timeLabel->setPosition(Vec2(visibleSize.width-500, visibleSize.height - padding));
+	timeLabel->setName("TimeLabel");
+	this->addChild(timeLabel, 100);
 }
 
 void GameScene::initBackgroundMusic(){
@@ -555,6 +622,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	//log("contact begin");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	if (nodeA == nullptr || nodeB == nullptr) return false;
 	const Vec2 contactPoint=contact.getContactData()->points[0];
 
 	if (nodeA->getTag() == DOOR_KEY_T) {
@@ -568,6 +636,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 
 	if (nodeA->getTag() == BULLET_T) {
 		nodeA->removeFromParentAndCleanup(1);
+		//nodeA->removeFromParent();
 		if (nodeB->getTag() == SOFT_LAND_T) {
 			nodeB->retain();
 			destroyedList.push_back(nodeB);
@@ -582,6 +651,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 	}
 	if (nodeB->getTag() == BULLET_T) {
 		nodeB->removeFromParentAndCleanup(1);
+		//nodeB->removeFromParent();
 		if (nodeA->getTag() == SOFT_LAND_T) {
 			nodeA->retain();
 			destroyedList.push_back(nodeA);
@@ -617,9 +687,11 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			return false;
 			//}
 		}
-		if ((nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)||
-			(nodeB->getTag()==TRAP_T /*&& touchUpSurface(hero,nodeB)*/) ||
-			(nodeB->getTag() == SLIDING_TRAP_T /*&& touchUpSurface(hero, nodeB)*/ )){
+		if (nodeB->getTag() == SWING_TRAP_T) {
+			heroDied = 1;
+			return false;
+		}
+		if ((nodeB->getTag() == BORDER_T && contactPoint.y <= 10.0f)) {
 			//log("die");
 			heroDied = 1;
 			return false;
@@ -654,6 +726,20 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 bool GameScene::onContactPreSolve(PhysicsContact & contact, PhysicsContactPreSolve & solve)
 {
 	//log("pre solve");
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	if (nodeA == nullptr || nodeB == nullptr) return false;
+	if (isHero(nodeB)) std::swap(nodeA, nodeB);
+	if (isHero(nodeA)) {
+		if (!hero->getShielded()) {
+			if ((nodeB->getTag() == TRAP_T /*&& touchUpSurface(hero,nodeB)*/) ||
+				(nodeB->getTag() == SLIDING_TRAP_T /*&& touchUpSurface(hero, nodeB)*/)) {
+				//log("die");
+				heroDied = 1;
+				return false;
+			}
+		}
+	}
 	return true;
 }
 bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContactPostSolve & solve)
@@ -661,6 +747,7 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 	//log("post solve");
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	if (nodeA == nullptr || nodeB == nullptr) return false;
 	//const Vec2 contactPoint = contact.getContactData()->points[0];
 	if (isHero(nodeB)) std::swap(nodeA, nodeB);
 
@@ -686,6 +773,13 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 							nodeB->getPositionY()+nodeB->getContentSize().height+20.0f));
 						//nodeB->setName("");
 					}
+					if (nodeB->getName() == "Jump") {
+						heroJumped = 1;
+						heroBounced = 1;
+					}
+					else {
+						heroBounced = 0;
+					}
 				}
 			}
 		}
@@ -698,6 +792,7 @@ bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
 	if (*((bool*)contact.getData())){
 		auto nodeA = contact.getShapeA()->getBody()->getNode();
 		auto nodeB = contact.getShapeB()->getBody()->getNode();
+		if (nodeA == nullptr || nodeB == nullptr) return false;
 		if (isHero(nodeB)) std::swap(nodeA, nodeB);
 		if (isHero(nodeA) && isLand(nodeB)) {
 			auto hero = (Hero*)nodeA;
@@ -719,11 +814,11 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
 		leftKeyDown = 1;
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_C) {
 		upKeyDown = 1;
 		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
-		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0))) {
-			heroJump();
+		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0 || heroBounced))) {
+			heroJump(); heroBounced = 0;
 		}
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
@@ -732,8 +827,14 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
 		this->gamePause();
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_S) {
-		hero->shot();
+	if (keyCode == EventKeyboard::KeyCode::KEY_A) {
+		hero->switchType();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_X) {
+		if (hero->getHeroType() == HEROSHOT)
+			hero->shot();
+		else if (hero->getHeroType() == HEROSHIELD)
+			hero->shield();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 		followEnemy->startFollow();
@@ -765,6 +866,7 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
+	log("%d", hero->getOnGround());
 	//died
 	if (heroDied) {
 		heroDie();
@@ -791,7 +893,7 @@ void GameScene::heroUpdate(float dt)
 		}
 	}
 
-	auto delta = 400.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
+	auto delta = 450.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
 	auto velocity = hero->getPhysicsBody()->getVelocity();
 	
 	//velocityX
@@ -809,7 +911,7 @@ void GameScene::heroUpdate(float dt)
 		velocity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velocity.y = 650.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
+		velocity.y = 850.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
 		heroJumped = 0;
 	}
 	velocity.y = std::max(-800.0f, velocity.y);
@@ -856,7 +958,7 @@ void GameScene::regenerateUpdate(float dt)
 		auto heroRect=hero->getBoundingBox(),nodeRect= itor->first->getBoundingBox();
 		itor->second -= dt;
 		if (heroRect.intersectsRect(nodeRect)) {
-			itor->second = 5.0f;
+			itor->second = 3.0f;
 			//log("cant regen");
 		}
 		if (itor->second <= 0) {
@@ -869,6 +971,13 @@ void GameScene::regenerateUpdate(float dt)
 
 void GameScene::messageUpdate(float dt)
 {
+}
+
+void GameScene::timerUpdate(float dt)
+{
+	if ((int)(runningTime + dt) != (int)runningTime)
+		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime + dt)));
+	runningTime += dt;
 }
 
 void GameScene::setRevivePoint(Vec2 revive)

@@ -15,14 +15,14 @@ class GameScene : public cocos2d::Scene
 public:
 	virtual void onEnterTransitionDidFinish();
 	static cocos2d::Scene* createScene();
+	void commonInitAfterMap();
 	virtual bool init();
 	virtual void initMap(const std::string & tmxFile, const Color4B & backgroundColor);
-	//virtual void initMap();
 	virtual void initListener();
 	virtual void initDashboard();
 	virtual void initBackgroundMusic();
 
-	bool onContactBegin(cocos2d::PhysicsContact &contact);
+	virtual bool onContactBegin(cocos2d::PhysicsContact &contact);
 	bool onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve);
 	bool onContactPostSolve(PhysicsContact& contact, const PhysicsContactPostSolve& solve);
 	bool onContactEnd(cocos2d::PhysicsContact &contact);
@@ -32,6 +32,7 @@ public:
 	virtual void mapUpdate(float dt);
 	virtual void regenerateUpdate(float dt);
 	virtual void messageUpdate(float dt);
+	virtual void timerUpdate(float dt);
 
 	void setRevivePoint(Vec2 revive);
 
@@ -51,7 +52,7 @@ public:
 
 	void drawBackGround(ValueVector & arrObj, int zOrder);
 
-	void drawMap(const TMXTiledMap * tileMap);
+	virtual void drawMap(const TMXTiledMap * tileMap);
 
 	CREATE_FUNC(GameScene);
 	PhysicsBody* getBoundBody() {
@@ -66,21 +67,28 @@ public:
 	void setCoinCount(int count) {
 		coinCount = count;
 	}
+	float getRunningTime() {
+		return runningTime;
+	}
+	void setRunningTime(float rtime) {
+		runningTime = rtime;
+		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime)));
+	}
 
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
 	std::vector<Node*> destroyedList;
 	std::vector<std::pair<Node*, float> > regenList;
-	std::vector<SwingLand*> swingLands;
 	Size mapSize;
 	Hero *hero;
 	FollowEnemy *followEnemy;
 	bool upKeyDown, leftKeyDown, rightKeyDown, downKeyDown;
 	cocos2d::EventKeyboard::KeyCode lastKey;
 	Vec2 revivePoint;
-	bool heroDied,heroJumped;
+	bool heroDied,heroJumped,heroBounced;
 	int coinCount,coinTotal;
 	bool needGameKey, gotGameKey;
+	float runningTime;
 };
 
 #endif // __GAME_SCENE_H__

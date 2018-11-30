@@ -41,17 +41,24 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 {	
 	startX = startx; startY = starty; endX = endx; endY = endy;
 	this->setPosition(startX, startY);
-	if (startX < endX)
-		this->getPhysicsBody()->setVelocity(Vec2(50.0f,50.0f*(endY-startY)/(fabs(endX-startX))));
-	else
-		this->getPhysicsBody()->setVelocity(Vec2(-50.0f, -50.0f*(endY - startY) / (fabs(endX - startX))));
+	if (fabs(startX - endX) > 10.0f) {
+		if (startX < endX)
+			this->getPhysicsBody()->setVelocity(Vec2(100.0f, 100.0f*(endY - startY) / (fabs(endX - startX))));
+		else
+			this->getPhysicsBody()->setVelocity(Vec2(-100.0f, -100.0f*(endY - startY) / (fabs(endX - startX))));
+	}
+	else if (fabs(startY - endY) > 10.0f) {
+		if (startY < endY)
+			this->getPhysicsBody()->setVelocity(Vec2(100.0f*(endX - startX) / (fabs(endY - startY)),100.0f));
+		else
+			this->getPhysicsBody()->setVelocity(Vec2(-100.0f*(endX - startX) / (fabs(endY - startY)), -100.0f));
+	}
 	this->unscheduleAllCallbacks();
-	this->schedule(schedule_selector(SlidingLand::update));
+	this->schedule(schedule_selector(SlidingLand::slidingUpdate));
 }
 
-void SlidingLand::update(float dt)
+void SlidingLand::slidingUpdate(float dt)
 {
-	float minX = std::min(startX,endX), maxX = std::max(startX,endX);
 	auto vel = this->getPhysicsBody()->getVelocity();
 	if (stoped) {
 		stopTime += dt;
@@ -61,10 +68,20 @@ void SlidingLand::update(float dt)
 		}
 	}
 	else {
-		if ((this->getPositionX() < minX && vel.x < 0) || (this->getPositionX() > maxX && vel.x > 0)) {
-			tempVelocity = this->getPhysicsBody()->getVelocity();
-			this->getPhysicsBody()->setVelocity(Vec2::ZERO);
-			stoped = 1;
+		if (fabs(startX - endX) > 10.0f) {
+			float minX = std::min(startX, endX), maxX = std::max(startX, endX);
+			if ((this->getPositionX() < minX && vel.x < 0) || (this->getPositionX() > maxX && vel.x > 0)) {
+				tempVelocity = this->getPhysicsBody()->getVelocity();
+				this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+				stoped = 1;
+			}
+		}else if (fabs(startY - endY) > 10.0f) {
+			float minY = std::min(startY, endY), maxY = std::max(startY, endY);
+			if ((this->getPositionY() < minY && vel.y < 0) || (this->getPositionY() > maxY && vel.y > 0)) {
+				tempVelocity = this->getPhysicsBody()->getVelocity();
+				this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+				stoped = 1;
+			}
 		}
 	}
 }

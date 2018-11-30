@@ -43,10 +43,10 @@ void SlidingTrap::setTrack(float posx, float starty, float endy)
 	this->setPosition(posX, startY);
 	this->getPhysicsBody()->setVelocity(Vec2(0.0f,50.0f));
 	//this->unscheduleAllCallbacks();
-	this->schedule(schedule_selector(SlidingTrap::update));
+	this->schedule(schedule_selector(SlidingTrap::slidingUpdate));
 }
 
-void SlidingTrap::update(float dt)
+void SlidingTrap::slidingUpdate(float dt)
 {
 	auto vel = this->getPhysicsBody()->getVelocity();
 	if (stoped) {

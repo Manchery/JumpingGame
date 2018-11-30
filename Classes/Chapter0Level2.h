@@ -14,15 +14,7 @@ class Chapter0Level2 : public GameScene
 {
 public:
 	static cocos2d::Scene* createScene();
-	virtual void onEnterTransitionDidFinish() override;
 	virtual bool init();
-	virtual void initMap(const std::string & tmxFile, const Color4B & backgroundColor) override;
-	virtual void initListener() override;
-	virtual void initBackgroundMusic() override;
-
-	virtual void heroUpdate(float dt) override;
-	virtual void mapUpdate(float dt) override;
-	virtual void regenerateUpdate(float dt) override;
 
 	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;

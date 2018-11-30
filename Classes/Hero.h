@@ -6,8 +6,7 @@
 #define JUMP_LIMIT 2
 
 enum HeroState {
-	SILENCE = 0,
-	RIGHT,
+	RIGHT=0,
 	RIGHTSILENCE,
 	RIGHTJUMP,
 	LEFT,
@@ -16,11 +15,12 @@ enum HeroState {
 	JUMP,
 };
 
-enum HeroType {
-	NORMAL=0,
-	SHOT
-};
+typedef int HeroType;
+#define HERONORMAL 0,
+#define HEROSHOT 1
+#define HEROSHIELD 2
 
+class GameScene;
 class Hero : public cocos2d::Sprite
 {
 public:
@@ -51,16 +51,28 @@ public:
 	void setHeroType(HeroType type);
 	void setSlidingGround(cocos2d::Sprite *_slidingGround);
 	cocos2d::Sprite *getSlidingGround();
+
+	void shield();
+	void unshield(float dt);
+	void switchType();
+	void switchTypeTo(int type);
+	void switchTexture(int idx);
+	bool getTypeUnlocked(int type);
+	bool getShielded() {
+		return shielded;
+	}
 	
 protected:
-	HeroState heroState;
+	HeroState heroState,lastState;
 	int jumpTimes,jumpLimit;
 	int onGround;
-	cocos2d::Animate *rightAnimate,*leftAnimate;
-	cocos2d::Texture2D *rightTexture, *leftTexture, *jumpTexture, *rightJumpTexture,*leftJumpTexture;
+	cocos2d::Animate *rightAnimate[4],*leftAnimate[4];
+	cocos2d::Texture2D *rightTexture[4], *leftTexture[4], *jumpTexture[4], *rightJumpTexture[4],*leftJumpTexture[4];
 	std::string bulletImage;
 	HeroType heroType;
 	cocos2d::Sprite *slidingGround;
+	bool shielded;
+	float lastShieldTime;
 };
 
 #endif // __HERO_H__

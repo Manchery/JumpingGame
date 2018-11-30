@@ -11,11 +11,6 @@ cocos2d::Scene * Chapter0Level1::createScene()
 	return Chapter0Level1::create();
 }
 
-void Chapter0Level1::onEnterTransitionDidFinish()
-{
-	GameScene::onEnterTransitionDidFinish();
-}
-
 bool Chapter0Level1::init()
 {
 	if (!Scene::initWithPhysics())
@@ -24,85 +19,27 @@ bool Chapter0Level1::init()
 	}
 
 	initMap("map/chapter0Level1.tmx", Color4B::Color4B(39, 185, 154, 255));
-	initBackgroundMusic();
-	initDashboard();
-	initListener();
+	coinTotal = chapterCoinTotal[0];
+	commonInitAfterMap();
 
-	revivePoint = hero->getPosition();
-	coinTotal = chapterCoinTotal[0]; coinCount = 0;
-	heroDied = heroJumped = 0;
-	gotGameKey = 0; needGameKey = 0;
-
-	this->schedule(schedule_selector(GameScene::heroUpdate));
-	this->schedule(schedule_selector(GameScene::mapUpdate));
-	this->schedule(schedule_selector(GameScene::regenerateUpdate));
-
-	//messageSingleLine("Press up key to jump");
-	messageDoubleLine("Hello!", "You are now Sticker Knight.");
-	toldMove = toldCoin= toldExit=false;
-
-	this->schedule(schedule_selector(GameScene::messageUpdate));
-
-	logUserDefault();
+	//logUserDefault();
 	return true;
-}
-
-void Chapter0Level1::initMap(const std::string & tmxFile, const Color4B & backgroundColor)
-{
-	GameScene::initMap(tmxFile, backgroundColor);
-}
-
-void Chapter0Level1::initListener()
-{
-	GameScene::initListener();
-}
-
-void Chapter0Level1::initBackgroundMusic()
-{
-
-}
-
-void Chapter0Level1::heroUpdate(float dt)
-{
-	GameScene::heroUpdate(dt);
-}
-
-void Chapter0Level1::mapUpdate(float dt)
-{
-	GameScene::mapUpdate(dt);
-}
-
-void Chapter0Level1::regenerateUpdate(float dt)
-{
-	GameScene::regenerateUpdate(dt);
 }
 
 void Chapter0Level1::messageUpdate(float dt)
 {
-	/*if (!toldMove) {
-		if (hero->getPositionX() >= 6 * 32) {
-			messageDoubleLine("Press right & left key to move", "and up key to jump!");
-			toldMove = 1;
-		}
+	if (!toldHello) {
+		messageDoubleLine("Hello!", "You are now Sticker Knight.");
+		toldHello = 1;
 	}
-	if (!toldCoin) {
-		if (hero->getPositionX() >= 26 * 32) {
-			messageSingleLine("Diamonds! Collect them!");
-			toldCoin = 1;
-		}
-	}
-	if (!toldExit) {
-		if (hero->getPositionX() >= 60 * 32) {
-			messageSingleLine("Keep Going, and explore the castle!");
-			toldExit = 1;
-		}
-	}*/
 }
 
 void Chapter0Level1::switchScene(float dt)
 {
 	Chapter0Level2* scene=(Chapter0Level2*)Chapter0Level2::createScene();
 	scene->setCoinCount(this->coinCount);
+	scene->getHero()->switchTypeTo(hero->getHeroType());
+	scene->setRunningTime(runningTime);
 	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f,scene));
 }
 

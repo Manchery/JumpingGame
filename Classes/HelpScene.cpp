@@ -1,7 +1,7 @@
 #include "HelpScene.h"
 #include "SimpleAudioEngine.h"
-#include "HelloWorldScene.h"
 #include "ui/CocosGUI.h"
+#include <sstream>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -29,11 +29,6 @@ bool HelpScene::init()
 	backGround->setPosition(Vec2::ZERO);
 	this->addChild(backGround, -1);
 
-	auto optionBackGround = Sprite::create("ui/helpBackground.png");
-	optionBackGround->setPosition(visibleSize / 2);
-	optionBackGround->setContentSize(Size(visibleSize.width / 2, visibleSize.height*0.9));
-	this->addChild(optionBackGround, -1);
-
 	//back to main scene
 
 	auto backButton = Button::create("ui/buttonBackNormal.png", "ui/buttonBackSelected.png");
@@ -48,9 +43,46 @@ bool HelpScene::init()
 			break;
 		}
 	});
-	backButton->setPosition(visibleSize/2);
+	backButton->setAnchorPoint(Vec2(0.5,0));
+	backButton->setPosition(Vec2(visibleSize.width/2,80));
 	this->addChild(backButton);
+
+	//page
+
+	helpPageTotal = 5;
+	for (int i = 1; i <= 5; i++) {
+		std::stringstream sstr;
+		sstr << "ui/helppage" << i << ".png";
+		helpPages.push_back(Sprite::create(sstr.str())->getTexture());
+	}
+
+	auto helpPage = Sprite::create("ui/helppage1.png");
+	helpPage->setName("HelpPage");
+	helpPage->setPosition(Vec2(visibleSize/2)+Vec2(0,50));
+	iter = 0;
+	this->addChild(helpPage);
+
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(HelpScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(HelpScene::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
 	return true;
 }
 
+bool HelpScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
+	return true;
+}
+bool HelpScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+		if (iter<helpPageTotal-1)
+		((Sprite*)this->getChildByName("HelpPage"))->setTexture(
+			helpPages[(++iter)%helpPageTotal]);
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+		if (iter>0)
+			((Sprite*)this->getChildByName("HelpPage"))->setTexture(
+				helpPages[(iter+=helpPageTotal-1) %= helpPageTotal]);
+	}
+	return true;
+}

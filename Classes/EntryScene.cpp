@@ -4,6 +4,8 @@
 #include "ui/CocosGUI.h"
 #include "HelloScene.h"
 #include "Chapter0Level1.h"
+#include "Chapter1Level1.h"
+#include "Chapter2Level1.h"
 #include <iostream>
 #include <sstream>
 
@@ -118,17 +120,20 @@ Node * EntryScene::chapterEntry(int idx)
 		button->ignoreContentAdaptWithSize(false);
 		button->setContentSize(size);
 		button->setOpacity(0);
+		button->setTag(idx);
 		button->setPosition(background->getPosition());
 		button->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 			switch (type) {
 			case ui::Widget::TouchEventType::BEGAN:
 				break;
 			case ui::Widget::TouchEventType::ENDED: {
-				Scene* scene;
+				Scene* scene; int idx = ((Button*)sender)->getTag();
 				if (idx==0)
-					scene = Chapter0Level1::createScene();
+					scene = Chapter1Level1::createScene();
+				else if (idx==2)
+					scene= Chapter2Level1::createScene();
 				else
-					scene= Chapter0Level1::createScene();
+					scene = Chapter0Level1::createScene();
 				Director::getInstance()->replaceScene(scene);
 			}break;
 			default:

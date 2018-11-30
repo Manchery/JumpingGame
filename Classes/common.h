@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG true
+#define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY false
 
 #define HERO_T 1
@@ -24,6 +24,7 @@
 
 #define TRAP_T 200
 #define SLIDING_TRAP_T 201
+#define SWING_TRAP_T 202
 
 #define DOOR_T 300
 #define DOOR_KEY_T 301
@@ -39,9 +40,10 @@
 #define EXIT_M 0x100
 #define GAME_KEY_M 0x200
 
-const int chapterCoinTotal[] = { 9+9,12,12,12,12,12,12};
+const int chapterCoinTotal[] = { 9+9,30,12,12,12,12,12};
 
 bool isLand(const cocos2d::Node *node);
+bool isTrap(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);
 bool touchUpSurface(const cocos2d::Node *nodeA, const cocos2d::Node *nodeB);
 

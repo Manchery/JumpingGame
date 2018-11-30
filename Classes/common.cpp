@@ -7,7 +7,11 @@ using namespace CocosDenshion;
 bool isLand(const cocos2d::Node *node) {
 	int tag = node->getTag();
 	return tag == LAND_T || tag == SOFT_LAND_T || tag == SLIDING_LAND_T || tag == DROP_LAND_T ||
-		tag == SWING_LAND_T || tag==TRAP_T || tag==SLIDING_TRAP_T;
+		tag == SWING_LAND_T || tag==TRAP_T || tag==SLIDING_TRAP_T || tag==ENEMY_T;
+}
+bool isTrap(const cocos2d::Node *node) {
+	int tag = node->getTag();
+	return tag == TRAP_T || tag == SLIDING_TRAP_T || tag == SWING_TRAP_T;
 }
 bool isHero(const cocos2d::Node *node) {
 	return node->getTag() == HERO_T;
@@ -21,8 +25,8 @@ bool touchUpSurface(const cocos2d::Node * nodeA, const cocos2d::Node * nodeB){
 		-shapeA->getSize().height/2;
 	auto topSurface = (nodeA->getBoundingBox().getMaxY() + nodeA->getBoundingBox().getMinY()) / 2
 		+ nodeA->getPhysicsBody()->getPositionOffset().y
-		- shapeA->getSize().height / 2;
-	//log("%f %f", underSurface, topSurface);*/
+		- shapeA->getSize().height / 2;*/
+	//log("%f %f", underSurface, topSurface);
 	return (nodeB->getBoundingBox().getMaxY() <= nodeA->getBoundingBox().getMinY() + 10.0f &&
 		nodeB->getBoundingBox().getMaxY() >= nodeA->getBoundingBox().getMinY() - 10.0f);
 	//return (topSurface <= underSurface + 10.0f && topSurface >= underSurface - 10.0f);
@@ -70,4 +74,6 @@ void setGameDefault(){
 		sstr << "chapter" << i << "Pass";
 		userData->setBoolForKey(sstr.str().c_str(), false);
 	}
+	userData->setBoolForKey("canShot", false);
+	userData->setBoolForKey("canShield", false);
 }

@@ -11,7 +11,7 @@ public:
 
 	virtual bool initWithFile(const std::string& filename) override;
 	void setTrack(float startx,float starty,float endx, float endy);
-	void update(float dt);
+	void slidingUpdate(float dt);
 	
 protected:
 	float startY,endY,startX, endX;

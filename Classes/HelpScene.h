@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class HelpScene : public cocos2d::Scene
 {
 public:
@@ -10,8 +12,15 @@ public:
 
 	virtual bool init();
 
+	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event);
+
+	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);
+
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelpScene);
+private:
+	int helpPageTotal,iter;
+	std::vector<Texture2D*> helpPages;
 };
 
 #endif // __HELP_SCENE_H__

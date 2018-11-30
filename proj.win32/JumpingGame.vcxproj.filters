@@ -84,6 +84,12 @@
     <ClCompile Include="..\Classes\EntryScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Chapter2Level1.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Chapter1Level1.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -148,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\EntryScene.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter2Level1.h">
+      <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter1Level1.h">
+      <Filter>src\Chapter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,9 +7,9 @@ USING_NS_CC;
 class Door : public cocos2d::Sprite
 {
 public:
-	static Door* create(const std::string& filename);
+	static Door* create(const std::string& filename, float width, float height);
 
-	virtual bool initWithFile(const std::string& filename) override;
+	bool initWithFile(const std::string& filename, float width, float height);
 	void setTrack(float posx, float starty, float endy);
 
 	void move();
@@ -25,11 +25,11 @@ public:
 	static DoorKey* create(const std::string& filename);
 
 	virtual bool initWithFile(const std::string& filename) override;
-	void setDoor(Door *_door);
+	void addDoor(Door *_door);
 	void lock();
 
 protected:
-	Door* door;
+	std::vector<Door*> doors;
 };
 
 #endif // __SLIDING_TRAP_H__

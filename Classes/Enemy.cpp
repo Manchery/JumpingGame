@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "common.h"
+#include "GameScene.h"
 
 bool Enemy::init() {
 	if (!Sprite::init())
@@ -17,25 +18,26 @@ bool Enemy::init() {
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
 	this->setPhysicsBody(physicsBody);
 
-	heroState = SILENCE;
+	heroState = RIGHTSILENCE;
+	heroType = 0;
 
 	auto rightAnimation = Animation::create();
 	for (int i = 1; i <= 4; i++)
 		rightAnimation->addSpriteFrameWithFile("hero/EnemyRight" + std::to_string(i) + ".png");
 	rightAnimation->setDelayPerUnit(0.2f);
-	rightAnimate = Animate::create(rightAnimation);
-	rightAnimate->retain();
+	rightAnimate[0] = Animate::create(rightAnimation);
+	rightAnimate[0]->retain();
 
 
 	auto leftAnimation = Animation::create();
 	for (int i = 1; i <= 4; i++)
 		leftAnimation->addSpriteFrameWithFile("hero/EnemyLeft" + std::to_string(i) + ".png");
 	leftAnimation->setDelayPerUnit(0.2f);
-	leftAnimate = Animate::create(leftAnimation);
-	leftAnimate->retain();
+	leftAnimate[0] = Animate::create(leftAnimation);
+	leftAnimate[0]->retain();
 
-	rightTexture = Sprite::create("hero/EnemyRightSilence.png")->getTexture(); rightTexture->retain();
-	leftTexture = Sprite::create("hero/EnemyLeftSilence.png")->getTexture(); leftTexture->retain();
+	rightTexture[0] = Sprite::create("hero/EnemyRightSilence.png")->getTexture(); rightTexture[0]->retain();
+	leftTexture[0] = Sprite::create("hero/EnemyLeftSilence.png")->getTexture(); leftTexture[0]->retain();
 
 	this->schedule(schedule_selector(Enemy::randomTravel), 4.0f);
 

@@ -4,10 +4,10 @@
 #include <algorithm>
 USING_NS_CC;
 
-Door* Door::create(const std::string& filename)
+Door* Door::create(const std::string& filename, float width, float height)
 {
 	Door *sprite = new (std::nothrow) Door();
-	if (sprite && sprite->initWithFile(filename))
+	if (sprite && sprite->initWithFile(filename,width,height))
 	{
 		sprite->autorelease();
 		return sprite;
@@ -16,10 +16,11 @@ Door* Door::create(const std::string& filename)
 	return nullptr;
 }
 
-bool Door::initWithFile(const std::string & filename)
+bool Door::initWithFile(const std::string & filename, float width, float height)
 {
 	if (!Sprite::initWithFile(filename))
 		return false;
+	this->setContentSize(Size(width, height));
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	//physicsBody->setGravityEnable(false);
@@ -81,13 +82,17 @@ bool DoorKey::initWithFile(const std::string & filename)
 
 	this->setTag(DOOR_KEY_T);
 
+	doors.clear();
+
 	return true;
 }
 
-void DoorKey::setDoor(Door * _door){
-	_door->retain(); door = _door;
+void DoorKey::addDoor(Door * door)
+{
+	door->retain(); doors.push_back(door);
 }
 
 void DoorKey::lock(){
-	door->move();
+	for (auto door:doors)
+		door->move();
 }

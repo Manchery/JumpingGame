@@ -9,12 +9,6 @@ cocos2d::Scene * Chapter0Level2::createScene()
 {
 	return Chapter0Level2::create();
 }
-
-void Chapter0Level2::onEnterTransitionDidFinish()
-{
-	GameScene::onEnterTransitionDidFinish();
-}
-
 bool Chapter0Level2::init()
 {
 	if (!Scene::initWithPhysics())
@@ -23,49 +17,10 @@ bool Chapter0Level2::init()
 	}
 
 	initMap("map/chapter0Level2.tmx",Color4B::Color4B(53,73,94,255));
-	initBackgroundMusic();
-	initDashboard();
-	initListener();
-
-	revivePoint = hero->getPosition();
-	coinTotal = chapterCoinTotal[0]; coinCount = 0;
-	heroDied = heroJumped = 0;
-	gotGameKey = 0; needGameKey = 1;
-
-	this->schedule(schedule_selector(GameScene::heroUpdate));
-	this->schedule(schedule_selector(GameScene::mapUpdate));
-	this->schedule(schedule_selector(GameScene::regenerateUpdate));
+	coinTotal = chapterCoinTotal[0];
+	commonInitAfterMap();
 
 	return true;
-}
-
-void Chapter0Level2::initMap(const std::string & tmxFile, const Color4B & backgroundColor)
-{
-	GameScene::initMap(tmxFile, backgroundColor);
-}
-
-void Chapter0Level2::initListener()
-{
-	GameScene::initListener();
-}
-
-void Chapter0Level2::initBackgroundMusic()
-{
-}
-
-void Chapter0Level2::heroUpdate(float dt)
-{
-	GameScene::heroUpdate(dt);
-}
-
-void Chapter0Level2::mapUpdate(float dt)
-{
-	GameScene::mapUpdate(dt);
-}
-
-void Chapter0Level2::regenerateUpdate(float dt)
-{
-	GameScene::regenerateUpdate(dt);
 }
 
 void Chapter0Level2::switchScene(float dt)

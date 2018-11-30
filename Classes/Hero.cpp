@@ -1,5 +1,6 @@
 #include "Hero.h"
 #include "common.h"
+#include "GameScene.h"
 USING_NS_CC;
 
 bool Hero::init() {
@@ -22,32 +23,34 @@ bool Hero::init() {
 
 	jumpTimes = 0;
 	jumpLimit = JUMP_LIMIT;
-	heroState = SILENCE;
+	heroState = RIGHTSILENCE;
 	onGround = 0;
 
-	auto rightAnimation = Animation::create();
-	for (int i = 1; i <= 4; i++)
-		rightAnimation->addSpriteFrameWithFile("hero/HeroRight" + std::to_string(i) + ".png");
-	rightAnimation->setDelayPerUnit(0.2f);
-	rightAnimate = Animate::create(rightAnimation);
-	rightAnimate->retain();
+	std::string suf[] = { "","Shot","Shield","Protected"};
+	for (int i = 0; i < 4; i++) {
+		auto rightAnimation = Animation::create();
+		for (int j = 1; j <= 4; j++)
+			rightAnimation->addSpriteFrameWithFile("hero/HeroRight" + std::to_string(j) + suf[i]+".png");
+		rightAnimation->setDelayPerUnit(0.2f);
+		rightAnimate[i] = Animate::create(rightAnimation);
+		rightAnimate[i]->retain();
 
+		auto leftAnimation = Animation::create();
+		for (int j = 1; j <= 4; j++)
+			leftAnimation->addSpriteFrameWithFile("hero/HeroLeft" + std::to_string(j) + suf[i] + ".png");
+		leftAnimation->setDelayPerUnit(0.2f);
+		leftAnimate[i] = Animate::create(leftAnimation);
+		leftAnimate[i]->retain();
 
-	auto leftAnimation = Animation::create();
-	for (int i = 1; i <= 4; i++)
-		leftAnimation->addSpriteFrameWithFile("hero/HeroLeft" + std::to_string(i) + ".png");
-	leftAnimation->setDelayPerUnit(0.2f);
-	leftAnimate = Animate::create(leftAnimation);
-	leftAnimate->retain();
+		rightTexture[i] = Sprite::create("hero/HeroRightSilence"+ suf[i] + ".png")->getTexture(); rightTexture[i]->retain();
+		leftTexture[i] = Sprite::create("hero/HeroLeftSilence" + suf[i] + ".png")->getTexture(); leftTexture[i]->retain();
+		jumpTexture[i] = Sprite::create("hero/HeroJump" + suf[i] + ".png")->getTexture(); jumpTexture[i]->retain();
+		rightJumpTexture[i] = Sprite::create("hero/HeroRightJump" + suf[i] + ".png")->getTexture(); rightJumpTexture[i]->retain();
+		leftJumpTexture[i] = Sprite::create("hero/HeroLeftJump" + suf[i] + ".png")->getTexture(); leftJumpTexture[i]->retain();
+	}
 
-	rightTexture = Sprite::create("hero/HeroRightSilence.png")->getTexture(); rightTexture->retain();
-	leftTexture = Sprite::create("hero/HeroLeftSilence.png")->getTexture(); leftTexture->retain();
-	jumpTexture = Sprite::create("hero/HeroJump.png")->getTexture(); jumpTexture->retain();
-	rightJumpTexture = Sprite::create("hero/HeroRightJump.png")->getTexture(); rightJumpTexture->retain();
-	leftJumpTexture = Sprite::create("hero/HeroLeftJump.png")->getTexture(); leftJumpTexture->retain();
-	//backTexture = Sprite::create("hero/Blue_Back1.png")->getTexture(); backTexture->retain();
 	bulletImage = "hero/bullet.png";
-
+	lastShieldTime = -100.0f;
 	this->setTag(HERO_T);
 
 	return true;
@@ -56,43 +59,79 @@ bool Hero::init() {
 void Hero::right() {
 	if (heroState != RIGHT) {
 		this->stopAllActions();
-		this->runAction(RepeatForever::create(rightAnimate->clone()));
+		this->runAction(RepeatForever::create(rightAnimate[heroType+shielded]->clone()));
+		if (heroState != RIGHT) lastState = heroState;
 		heroState = RIGHT;
 	}
 }
 void Hero::left() {
 	if (heroState != LEFT) {
 		this->stopAllActions();
-		this->runAction(RepeatForever::create(leftAnimate->clone()));
+		this->runAction(RepeatForever::create(leftAnimate[heroType + shielded]->clone()));
+		if (heroState != LEFT) lastState = heroState;
 		heroState = LEFT;
 	}
 }
 void Hero::rightSilence(){
 	this->stopAllActions();
-	this->setTexture(rightTexture);
+	this->setTexture(rightTexture[heroType + shielded]);
+	if (heroState != RIGHTSILENCE) lastState = heroState;
 	heroState = RIGHTSILENCE;
 }
 void Hero::leftSilence() {
 	this->stopAllActions();
-	this->setTexture(leftTexture);
+	this->setTexture(leftTexture[heroType + shielded]);
+	if (heroState != LEFTSILENCE) lastState = heroState;
 	heroState = LEFTSILENCE;
 }
 void Hero::jump() {
 	this->stopAllActions();
-	this->setTexture(jumpTexture);
+	this->setTexture(jumpTexture[heroType + shielded]);
+	if (heroState != JUMP) lastState = heroState;
 	heroState = JUMP;
 }
 void Hero::rightJump() {
 	this->stopAllActions();
-	this->setTexture(rightJumpTexture);
+	this->setTexture(rightJumpTexture[heroType + shielded]);
+	if (heroState != RIGHTJUMP) lastState = heroState;
 	heroState = RIGHTJUMP;
 }
 void Hero::leftJump() {
 	this->stopAllActions();
-	this->setTexture(leftJumpTexture);
+	this->setTexture(leftJumpTexture[heroType + shielded]);
+	if (heroState != LEFTJUMP) lastState = heroState;
 	heroState = LEFTJUMP;
 }
+void Hero::switchType(){
+	shielded = false;
+	this->unscheduleAllCallbacks();
+	(++heroType) %= 3;
+	while (!getTypeUnlocked(heroType)) (++heroType) %= 3;
+	switchTexture(heroType);
+}
+void Hero::switchTypeTo(int type) {
+	shielded = false;
+	this->unscheduleAllCallbacks();
+	heroType = type;
+	switchTexture(heroType);
+}
+void Hero::switchTexture(int idx){
+	this->stopAllActions();
+	if (heroState == RIGHT) { this->runAction(RepeatForever::create(rightAnimate[idx]->clone())); }
+	else if (heroState == LEFT) { this->runAction(RepeatForever::create(leftAnimate[idx]->clone())); }
+	else if (heroState == RIGHTSILENCE) { this->setTexture(rightTexture[idx]); }
+	else if (heroState == LEFTSILENCE) { this->setTexture(leftTexture[idx]); }
+	else if (heroState == JUMP) { this->setTexture(jumpTexture[idx]); }
+	else if (heroState == RIGHTJUMP) { this->setTexture(rightJumpTexture[idx]); }
+	else if (heroState == LEFTJUMP) { this->setTexture(leftJumpTexture[idx]); }
+}
+bool Hero::getTypeUnlocked(int type){
+	if (!type) return true;
+	std::string types[] = { "Normal","Shot","Shield" };
+	return UserDefault::getInstance()->getBoolForKey(("can"+types[type]).c_str());
+}
 void Hero::shot() {
+	if (heroType != HEROSHOT) return;
 	auto bullet = Sprite::create(bulletImage);
 	bullet->setTag(BULLET_T);
 
@@ -107,7 +146,8 @@ void Hero::shot() {
 	auto parent = this->getParent();
 	auto heroPosition = Vec2(this->getPosition().x+this->getContentSize().width/2,
 		this->getPosition().y+this->getContentSize().height/2);
-	if (heroState == LEFT || heroState == LEFTSILENCE || heroState == LEFTJUMP) {
+	if ((heroState==JUMP && (lastState == LEFT || lastState == LEFTSILENCE || lastState == LEFTJUMP))
+		|| heroState == LEFT || heroState == LEFTSILENCE || heroState == LEFTJUMP) {
 		float sx = heroPosition.x - this->getContentSize().width / 2 - bullet->getContentSize().width / 2 - 10.0f;
 		float sy = heroPosition.y;
 		bullet->setFlippedX(true);
@@ -123,6 +163,20 @@ void Hero::shot() {
 	parent->addChild(bullet, 10);
 }
 
+void Hero::shield() {
+	if (heroType != HEROSHIELD) return;
+	if (shielded) return;
+	float runningTime = ((GameScene*)(Director::getInstance()->getRunningScene()))->getRunningTime();
+	if (runningTime - lastShieldTime < 30.0f) return;
+	lastShieldTime = runningTime;
+	shielded = true;
+	switchTexture(3);
+	this->scheduleOnce(schedule_selector(Hero::unshield),3.0f);
+}
+void Hero::unshield(float dt){
+	switchTexture(HEROSHIELD);
+	shielded = false;
+}
 HeroState Hero::getHeroState() { return heroState; }
 HeroType Hero::getHeroType() { return heroType; }
 void Hero::setHeroType(HeroType type){ heroType = type; }
