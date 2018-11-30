@@ -68,15 +68,14 @@ bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 	if ((nodeA->getTag() == HERO_T && nodeB->getName() == "EnableShot") ||
 		(nodeB->getTag() == HERO_T && nodeA->getName() == "EnableShot")) {
 		if (!UserDefault::getInstance()->getBoolForKey("canShot")) {
-			UserDefault::getInstance()->setBoolForKey("canShot", true);
+			gotShot = 1;
+			//UserDefault::getInstance()->setBoolForKey("canShot", true);
 			messageSingleLine("Sword!");
 		}
 		return false;
 	}
 	return true;
 }
-
-
 
 void Chapter1Level1::switchScene(float dt)
 {
@@ -90,5 +89,7 @@ void Chapter1Level1::gamePass()
 	userData->setBoolForKey("chapter1Pass", true);
 	auto record = userData->getIntegerForKey("chapter1CoinCount");
 	userData->setIntegerForKey("chapter1CoinCount", std::max(record, coinCount));
+
+	UserDefault::getInstance()->setBoolForKey("canShot", true);
 }
 

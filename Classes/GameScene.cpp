@@ -16,7 +16,7 @@
 #include <algorithm>
 using namespace CocosDenshion;
 
-#define PHYSICS_SUBSTEPS 5
+#define PHYSICS_SUBSTEPS 10
 
 void GameScene::onEnterTransitionDidFinish()
 {
@@ -58,6 +58,7 @@ void GameScene::commonInitAfterMap(){
 	revivePoint = hero->getPosition();
 	heroDied = heroJumped = heroBounced = 0;
 	gotGameKey = 0; needGameKey = 0;
+	gotShot = lastGotShot = gotShield = lastGotShield = 0;
 
 	this->schedule(schedule_selector(GameScene::heroUpdate));
 	this->schedule(schedule_selector(GameScene::mapUpdate));
@@ -319,6 +320,34 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 		sprite->setPhysicsBody(physicsBody);
 		frontGroundLayer->addChild(sprite, 0);
 	}
+	if (tileMap->getObjectGroup("water") != nullptr) {
+		arrObj = tileMap->getObjectGroup("water")->getObjects();
+		for (auto object : arrObj)
+		{
+			auto dic = object.asValueMap();
+			float width = dic.at("width").asFloat();
+			float height = dic.at("height").asFloat();
+			float x = dic.at("x").asFloat();
+			float y = dic.at("y").asFloat()+height;
+
+			auto water = Sprite::create("map/blue.png");
+			water->setOpacity(78); //0.3
+			water->setContentSize(Size(width, height));
+			water->setAnchorPoint(Vec2::ZERO);
+			water->setPosition(x, y);
+			auto physicsBody = PhysicsBody::createBox(water->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+
+			water->setTag(WATER_T);
+
+			physicsBody->setDynamic(false);
+			physicsBody->setCategoryBitmask(WATER_M);
+			physicsBody->setCollisionBitmask(HERO_M);
+			physicsBody->setContactTestBitmask(HERO_M);
+
+			water->setPhysicsBody(physicsBody);
+			backGroundLayer->addChild(water, -100);
+		}
+	}
 }
 
 bool GameScene::init()
@@ -385,186 +414,6 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 	//map
 	drawMap(tileMap);
 }
-/*void GameScene::initMap() {
-	Size mapSize = frontGroundLayer->getContentSize();
-
-	//background 
-	auto backGround = Sprite::create("parkour_images/about.jpg");
-	backGround->setContentSize(mapSize);
-	backGround->setAnchorPoint(Vec2::ZERO);
-	backGround->setPosition(Vec2::ZERO);
-	backGroundLayer->addChild(backGround, -1);
-
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// create a node to hold non-sprites.
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	auto nodeItems = Node::create();
-	nodeItems->setName("nodeItems");
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// create a path/walkway
-	// depending upon how large the screen is we need to decide how many blocks to lay down.
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	auto testSprite = Sprite::create("chapter2/ZigzagForest_Square.png");
-
-	int howMany = std::ceil(mapSize.width / testSprite->getContentSize().width);
-
-	int sX = 0; // act as a counter for setPosition x coordinate.
-	int sY = 0; // act as a counter for setPosition y coordinate.
-
-	auto playingSize = Size(mapSize.width, mapSize.height - testSprite->getContentSize().height);
-
-	for (int i = 0; i < howMany; i++)
-	{
-		if (i==4 || i==5) {
-			auto slidingTrap = SlidingTrap::create("chapter2/Dark_ZigzagForest_Square.png");
-			slidingTrap->setAnchorPoint(Vec2(0, 0));
-			slidingTrap->setTrack(sX, sY + testSprite->getContentSize().height-slidingTrap->getContentSize().height-5.0f,
-				sY + testSprite->getContentSize().height);
-			slidingTrap->setTag(SLIDING_TRAP_T);
-			frontGroundLayer->addChild(slidingTrap, -1);
-		}
-		auto sprite = Sprite::create("chapter2/ZigzagForest_Square.png");
-		sprite->setAnchorPoint(Vec2(0, 0));
-		sprite->setPosition(sX, sY);
-		sprite->setTag(LAND_T);
-
-		if (i == howMany - 2 || i == howMany - 3) {
-			sprite = Sprite::create("chapter2/Dark_ZigzagForest_Square.png");
-			sprite->setAnchorPoint(Vec2(0, 0));
-			sprite->setPosition(sX, sY);
-			sprite->setTag(TRAP_T);
-		}
-		if (i == howMany - 4) {
-			auto door = Door::create("parkour_images/newgameB_rotate.png");
-			door->setAnchorPoint(Vec2(0, 0));
-			door->setTrack(sX, sY+testSprite->getContentSize().height,sY + testSprite->getContentSize().height +100);
-			door->setTag(DOOR_T);
-			auto doorKey = DoorKey::create("parkour_images/accelerate.png");
-			doorKey->setAnchorPoint(Vec2::ZERO);
-			doorKey->setPosition(door->getPositionX()-100,door->getPositionY());
-			doorKey->setDoor(door);
-			doorKey->setTag(DOOR_KEY_T);
-
-			frontGroundLayer->addChild(doorKey, 1);
-			frontGroundLayer->addChild(door, 1);
-		}
-		
-		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
-		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(LAND_M);
-		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
-		physicsBody->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setPhysicsBody(physicsBody);
-
-		sX += sprite->getContentSize().width;
-
-		if (i == 2 || i == 3) continue; 
-		nodeItems->addChild(sprite, -1);
-	}
-
-	testSprite = NULL;
-
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// create a few blocks as obstables
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	testSprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
-
-	auto slidingLand = SlidingLand::create("parkour_images/block_spring.png");
-	slidingLand->setAnchorPoint(Vec2::ZERO);
-	slidingLand->setTrack(mapSize.width / 4 - testSprite->getContentSize().width+100, 160,
-		mapSize.width / 2 - testSprite->getContentSize().width - 100,
-		(playingSize.height / 2 + playingSize.height / 4) - testSprite->getContentSize().height * 2);
-	slidingLand->setTag(SLIDING_LAND_T);
-	frontGroundLayer->addChild(slidingLand, 1);
-
-	// left side blocks
-	sX = mapSize.width / 4 - testSprite->getContentSize().width;
-	//sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
-	sY = mapSize.height - playingSize.height;
-
-	for (int i = 0; i < 3; i++)
-	{
-
-		auto sprite = DropLand::create("parkour_images/block_winter.png");
-		sprite->setAnchorPoint(Vec2(0, 0));
-		sprite->setPosition(sX, sY);
-
-		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
-		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(LAND_M);
-		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
-		sprite->setPhysicsBody(physicsBody);
-		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(DROP_LAND_T);
-
-		sX += sprite->getContentSize().width;
-
-		if (i == 1)
-		{
-			sprite->setName("middleBlock1");
-		}
-
-		nodeItems->addChild(sprite, 1);
-	}
-
-	// right side blocks
-	sX = (mapSize.width / 2 + mapSize.width / 4) - testSprite->getContentSize().width;
-	sY = playingSize.height / 2 - testSprite->getContentSize().height * 2;
-
-	for (int i = 0; i < 3; i++)
-	{
-
-		auto sprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
-		sprite->setAnchorPoint(Vec2(0, 0));
-		sprite->setPosition(sX, sY);
-
-		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
-		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(LAND_M);
-		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
-		sprite->setPhysicsBody(physicsBody);
-		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(SOFT_LAND_T);
-
-		sX += sprite->getContentSize().width;
-
-		if (i == 1)
-		{
-			sprite->setName("middleBlock2");
-		}
-
-		nodeItems->addChild(sprite, 1);
-	}
-
-	// center blocks
-	sX = mapSize.width / 2 - testSprite->getContentSize().width;
-	sY = (playingSize.height / 2 + playingSize.height / 4) - testSprite->getContentSize().height * 2;
-
-	for (int i = 0; i < 3; i++)
-	{
-		auto sprite = Sprite::create("chapter2/ZigzagGrass_Mud_Round.png");
-		sprite->setAnchorPoint(Vec2(0, 0));
-		sprite->setPosition(sX, sY);
-
-		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
-		physicsBody->setDynamic(false);
-		physicsBody->setCategoryBitmask(LAND_M);
-		physicsBody->setCollisionBitmask(HERO_M | ENEMY_M | BULLET_M);
-		sprite->setPhysicsBody(physicsBody);
-		sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		sprite->setTag(SOFT_LAND_T);
-
-		sX += sprite->getContentSize().width;
-
-		nodeItems->addChild(sprite, 1);
-	}
-
-	testSprite = NULL;
-	frontGroundLayer->addChild(nodeItems, 1);
-}*/
 void GameScene::initListener() {
 	//contactlistener
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -675,6 +524,12 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 
 	if (isHero(nodeA)) {
 		auto hero = (Hero*)nodeA;
+		if (nodeB->getTag() == WATER_T) {
+			hero->addInWater();
+			bool *heroSetInWater = new bool(true);
+			contact.setData(heroSetInWater);
+			return false;
+		}
 		if (nodeB->getTag() == ENEMY_T) {
 			/*if (touchUpSurface(hero, nodeB)) {
 				nodeB->retain();
@@ -771,6 +626,8 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 					if (nodeB->getName() == "RevivePoint") {
 						setRevivePoint(Vec2(nodeB->getPositionX()+nodeB->getContentSize().width/2-hero->getContentSize().width/2,
 							nodeB->getPositionY()+nodeB->getContentSize().height+20.0f));
+						lastGotShot = gotShot;
+						lastGotShield = gotShield;
 						//nodeB->setName("");
 					}
 					if (nodeB->getName() == "Jump") {
@@ -800,6 +657,10 @@ bool GameScene::onContactEnd(cocos2d::PhysicsContact &contact) {
 			if (nodeB->getTag() == SLIDING_LAND_T) {
 				hero->setSlidingGround(nullptr);
 			}
+		}
+		else if (isHero(nodeA) && nodeB->getTag() == WATER_T) {
+			auto hero = (Hero*)nodeA;
+			hero->decInWater();
 		}
 		delete contact.getData();
 	}
@@ -866,12 +727,16 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
-	log("%d", hero->getOnGround());
+	log("%d", hero->getInWater());
 	//died
 	if (heroDied) {
 		heroDie();
 		return;
 	}
+	//water
+	//if (hero->getInWater()) {
+	//	hero->getPhysicsBody()->setLinearDamping(0.3f);
+	//}
 	//heroTexture
 	if (!hero->getOnGround()) {
 		if (rightKeyDown)
@@ -893,7 +758,8 @@ void GameScene::heroUpdate(float dt)
 		}
 	}
 
-	auto delta = 450.0f*(1.0f-hero->getPhysicsBody()->getLinearDamping());
+	auto delta = 450.0f;
+	if (hero->getInWater()) delta *= 0.5;
 	auto velocity = hero->getPhysicsBody()->getVelocity();
 	
 	//velocityX
@@ -911,10 +777,14 @@ void GameScene::heroUpdate(float dt)
 		velocity.y = slidingVel.y;
 	}
 	if (heroJumped) {
-		velocity.y = 850.0f*(1.0f - hero->getPhysicsBody()->getLinearDamping());
+		velocity.y = 850.0f;
+		if (hero->getInWater()) velocity.y *= 0.8;
 		heroJumped = 0;
 	}
-	velocity.y = std::max(-800.0f, velocity.y);
+	if (hero->getInWater())
+		velocity.y = std::max(-800.0f*0.4f, velocity.y);
+	else
+		velocity.y = std::max(-800.0f, velocity.y);
 
 	hero->getPhysicsBody()->setVelocity(velocity);
 }
@@ -988,7 +858,8 @@ void GameScene::setRevivePoint(Vec2 revive)
 
 void GameScene::addRenerate(Node * node){
 	node->removeFromParent();
-	regenList.push_back(std::make_pair(node, 5.0f));
+	node->retain();
+	regenList.push_back(std::make_pair(node, 3.0f));
 }
 
 Vec2 GameScene::getHeroGlobalPosition() {
@@ -1002,7 +873,13 @@ void GameScene::heroDie() {
 	if (followEnemy != nullptr)
 		followEnemy->stopFollow();
 	Director::getInstance()->pushScene(ReviveScene::createScene());
-	hero->resetOnGround();
+	gotShot = lastGotShot;
+	gotShield = lastGotShield;
+	if (hero->getHeroType() == HEROSHOT && !lastGotShot)
+		hero->switchTypeTo(0);
+	if (hero->getHeroType() == HEROSHIELD && !lastGotShield)
+		hero->switchTypeTo(0);
+	hero->resetOnGround(); hero->resetInWater();
 	hero->setPosition(revivePoint);
 	//heroDied = 0; // onEnter
 }

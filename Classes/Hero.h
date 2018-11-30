@@ -43,6 +43,18 @@ public:
 	void resetJumpTimes();
 	int getJumpLimit();
 	void setJumpLimit(int times);
+	void addInWater() {
+		inWater++;
+	}
+	void decInWater() {
+		inWater--;
+	}
+	void resetInWater() {
+		inWater = 0;
+	}
+	int getInWater() {
+		return inWater;
+	}
 	void addOnGround();
 	void decOnGround();
 	void resetOnGround();
@@ -65,7 +77,7 @@ public:
 protected:
 	HeroState heroState,lastState;
 	int jumpTimes,jumpLimit;
-	int onGround;
+	int onGround,inWater;
 	cocos2d::Animate *rightAnimate[4],*leftAnimate[4];
 	cocos2d::Texture2D *rightTexture[4], *leftTexture[4], *jumpTexture[4], *rightJumpTexture[4],*leftJumpTexture[4];
 	std::string bulletImage;

@@ -129,7 +129,7 @@ Node * EntryScene::chapterEntry(int idx)
 			case ui::Widget::TouchEventType::ENDED: {
 				Scene* scene; int idx = ((Button*)sender)->getTag();
 				if (idx==0)
-					scene = Chapter1Level1::createScene();
+					scene = Chapter2Level1::createScene();
 				else if (idx==2)
 					scene= Chapter2Level1::createScene();
 				else

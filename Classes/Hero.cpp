@@ -16,8 +16,8 @@ bool Hero::init() {
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(HERO_M);
-	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | COIN_M | EXIT_M | GAME_KEY_M);
-	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M | COIN_M | EXIT_M | GAME_KEY_M);
+	physicsBody->setCollisionBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | COIN_M | EXIT_M | GAME_KEY_M | WATER_M);
+	physicsBody->setContactTestBitmask(ENEMY_M | LAND_M | BULLET_M | DOOR_M | DOOR_KEY_M | COIN_M | EXIT_M | GAME_KEY_M | WATER_M);
 	//physicsBody->setCollisionBitmask(0x06);   // 0110
 	this->setPhysicsBody(physicsBody);
 
@@ -127,8 +127,14 @@ void Hero::switchTexture(int idx){
 }
 bool Hero::getTypeUnlocked(int type){
 	if (!type) return true;
-	std::string types[] = { "Normal","Shot","Shield" };
-	return UserDefault::getInstance()->getBoolForKey(("can"+types[type]).c_str());
+	GameScene *scene = (GameScene*)(Director::getInstance()->getRunningScene());
+	if (type == 1) {
+		return UserDefault::getInstance()->getBoolForKey("canShot") || scene->getGotShot();
+	}
+	else if (type == 2) {
+		return UserDefault::getInstance()->getBoolForKey("canShield") || scene->getGotShield();
+	}
+	return false;
 }
 void Hero::shot() {
 	if (heroType != HEROSHOT) return;

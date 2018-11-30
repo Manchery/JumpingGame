@@ -74,6 +74,12 @@ public:
 		runningTime = rtime;
 		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime)));
 	}
+	bool getGotShot() {
+		return gotShot;
+	}
+	bool getGotShield() {
+		return gotShield;
+	}
 
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
@@ -88,6 +94,7 @@ protected:
 	bool heroDied,heroJumped,heroBounced;
 	int coinCount,coinTotal;
 	bool needGameKey, gotGameKey;
+	bool gotShot, lastGotShot, gotShield, lastGotShield;
 	float runningTime;
 };
 

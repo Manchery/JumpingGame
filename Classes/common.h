@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG false
+#define PHYSICS_DRAW_DEBUG true
 #define AUDIO_PLAY false
 
 #define HERO_T 1
@@ -29,6 +29,8 @@
 #define DOOR_T 300
 #define DOOR_KEY_T 301
 
+#define WATER_T 400
+
 #define HERO_M 0x01
 #define LAND_M 0x02
 #define ENEMY_M 0x04
@@ -39,6 +41,7 @@
 #define COIN_M 0x80
 #define EXIT_M 0x100
 #define GAME_KEY_M 0x200
+#define WATER_M 0x400
 
 const int chapterCoinTotal[] = { 9+9,30,12,12,12,12,12};
 

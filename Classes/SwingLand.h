@@ -16,11 +16,9 @@ public:
 	void swingAnticlockwise();
 	void stopSwing();
 	void swingUpdate(float dt);
-	PhysicsJointPin *pin;
 private:
 	float clock;
 	int state;
-	Vec2 position;
 };
 
 #endif // __SWING_LAND_H__

@@ -36,19 +36,11 @@ void DropLand::remove() {
 	this->retain();
 	auto scene = (GameScene*)Director::getInstance()->getRunningScene();
 	scene->addRenerate(this);
-	//this->removeFromParent();
-	//this->schedule(schedule_selector(DropLand::regenerate));
 }
 void DropLand::drop() {
-	/*auto tintTo0 = TintTo::create(0.0f, 255.0f, 255.0f, 255.0f);
-	auto tintTo1 = TintTo::create(0.1f, 120.0f, 232.0f, 254.0f);
-	auto tintTo2 = TintTo::create(0.1f, 232.0f, 120.0f, 254.0f);
-	auto tintTo3 = TintTo::create(0.1f, 232.0f, 254.0f, 120.0f);
-	*/
 	auto delay = DelayTime::create(0.5f);
 	auto blink=Blink::create(0.1f, 1);
 	auto seq = Sequence::create(delay, blink, delay->clone(), blink, delay->clone(), blink,
-		delay->clone(), blink,CallFunc::create(CC_CALLBACK_0(DropLand::remove,this)),nullptr);
-	//auto seq = Sequence::create(blink, CallFunc::create(CC_CALLBACK_0(DropLand::remove, this)), nullptr);
+		delay->clone(), blink, delay->clone(),CallFunc::create(CC_CALLBACK_0(DropLand::remove,this)),nullptr);
 	this->runAction(seq);
 }
