@@ -7,9 +7,9 @@ USING_NS_CC;
 class SlidingTrap : public cocos2d::Sprite
 {
 public:
-	static SlidingTrap* create(const std::string& filename);
+	static SlidingTrap* create(const std::string& filename, float width, float height);
 
-	virtual bool initWithFile(const std::string& filename) override;
+	bool initWithFile(const std::string& filename, float width, float height);
 	void setTrack(float posx, float starty, float endy);
 	void slidingUpdate(float dt);
 	

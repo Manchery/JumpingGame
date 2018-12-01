@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="96" height="138" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="19" nextobjectid="1209">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="96" height="138" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="19" nextobjectid="1278">
  <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="63" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
@@ -191,7 +191,7 @@
    <image width="384" height="48" source="row1.png"/>
   </tile>
  </tileset>
- <objectgroup id="18" name="water" opacity="0.3">
+ <objectgroup id="18" name="water" visible="0" opacity="0.3">
   <object id="1048" type="blue" gid="4" x="426" y="2352" width="941" height="1486"/>
   <object id="1049" type="blue" gid="4" x="1367" y="4261" width="1586" height="2820"/>
   <object id="1050" type="blue" gid="4" x="-139" y="4196" width="1506" height="654"/>
@@ -218,106 +218,76 @@
   <object id="1117" type="castleWall" gid="6" x="2443.88" y="4098.56" width="304.25" height="664.89" rotation="-270"/>
   <object id="1118" type="castleWall" gid="6" x="2027.88" y="4259.56" width="148.25" height="664.89" rotation="-270"/>
  </objectgroup>
- <objectgroup id="2" name="ground" visible="0">
-  <object id="277" type="platformBlock4" gid="37" x="724" y="3505" width="128" height="96"/>
-  <object id="278" type="column1" gid="8" x="5369.47" y="662" width="133.635" height="200.453"/>
-  <object id="279" type="column2" gid="9" x="735" y="3122" width="128" height="204"/>
-  <object id="280" type="platformBlock3" gid="36" x="724" y="3219" width="128" height="96"/>
-  <object id="286" type="column1" gid="8" x="1380" y="1621" width="128" height="192"/>
-  <object id="273" type="column2" gid="9" x="2331" y="1531" width="128" height="192"/>
-  <object id="272" type="column1" gid="8" x="4999" y="3636" width="128" height="192"/>
-  <object id="274" type="platformBlock3" gid="36" x="2318" y="1339" width="128" height="84"/>
-  <object id="271" type="platformBlock4" gid="37" x="2319" y="1627" width="128" height="96"/>
-  <object id="466" type="column2" gid="9" x="1957" y="3271" width="128" height="192"/>
-  <object id="467" type="column1" gid="8" x="735" y="3410" width="128" height="192"/>
-  <object id="480" type="column2" gid="9" x="4999" y="3828" width="128" height="192"/>
-  <object id="482" type="platformBlock3" gid="36" x="1368" y="1717" width="128" height="96"/>
-  <object id="490" type="platformBlock4" gid="2147483685" x="1632" y="224" width="163" height="33"/>
-  <object id="505" type="exit" gid="15" x="552" y="1712" width="160" height="192"/>
-  <object id="513" type="torch" gid="50" x="442" y="1588" width="96" height="96"/>
-  <object id="514" type="torch" gid="50" x="730" y="1588" width="96" height="96"/>
-  <object id="516" type="torch" gid="50" x="832" y="2640" width="96" height="96"/>
-  <object id="517" type="torch" gid="50" x="1126" y="2642" width="96" height="96"/>
-  <object id="518" type="torch" gid="50" x="1862" y="562" width="96" height="96"/>
-  <object id="741" type="flare" gid="16" x="1078" y="2634" width="192" height="192"/>
-  <object id="742" type="flare" gid="16" x="784" y="2632" width="192" height="192"/>
-  <object id="743" type="flare" gid="16" x="1814" y="554" width="192" height="192"/>
-  <object id="744" type="flare" gid="16" x="682" y="1572" width="192" height="192"/>
-  <object id="745" type="flare" gid="16" x="394" y="1572" width="192" height="192"/>
-  <object id="864" type="torch" gid="50" x="5306" y="3616" width="96" height="96"/>
-  <object id="865" type="flare" gid="16" x="5258" y="3608" width="192" height="192"/>
-  <object id="868" type="torch" gid="50" x="4590" y="552" width="96" height="96"/>
-  <object id="869" type="flare" gid="16" x="4542" y="544" width="192" height="192"/>
-  <object id="870" type="torch" gid="50" x="3396" y="822" width="96" height="96"/>
-  <object id="871" type="flare" gid="16" x="3348" y="814" width="192" height="192"/>
-  <object id="872" type="torch" gid="50" x="3550" y="2502" width="96" height="96"/>
-  <object id="873" type="flare" gid="16" x="3502" y="2494" width="192" height="192"/>
+ <objectgroup id="2" name="ground">
+  <object id="277" type="platformBlock4" gid="37" x="843" y="3476" width="128" height="96"/>
+  <object id="279" type="column2" gid="9" x="854" y="3093" width="128" height="204"/>
+  <object id="280" type="platformBlock3" gid="36" x="843" y="3190" width="128" height="96"/>
+  <object id="286" type="column1" gid="8" x="2269" y="927" width="128" height="192"/>
+  <object id="272" type="column1" gid="8" x="1449" y="563" width="128" height="192"/>
+  <object id="466" type="column2" gid="9" x="2800" y="3644" width="128" height="192"/>
+  <object id="467" type="column1" gid="8" x="854" y="3381" width="128" height="192"/>
+  <object id="480" type="column2" gid="9" x="1449" y="755" width="128" height="192"/>
+  <object id="482" type="platformBlock3" gid="36" x="2257" y="1023" width="128" height="96"/>
+  <object id="505" type="exit" gid="15" x="350" y="754" width="160" height="192"/>
+  <object id="513" type="torch" gid="50" x="240" y="630" width="96" height="96"/>
+  <object id="514" type="torch" gid="50" x="528" y="630" width="96" height="96"/>
+  <object id="516" type="torch" gid="50" x="215" y="3067" width="96" height="96"/>
+  <object id="517" type="torch" gid="50" x="509" y="3069" width="96" height="96"/>
+  <object id="518" type="torch" gid="50" x="1572" y="2869" width="96" height="96"/>
+  <object id="741" type="flare" gid="16" x="461" y="3061" width="192" height="192"/>
+  <object id="742" type="flare" gid="16" x="167" y="3059" width="192" height="192"/>
+  <object id="743" type="flare" gid="16" x="1524" y="2861" width="192" height="192"/>
+  <object id="744" type="flare" gid="16" x="480" y="614" width="192" height="192"/>
+  <object id="745" type="flare" gid="16" x="192" y="614" width="192" height="192"/>
+  <object id="864" type="torch" gid="50" x="2552" y="996" width="96" height="96"/>
+  <object id="865" type="flare" gid="16" x="2504" y="988" width="192" height="192"/>
+  <object id="868" type="torch" gid="50" x="586" y="1382" width="96" height="96"/>
+  <object id="869" type="flare" gid="16" x="538" y="1374" width="192" height="192"/>
+  <object id="870" type="torch" gid="50" x="1814" y="2006" width="96" height="96"/>
+  <object id="871" type="flare" gid="16" x="1766" y="1998" width="192" height="192"/>
+  <object id="872" type="torch" gid="50" x="2732" y="3536" width="96" height="96"/>
+  <object id="873" type="flare" gid="16" x="2684" y="3528" width="192" height="192"/>
  </objectgroup>
- <objectgroup id="3" name="castledeco" visible="0">
-  <object id="221" type="platformBlock3" gid="36" x="34" y="929" width="128" height="96"/>
-  <object id="370" type="window2" gid="56" x="2702" y="3212" width="64" height="64"/>
-  <object id="460" type="platformConnector4" gid="41" x="3496" y="1798" width="96" height="64"/>
-  <object id="483" type="window3" gid="57" x="956" y="1295" width="56" height="59"/>
-  <object id="498" type="platformConnector3" gid="40" x="1093" y="1947" width="124" height="78"/>
-  <object id="805" type="wallDecor3" gid="54" x="718" y="790" width="160" height="128"/>
-  <object id="806" type="wallDecor3" gid="54" x="-32" y="190" width="160" height="128"/>
-  <object id="807" type="wallDecor3" gid="54" x="80" y="1208" width="160" height="128"/>
-  <object id="808" type="wallDecor3" gid="54" x="124" y="2240" width="160" height="128"/>
-  <object id="809" type="wallDecor3" gid="54" x="458" y="2632" width="160" height="128"/>
-  <object id="810" type="wallDecor3" gid="54" x="966" y="3276" width="160" height="128"/>
-  <object id="811" type="wallDecor3" gid="54" x="1134" y="3192" width="160" height="128"/>
-  <object id="812" type="wallDecor3" gid="54" x="160" y="3696" width="160" height="128"/>
-  <object id="813" type="wallDecor3" gid="54" x="202" y="3582" width="160" height="128"/>
-  <object id="814" type="wallDecor3" gid="54" x="440" y="4018" width="160" height="128"/>
-  <object id="815" type="wallDecor3" gid="54" x="1780" y="3126" width="160" height="128"/>
-  <object id="816" type="wallDecor3" gid="2147483702" x="1126" y="4088" width="160" height="128"/>
-  <object id="817" type="wallDecor3" gid="2147483702" x="2668" y="2788" width="160" height="128"/>
-  <object id="818" type="wallDecor3" gid="54" x="3038" y="3548" width="160" height="128"/>
-  <object id="819" type="wallDecor3" gid="54" x="3308" y="3646" width="160" height="128"/>
-  <object id="820" type="wallDecor3" gid="54" x="3430" y="3458" width="160" height="128"/>
-  <object id="821" type="wallDecor3" gid="54" x="3594" y="4118" width="160" height="128"/>
-  <object id="822" type="wallDecor3" gid="54" x="4632" y="3114" width="160" height="128"/>
-  <object id="823" type="wallDecor3" gid="54" x="4002" y="2782" width="160" height="128"/>
-  <object id="824" type="wallDecor3" gid="54" x="3792" y="3262" width="160" height="128"/>
-  <object id="825" type="wallDecor3" gid="54" x="3168" y="2180" width="160" height="128"/>
-  <object id="826" type="wallDecor3" gid="54" x="3654" y="2684" width="160" height="128"/>
-  <object id="827" type="wallDecor3" gid="54" x="4722" y="1584" width="160" height="128"/>
-  <object id="828" type="wallDecor3" gid="54" x="2912" y="1872" width="160" height="128"/>
-  <object id="829" type="wallDecor3" gid="54" x="3792" y="1874" width="160" height="128"/>
-  <object id="830" type="wallDecor3" gid="54" x="5650" y="4094" width="160" height="128"/>
-  <object id="831" type="wallDecor3" gid="54" x="5108" y="1404" width="160" height="128"/>
-  <object id="832" type="wallDecor3" gid="54" x="4754" y="1614" width="160" height="128"/>
-  <object id="833" type="wallDecor3" gid="54" x="5686" y="4148" width="160" height="128"/>
-  <object id="834" type="wallDecor3" gid="54" x="5148" y="2748" width="160" height="128"/>
-  <object id="835" type="wallDecor3" gid="54" x="4238" y="628" width="160" height="128"/>
-  <object id="836" type="wallDecor3" gid="54" x="5518" y="1612" width="160" height="128"/>
-  <object id="837" type="wallDecor3" gid="54" x="5616" y="782" width="160" height="128"/>
-  <object id="838" type="wallDecor3" gid="54" x="3378" y="1196" width="160" height="128"/>
-  <object id="839" type="wallDecor3" gid="54" x="1692" y="1034" width="160" height="128"/>
-  <object id="840" type="wallDecor3" gid="54" x="2432" y="698" width="160" height="128"/>
-  <object id="841" type="wallDecor3" gid="54" x="1460" y="742" width="160" height="128"/>
-  <object id="842" type="wallDecor3" gid="54" x="1398" y="1238" width="160" height="128"/>
-  <object id="843" type="wallDecor3" gid="2147483702" x="3168" y="1072" width="160" height="128"/>
-  <object id="844" type="wallDecor3" gid="54" x="5582" y="2679" width="160" height="128"/>
-  <object id="845" type="wallDecor3" gid="54" x="5992" y="2887" width="160" height="128"/>
-  <object id="846" type="wallDecor3" gid="54" x="6090" y="2057" width="160" height="128"/>
-  <object id="847" type="platformBlock3" gid="36" x="518" y="2360" width="128" height="96"/>
-  <object id="848" type="platformBlock4" gid="37" x="270" y="2744" width="128" height="96"/>
-  <object id="849" type="platformBlock4" gid="37" x="4700" y="2006" width="128" height="96"/>
-  <object id="850" type="platformConnector3" gid="40" x="784" y="2145" width="124" height="78"/>
-  <object id="851" type="platformConnector4" gid="41" x="3954" y="2110" width="96" height="64"/>
-  <object id="852" type="platformConnector4" gid="41" x="4687" y="2680" width="96" height="64"/>
-  <object id="853" type="platformConnector4" gid="41" x="5145" y="2992" width="96" height="64"/>
-  <object id="854" type="platformBlock4" gid="37" x="6088" y="1036" width="128" height="96"/>
-  <object id="855" type="platformBlock4" gid="37" x="5914" y="3044" width="128" height="96"/>
-  <object id="856" type="window1" gid="55" x="300" y="2396" width="65" height="64"/>
-  <object id="857" type="window1" gid="55" x="300" y="2996" width="65" height="64"/>
-  <object id="858" type="window1" gid="55" x="300" y="3596" width="65" height="64"/>
-  <object id="859" type="window2" gid="56" x="1744" y="2446" width="64" height="64"/>
-  <object id="860" type="window1" gid="55" x="4957.5" y="1780" width="65" height="64"/>
-  <object id="861" type="window1" gid="55" x="4957.5" y="2380" width="65" height="64"/>
-  <object id="862" type="window1" gid="55" x="4957.5" y="2980" width="65" height="64"/>
-  <object id="863" type="window3" gid="57" x="1278" y="770.5" width="56" height="59"/>
+ <objectgroup id="3" name="castledeco">
+  <object id="370" type="window2" gid="56" x="1120" y="2838" width="64" height="64"/>
+  <object id="483" type="window3" gid="57" x="2399" y="885" width="56" height="59"/>
+  <object id="806" type="wallDecor3" gid="54" x="2766" y="4250" width="160" height="128"/>
+  <object id="847" type="platformBlock3" gid="36" x="2595" y="416" width="128" height="96"/>
+  <object id="853" type="platformConnector4" gid="41" x="2781" y="2864" width="96" height="64"/>
+  <object id="857" type="window1" gid="55" x="2298" y="1942" width="65" height="64"/>
+  <object id="1245" type="wallDecor3" gid="54" x="2616" y="2768" width="160" height="128"/>
+  <object id="1246" type="wallDecor3" gid="54" x="1778" y="570" width="160" height="128"/>
+  <object id="1247" type="wallDecor3" gid="2147483702" x="1638" y="1310" width="160" height="128"/>
+  <object id="1248" type="wallDecor3" gid="2147483702" x="1148" y="778" width="160" height="128"/>
+  <object id="1249" type="wallDecor3" gid="2147483702" x="976" y="2090" width="160" height="128"/>
+  <object id="1250" type="wallDecor3" gid="54" x="184" y="2406" width="160" height="128"/>
+  <object id="1251" type="wallDecor3" gid="54" x="150" y="1550" width="160" height="128"/>
+  <object id="1252" type="wallDecor3" gid="2147483702" x="510" y="1116" width="160" height="128"/>
+  <object id="1253" type="wallDecor3" gid="54" x="538" y="2434" width="160" height="128"/>
+  <object id="1254" type="wallDecor3" gid="54" x="60" y="1616" width="160" height="128"/>
+  <object id="1255" type="wallDecor3" gid="54" x="1620" y="3744" width="160" height="128"/>
+  <object id="1256" type="wallDecor3" gid="54" x="1564" y="3034" width="160" height="128"/>
+  <object id="1257" type="wallDecor3" gid="54" x="758" y="3922" width="160" height="128"/>
+  <object id="1258" type="wallDecor3" gid="54" x="2572" y="3542" width="160" height="128"/>
+  <object id="1259" type="wallDecor3" gid="54" x="706" y="3374" width="160" height="128"/>
+  <object id="1260" type="wallDecor3" gid="54" x="248" y="2908" width="160" height="128"/>
+  <object id="1261" type="wallDecor3" gid="54" x="936" y="4456" width="160" height="128"/>
+  <object id="1262" type="wallDecor3" gid="54" x="2206" y="318" width="160" height="128"/>
+  <object id="1263" type="wallDecor3" gid="2147483702" x="2300" y="370" width="160" height="128"/>
+  <object id="1264" type="platformBlock3" gid="36" x="2820" y="4352" width="128" height="96"/>
+  <object id="1265" type="platformBlock4" gid="37" x="2790" y="3004" width="128" height="96"/>
+  <object id="1266" type="platformBlock4" gid="37" x="1880" y="270" width="128" height="96"/>
+  <object id="1267" type="platformBlock4" gid="37" x="100" y="2314" width="128" height="96"/>
+  <object id="1268" type="platformBlock4" gid="37" x="190" y="1504" width="128" height="96"/>
+  <object id="1269" type="platformConnector4" gid="41" x="2416" y="1566" width="96" height="64"/>
+  <object id="1270" type="platformConnector3" gid="40" x="98" y="1063" width="124" height="78"/>
+  <object id="1271" type="wallDecor3" gid="54" x="372" y="184" width="160" height="128"/>
+  <object id="1272" type="window1" gid="55" x="2298" y="1672" width="65" height="64"/>
+  <object id="1273" type="window3" gid="57" x="2356" y="3294.5" width="56" height="59"/>
+  <object id="1274" type="window2" gid="56" x="1120" y="3165" width="64" height="64"/>
+  <object id="1275" type="window2" gid="56" x="1120" y="3489" width="64" height="64"/>
+  <object id="1276" type="window2" gid="56" x="2578" y="176" width="64" height="64"/>
+  <object id="1277" type="window1" gid="55" x="2103.5" y="488" width="65" height="64"/>
  </objectgroup>
  <objectgroup id="9" name="landmodel">
   <object id="900" name="Land" type="platformBase4" gid="33" x="1426" y="334" width="150" height="96">
@@ -591,8 +561,8 @@
   <object id="1191" type="shadow" gid="45" x="2128" y="4322" width="48" height="160"/>
  </objectgroup>
  <objectgroup id="17" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="288.241" y="750.345" width="128" height="160"/>
-  <object id="437" name="Exit" type="doorBlueStroked" gid="2147483658" x="284.241" y="3169.34" width="160" height="192">
+  <object id="58" name="Hero" type="hero" gid="22" x="445.241" y="751.345" width="128" height="160"/>
+  <object id="437" name="Exit" type="doorBlueStroked" gid="2147483658" x="333.241" y="3169.34" width="160" height="192">
    <properties>
     <property name="map" value="scene/game/map/sandbox3.json"/>
    </properties>
@@ -672,19 +642,19 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1025" name="Land" type="platformBase4" gid="33" x="2089.5" y="1402" width="256" height="72">
+  <object id="1025" name="Land" type="platformBase4" gid="33" x="2130.5" y="1402" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1026" name="Land" type="platformBase3" gid="32" x="1949.5" y="1402" width="140" height="72">
+  <object id="1026" name="Land" type="platformBase3" gid="32" x="1949.5" y="1402" width="194" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1027" name="Land" type="platformBase3" gid="32" x="2339" y="1402" width="256" height="72">
+  <object id="1027" name="Land" type="platformBase3" gid="32" x="2386" y="1402" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
@@ -718,6 +688,7 @@
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
+    <property name="revivePoint" type="bool" value="true"/>
    </properties>
   </object>
   <object id="1035" name="Land" type="platformBase4" gid="33" x="1394" y="3520" width="140" height="72">
@@ -796,23 +767,22 @@
    <properties>
     <property name="bodyType" value="static"/>
     <property name="endX" type="float" value="151"/>
-    <property name="endY" type="float" value="3350"/>
+    <property name="endY" type="float" value="3550"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
     <property name="startX" type="float" value="151"/>
     <property name="startY" type="float" value="3980"/>
    </properties>
   </object>
-  <object id="1054" name="EnableShield" type="shieldStroked" gid="46" x="1972.18" y="1326.85" width="180" height="180"/>
+  <object id="1054" name="ShieldEnable" type="shieldStroked" gid="46" x="1972.18" y="1326.85" width="180" height="180"/>
   <object id="1055" name="Land" type="platformBase4" gid="33" x="2176.3" y="1094.58" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1058" name="Coin" type="gemRedStroked" gid="18" x="2272" y="1234" width="64" height="64"/>
-  <object id="1060" name="Trap" type="trap" gid="51" x="2168" y="1324" width="128" height="32"/>
-  <object id="1061" name="Trap" type="trap" gid="51" x="2296" y="1324" width="128" height="32"/>
+  <object id="1060" name="Trap" type="trap" gid="51" x="2168" y="1330" width="128" height="32"/>
+  <object id="1061" name="Trap" type="trap" gid="51" x="2296" y="1330" width="128" height="32"/>
   <object id="1062" name="Land" type="platformBase4" gid="33" x="148" y="3246" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
@@ -831,9 +801,6 @@
   <object id="1069" name="Trap" type="trap" gid="51" x="1958" y="3826" width="128" height="48" rotation="180"/>
   <object id="1070" name="Trap" type="trap" gid="51" x="1408" y="4096" width="128" height="48"/>
   <object id="1071" name="Trap" type="trap" gid="51" x="1536" y="4096" width="128" height="48"/>
-  <object id="1073" name="Coin" type="gemRedStroked" gid="18" x="1212" y="4002" width="64" height="64"/>
-  <object id="1074" name="Coin" type="gemRedStroked" gid="18" x="1798" y="4006" width="64" height="64"/>
-  <object id="1075" name="Coin" type="gemBlueStroked" gid="17" x="1510" y="3946" width="64" height="64"/>
   <object id="1076" name="Trap" type="trap" gid="51" x="859" y="2292" width="128" height="48"/>
   <object id="1077" name="Trap" type="trap" gid="51" x="987" y="2292" width="128" height="48"/>
   <object id="1078" name="Land" type="platformBase4" gid="33" x="1064" y="1962" width="256" height="72">
@@ -842,7 +809,11 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1079" name="SwingTrap" type="row2" gid="64" x="1442" y="1962" width="384" height="48"/>
+  <object id="1079" name="SwingTrap" type="row2" gid="64" x="1442" y="1962" width="384" height="48">
+   <properties>
+    <property name="velocity" type="float" value="0.5"/>
+   </properties>
+  </object>
   <object id="1081" name="Land" type="platformBase4" gid="33" x="472" y="2018" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
@@ -852,23 +823,27 @@
   <object id="1083" name="SoftLand" type="pushBlock3" gid="44" x="620" y="2108" width="96" height="96"/>
   <object id="1084" name="SoftLand" type="pushBlock3" gid="44" x="620" y="2200" width="96" height="96"/>
   <object id="1085" name="SoftLand" type="pushBlock3" gid="44" x="620" y="2296" width="96" height="96"/>
-  <object id="1086" name="Trap" type="trap" gid="51" x="731" y="2290" width="128" height="48"/>
+  <object id="1086" name="Trap" type="trap" gid="51" x="731" y="2292" width="128" height="48"/>
   <object id="1087" name="Land" type="platformBase4" gid="33" x="1591" y="2465" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1091" name="DropLand" type="platform3" gid="28" x="1396" y="2707.5" width="192" height="41">
+  <object id="1091" name="SlidingLand" type="platform3" gid="28" x="1396" y="2658" width="192" height="41">
    <properties>
     <property name="bodyType" value="static"/>
+    <property name="endX" type="float" value="1396"/>
+    <property name="endY" type="float" value="3320"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
+    <property name="startX" type="float" value="1396"/>
+    <property name="startY" type="float" value="2658"/>
    </properties>
   </object>
   <object id="1092" name="Trap" type="trap" gid="51" x="2045" y="2657" width="128" height="48" rotation="-90"/>
   <object id="1093" name="Trap" type="trap" gid="51" x="2045" y="2535" width="128" height="48" rotation="-90"/>
-  <object id="1094" name="Trap" type="trap" gid="51" x="2045" y="2775" width="128" height="48" rotation="-90"/>
+  <object id="1094" name="Trap" type="trap" gid="51" x="2045" y="2718" width="128" height="48" rotation="-90"/>
   <object id="1096" name="Door" type="pushBlock2" gid="43" x="2045" y="2962" width="54" height="240">
    <properties>
     <property name="doorID" type="int" value="1"/>
@@ -885,8 +860,8 @@
     <property name="door2" type="int" value="2"/>
    </properties>
   </object>
-  <object id="1099" name="GameKey" type="keyRedStroked" gid="24" x="2292" y="2890" width="72" height="44"/>
-  <object id="1100" name="Enemy" type="skeleton" gid="2147483711" x="2310" y="3448" width="133" height="160">
+  <object id="1099" name="GameKey" type="keyRedStroked" gid="24" x="2356" y="2890" width="72" height="44"/>
+  <object id="1100" name="Enemy" type="skeleton" gid="2147483711" x="1790" y="3446" width="133" height="160">
    <properties>
     <property name="maxX" type="float" value="2310"/>
     <property name="minX" type="float" value="1790"/>
@@ -901,7 +876,6 @@
   <object id="1102" name="Trap" type="trap" gid="51" x="2778" y="3169" width="128" height="48" rotation="180"/>
   <object id="1103" name="Trap" type="trap" gid="51" x="2906" y="3169" width="128" height="48" rotation="180"/>
   <object id="1104" name="Trap" type="trap" gid="51" x="2648" y="3169" width="128" height="48" rotation="180"/>
-  <object id="1105" name="Coin" type="gemRedStroked" gid="18" x="2696" y="3314" width="64" height="64"/>
   <object id="1106" name="Land" type="platformBase4" gid="33" x="452" y="3550" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>
@@ -919,23 +893,20 @@
   <object id="1110" name="Trap" type="trap" gid="51" x="286" y="3246" width="128" height="32" rotation="180"/>
   <object id="1119" name="Trap" type="trap" gid="51" x="2180" y="4256" width="128" height="32"/>
   <object id="1120" name="Trap" type="trap" gid="51" x="2308" y="4256" width="128" height="32"/>
-  <object id="1122" name="Coin" type="gemRedStroked" gid="18" x="186" y="3394" width="64" height="64"/>
-  <object id="1123" name="Land" type="platform4" gid="29" x="2720" y="3681.5" width="192" height="41">
+  <object id="1123" name="Land" type="platform4" gid="29" x="2720" y="3681" width="192" height="41">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1124" name="Trap" type="trap" gid="51" x="2774" y="3626" width="128" height="32"/>
-  <object id="1125" name="Trap" type="trap" gid="51" x="2714" y="3630" width="128" height="32"/>
+  <object id="1124" name="Trap" type="trap" gid="51" x="2781" y="3640" width="128" height="32"/>
+  <object id="1125" name="Trap" type="trap" gid="51" x="2721" y="3640" width="128" height="32"/>
   <object id="1126" name="Trap" type="trap" gid="51" x="336" y="4096" width="128" height="48"/>
   <object id="1127" name="Trap" type="trap" gid="51" x="624" y="4096" width="128" height="48"/>
-  <object id="1132" name="Coin" type="gemRedStroked" gid="18" x="1418" y="472" width="64" height="64"/>
   <object id="1133" name="SoftLand" type="pushBlock3" gid="44" x="2084" y="3916" width="96" height="96"/>
   <object id="1134" name="SoftLand" type="pushBlock3" gid="44" x="2084" y="4008" width="96" height="96"/>
   <object id="1135" name="SoftLand" type="pushBlock3" gid="44" x="2084" y="4104" width="96" height="96"/>
-  <object id="1136" name="SwingTrap" type="row2" gid="64" x="1634" y="3166" width="384" height="48"/>
   <object id="1137" name="DropLand" type="platform3" gid="28" x="2588" y="1587.5" width="192" height="41">
    <properties>
     <property name="bodyType" value="static"/>
@@ -971,8 +942,6 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1143" name="Coin" type="gemRedStroked" gid="18" x="607" y="3782" width="64" height="64"/>
-  <object id="1144" name="Coin" type="gemBlueStroked" gid="17" x="453" y="3682" width="64" height="64"/>
   <object id="1145" name="Trap" type="trap" gid="51" x="750" y="4096" width="128" height="48"/>
   <object id="1146" name="Trap" type="trap" gid="51" x="473" y="1307" width="128" height="48" rotation="90"/>
   <object id="1147" name="Trap" type="trap" gid="51" x="473" y="1185" width="128" height="48" rotation="90"/>
@@ -980,7 +949,7 @@
   <object id="1149" name="Trap" type="trap" gid="51" x="473" y="1670" width="128" height="48" rotation="90"/>
   <object id="1150" name="Trap" type="trap" gid="51" x="473" y="1548" width="128" height="48" rotation="90"/>
   <object id="1151" name="Trap" type="trap" gid="51" x="473" y="1788" width="128" height="48" rotation="90"/>
-  <object id="1166" name="Trap" type="trap" gid="51" x="2650" y="4096" width="128" height="48"/>
+  <object id="1166" name="SlidingTrap" type="trap" gid="51" x="2650" y="4096" width="128" height="48"/>
   <object id="1167" name="SlidingTrap" type="trap" gid="51" x="2778" y="4096" width="128" height="48"/>
   <object id="1185" name="Land" type="platformBase4" gid="33" x="2046" y="3030" width="256" height="72">
    <properties>
@@ -1000,6 +969,45 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
+  <object id="1210" name="Land" type="platformBase4" gid="33" x="1761" y="3118" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="1211" name="Trap" type="trap" gid="51" x="1760" y="3046" width="128" height="48"/>
+  <object id="1212" name="Trap" type="trap" gid="51" x="1888" y="3046" width="128" height="48"/>
+  <object id="1213" name="Trap" type="trap" gid="51" x="208" y="4096" width="128" height="48"/>
+  <object id="1214" name="Coin" type="gemRedStroked" gid="18" x="574" y="1880" width="64" height="64"/>
+  <object id="1215" name="Coin" type="gemRedStroked" gid="18" x="1900" y="2522" width="64" height="64"/>
+  <object id="1216" name="Coin" type="gemBlueStroked" gid="17" x="1900" y="2681" width="64" height="64"/>
+  <object id="1217" name="Coin" type="gemRedStroked" gid="18" x="2272" y="1234" width="64" height="64"/>
+  <object id="1218" name="Coin" type="gemRedStroked" gid="18" x="1212" y="4002" width="64" height="64"/>
+  <object id="1219" name="Coin" type="gemRedStroked" gid="18" x="1798" y="4006" width="64" height="64"/>
+  <object id="1220" name="Coin" type="gemBlueStroked" gid="17" x="1510" y="3946" width="64" height="64"/>
+  <object id="1221" name="Coin" type="gemRedStroked" gid="18" x="2696" y="3314" width="64" height="64"/>
+  <object id="1222" name="Coin" type="gemRedStroked" gid="18" x="186" y="3394" width="64" height="64"/>
+  <object id="1223" name="Coin" type="gemRedStroked" gid="18" x="1418" y="472" width="64" height="64"/>
+  <object id="1224" name="Coin" type="gemRedStroked" gid="18" x="607" y="3782" width="64" height="64"/>
+  <object id="1225" name="Coin" type="gemBlueStroked" gid="17" x="453" y="3682" width="64" height="64"/>
+  <object id="1226" name="Coin" type="gemBlueStroked" gid="17" x="2786.64" y="862.915" width="64" height="64"/>
+  <object id="1227" name="Coin" type="gemBlueStroked" gid="17" x="2013.76" y="868" width="64" height="64"/>
+  <object id="1228" name="Coin" type="gemBlueStroked" gid="17" x="1156.14" y="1825.63" width="64" height="64"/>
+  <object id="1230" name="Coin" type="gemBlueStroked" gid="17" x="741.847" y="2914.61" width="64" height="64"/>
+  <object id="1231" name="Coin" type="gemRedStroked" gid="18" x="616.305" y="647.542" width="64" height="64"/>
+  <object id="1232" name="Coin" type="gemRedStroked" gid="18" x="839.593" y="646.458" width="64" height="64"/>
+  <object id="1233" name="Coin" type="gemBlueStroked" gid="17" x="729.559" y="574.593" width="64" height="64"/>
+  <object id="1234" name="Coin" type="gemRedStroked" gid="18" x="783.475" y="1351.93" width="64" height="64"/>
+  <object id="1235" name="Coin" type="gemRedStroked" gid="18" x="1006.76" y="1350.85" width="64" height="64"/>
+  <object id="1236" name="Coin" type="gemBlueStroked" gid="17" x="896.729" y="1278.98" width="64" height="64"/>
+  <object id="1237" name="Coin" type="gemRedStroked" gid="18" x="1212.07" y="2237.49" width="64" height="64"/>
+  <object id="1238" name="Coin" type="gemBlueStroked" gid="17" x="2793.42" y="2340.97" width="64" height="64"/>
+  <object id="1239" name="Coin" type="gemRedStroked" gid="18" x="1464.61" y="3232.57" width="64" height="64"/>
+  <object id="1240" name="Coin" type="gemBlueStroked" gid="17" x="1464.61" y="3391.57" width="64" height="64"/>
+  <object id="1241" name="Coin" type="gemBlueStroked" gid="17" x="2817.15" y="3998.51" width="64" height="64"/>
+  <object id="1242" name="Coin" type="gemRedStroked" gid="18" x="2788.34" y="1693.42" width="64" height="64"/>
+  <object id="1243" name="Coin" type="gemBlueStroked" gid="17" x="2227.32" y="2900.2" width="64" height="64"/>
+  <object id="1244" name="Coin" type="gemBlueStroked" gid="17" x="517.153" y="2145.97" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="7" name="above" visible="0"/>
  <objectgroup id="8" name="bounds" visible="0">

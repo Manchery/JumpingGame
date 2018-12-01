@@ -7,9 +7,9 @@ USING_NS_CC;
 class SlidingLand : public cocos2d::Sprite
 {
 public:
-	static SlidingLand* create(const std::string& filename);
+	static SlidingLand* create(const std::string& filename, float width, float height);
 
-	virtual bool initWithFile(const std::string& filename) override;
+	bool initWithFile(const std::string& filename, float width, float height);
 	void setTrack(float startx,float starty,float endx, float endy);
 	void slidingUpdate(float dt);
 	

@@ -15,6 +15,9 @@ class Chapter2Level1 : public GameScene
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
+	virtual void drawMap(const TMXTiledMap * tileMap) override;
+
+	virtual bool onContactBegin(cocos2d::PhysicsContact &contact) override;
 
 	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;

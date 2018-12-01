@@ -62,6 +62,9 @@ public:
 	HeroType getHeroType();
 	void setHeroType(HeroType type);
 	void setSlidingGround(cocos2d::Sprite *_slidingGround);
+	void resetSlidingGround() {
+		slidingGround = nullptr; 
+	}
 	cocos2d::Sprite *getSlidingGround();
 
 	void shield();

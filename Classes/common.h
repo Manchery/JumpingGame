@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define PHYSICS_DRAW_DEBUG true
+#define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY false
 
 #define HERO_T 1
@@ -43,7 +43,7 @@
 #define GAME_KEY_M 0x200
 #define WATER_M 0x400
 
-const int chapterCoinTotal[] = { 9+9,30,12,12,12,12,12};
+const int chapterCoinTotal[] = { 9+9,30,30,12,12,12,12};
 
 bool isLand(const cocos2d::Node *node);
 bool isTrap(const cocos2d::Node *node);

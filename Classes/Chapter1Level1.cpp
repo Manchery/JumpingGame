@@ -67,7 +67,7 @@ bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 
 	if ((nodeA->getTag() == HERO_T && nodeB->getName() == "EnableShot") ||
 		(nodeB->getTag() == HERO_T && nodeA->getName() == "EnableShot")) {
-		if (!UserDefault::getInstance()->getBoolForKey("canShot")) {
+		if (!hero->getTypeUnlocked(1)) {
 			gotShot = 1;
 			//UserDefault::getInstance()->setBoolForKey("canShot", true);
 			messageSingleLine("Sword!");

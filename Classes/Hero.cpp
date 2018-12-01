@@ -173,7 +173,7 @@ void Hero::shield() {
 	if (heroType != HEROSHIELD) return;
 	if (shielded) return;
 	float runningTime = ((GameScene*)(Director::getInstance()->getRunningScene()))->getRunningTime();
-	if (runningTime - lastShieldTime < 30.0f) return;
+	if (runningTime - lastShieldTime < 5.0f) return;
 	lastShieldTime = runningTime;
 	shielded = true;
 	switchTexture(3);

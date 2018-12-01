@@ -4,10 +4,10 @@
 #include <algorithm>
 USING_NS_CC;
 
-SlidingTrap* SlidingTrap::create(const std::string& filename)
+SlidingTrap* SlidingTrap::create(const std::string& filename, float width, float height)
 {
 	SlidingTrap *sprite = new (std::nothrow) SlidingTrap();
-	if (sprite && sprite->initWithFile(filename))
+	if (sprite && sprite->initWithFile(filename,width,height))
 	{
 		sprite->autorelease();
 		return sprite;
@@ -16,10 +16,12 @@ SlidingTrap* SlidingTrap::create(const std::string& filename)
 	return nullptr;
 }
 
-bool SlidingTrap::initWithFile(const std::string & filename)
+bool SlidingTrap::initWithFile(const std::string & filename, float width, float height)
 {
 	if (!Sprite::initWithFile(filename))
 		return false;
+
+	this->setContentSize(Size(width, height));
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	//physicsBody->setGravityEnable(false);

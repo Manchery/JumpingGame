@@ -18,6 +18,8 @@ using namespace CocosDenshion;
 
 #define PHYSICS_SUBSTEPS 10
 
+const float PI = acos(-1.0);
+
 void GameScene::onEnterTransitionDidFinish()
 {
 	//flush
@@ -131,8 +133,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			frontGroundLayer->addChild(enemy, 1);
 		}
 		else if (name == "SlidingTrap") {
-			auto slidingTrap = SlidingTrap::create("map/" + type + ".png");
-			slidingTrap->setContentSize(Size(width, height));
+			auto slidingTrap = SlidingTrap::create("map/" + type + ".png",width,height);
 			slidingTrap->setAnchorPoint(Vec2(0, 0));
 			slidingTrap->setTrack(x, y - slidingTrap->getContentSize().height - 10.0f, y);
 
@@ -140,8 +141,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			frontGroundLayer->addChild(slidingTrap, -1);
 		}
 		else if (name == "SlidingLand") {
-			auto slidingLand = SlidingLand::create("map/" + type + ".png");
-			slidingLand->setContentSize(Size(width, height));
+			auto slidingLand = SlidingLand::create("map/" + type + ".png",width,height);
 			slidingLand->setAnchorPoint(Vec2::ZERO);
 			float startX= dic.at("startX").asFloat(),startY= mapSize.height-dic.at("startY").asFloat();
 			float endX = dic.at("endX").asFloat(), endY = mapSize.height - dic.at("endY").asFloat();
@@ -153,8 +153,13 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			auto swingLand = SwingLand::create("map/" + type + ".png",width,height, name == "SwingTrap");
 			swingLand->setPosition(Vec2(x+swingLand->getContentSize().width/2, 
 				y+swingLand->getContentSize().height/2));
+
 			if (name=="SwingLand") swingLand->setTag(SWING_LAND_T);
-			else if (name=="SwingTrap") swingLand->setTag(SWING_TRAP_T);
+			else if (name == "SwingTrap") {
+				swingLand->setTag(SWING_TRAP_T);
+				if (dic.find("velocity") != dic.end())
+					swingLand->getPhysicsBody()->setAngularVelocity(dic.at("velocity").asFloat()*PI);
+			}
 
 			frontGroundLayer->addChild(swingLand);
 		}
@@ -778,6 +783,7 @@ void GameScene::heroUpdate(float dt)
 	}
 	if (heroJumped) {
 		velocity.y = 850.0f;
+		if (hero->getHeroType() == 2) velocity.y *= 0.8;
 		if (hero->getInWater()) velocity.y *= 0.8;
 		heroJumped = 0;
 	}
@@ -880,6 +886,7 @@ void GameScene::heroDie() {
 	if (hero->getHeroType() == HEROSHIELD && !lastGotShield)
 		hero->switchTypeTo(0);
 	hero->resetOnGround(); hero->resetInWater();
+	hero->resetSlidingGround();
 	hero->setPosition(revivePoint);
 	//heroDied = 0; // onEnter
 }
