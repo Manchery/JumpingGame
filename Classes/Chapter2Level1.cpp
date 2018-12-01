@@ -4,12 +4,14 @@
 #include "HelloScene.h"
 #include "SwingLand.h"
 #include "Door.h"
+#include "SlidingLand.h"
 using namespace CocosDenshion;
 
 cocos2d::Scene * Chapter2Level1::createScene()
 {
 	return Chapter2Level1::create();
 }
+
 
 bool Chapter2Level1::init()
 {

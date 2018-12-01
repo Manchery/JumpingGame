@@ -154,6 +154,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Chapter0Level2.cpp" />
     <ClCompile Include="..\Classes\Chapter1Level1.cpp" />
     <ClCompile Include="..\Classes\Chapter2Level1.cpp" />
+    <ClCompile Include="..\Classes\Chapter3Level1.cpp" />
+    <ClCompile Include="..\Classes\Chapter3Level2.cpp" />
+    <ClCompile Include="..\Classes\Chapter3Level3.cpp" />
     <ClCompile Include="..\Classes\common.cpp" />
     <ClCompile Include="..\Classes\Door.cpp" />
     <ClCompile Include="..\Classes\DropLand.cpp" />
@@ -179,6 +182,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Chapter0Level2.h" />
     <ClInclude Include="..\Classes\Chapter1Level1.h" />
     <ClInclude Include="..\Classes\Chapter2Level1.h" />
+    <ClInclude Include="..\Classes\Chapter3Level1.h" />
+    <ClInclude Include="..\Classes\Chapter3Level2.h" />
+    <ClInclude Include="..\Classes\Chapter3Level3.h" />
     <ClInclude Include="..\Classes\common.h" />
     <ClInclude Include="..\Classes\Door.h" />
     <ClInclude Include="..\Classes\DropLand.h" />

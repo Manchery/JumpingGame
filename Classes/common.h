@@ -48,7 +48,6 @@ const int chapterCoinTotal[] = { 9+9,30,30,12,12,12,12};
 bool isLand(const cocos2d::Node *node);
 bool isTrap(const cocos2d::Node *node);
 bool isHero(const cocos2d::Node *node);
-bool touchUpSurface(const cocos2d::Node *nodeA, const cocos2d::Node *nodeB);
 
 void problemLoading(const char* filename);
 void logUserDefault();

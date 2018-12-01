@@ -4,10 +4,10 @@
 #include <algorithm>
 USING_NS_CC;
 
-SlidingLand* SlidingLand::create(const std::string& filename, float width, float height)
+SlidingLand* SlidingLand::create(const std::string& filename, float width, float height,float delay)
 {
 	SlidingLand *sprite = new (std::nothrow) SlidingLand();
-	if (sprite && sprite->initWithFile(filename,width,height))
+	if (sprite && sprite->initWithFile(filename,width,height,delay))
 	{
 		sprite->autorelease();
 		return sprite;
@@ -16,7 +16,7 @@ SlidingLand* SlidingLand::create(const std::string& filename, float width, float
 	return nullptr;
 }
 
-bool SlidingLand::initWithFile(const std::string & filename, float width, float height)
+bool SlidingLand::initWithFile(const std::string & filename, float width, float height,float delay)
 {
 	if (!Sprite::initWithFile(filename))
 		return false;
@@ -35,6 +35,7 @@ bool SlidingLand::initWithFile(const std::string & filename, float width, float 
 	this->setPhysicsBody(physicsBody);
 
 	this->setTag(SLIDING_LAND_T);
+	this->delayTime = delay;
 
 	return true;
 }
@@ -43,6 +44,18 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 {	
 	startX = startx; startY = starty; endX = endx; endY = endy;
 	this->setPosition(startX, startY);
+	this->unscheduleAllCallbacks();
+	this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
+}
+void SlidingLand::resetTrack() {
+	this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+	this->setPosition(startX, startY);
+	this->unscheduleAllCallbacks();
+	this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
+}
+
+void SlidingLand::startSliding(float dt)
+{
 	if (fabs(startX - endX) > 10.0f) {
 		if (startX < endX)
 			this->getPhysicsBody()->setVelocity(Vec2(100.0f, 100.0f*(endY - startY) / (fabs(endX - startX))));
@@ -51,7 +64,7 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 	}
 	else if (fabs(startY - endY) > 10.0f) {
 		if (startY < endY)
-			this->getPhysicsBody()->setVelocity(Vec2(100.0f*(endX - startX) / (fabs(endY - startY)),100.0f));
+			this->getPhysicsBody()->setVelocity(Vec2(100.0f*(endX - startX) / (fabs(endY - startY)), 100.0f));
 		else
 			this->getPhysicsBody()->setVelocity(Vec2(-100.0f*(endX - startX) / (fabs(endY - startY)), -100.0f));
 	}
@@ -87,5 +100,6 @@ void SlidingLand::slidingUpdate(float dt)
 		}
 	}
 }
+
 
 

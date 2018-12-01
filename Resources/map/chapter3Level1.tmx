@@ -524,12 +524,12 @@
   <object id="609" name="Door" type="pushBlock3" gid="44" x="2598" y="928" width="54" height="240">
    <properties>
     <property name="doorID" type="int" value="2"/>
+    <property name="open" type="bool" value="true"/>
    </properties>
   </object>
   <object id="610" name="Door" type="pushBlock2" gid="43" x="2700" y="928" width="54" height="240">
    <properties>
     <property name="doorID" type="int" value="3"/>
-    <property name="open" type="bool" value="true"/>
    </properties>
   </object>
   <object id="611" name="SwingTrap" type="row2" gid="64" x="1183" y="748" width="384" height="48"/>
@@ -574,19 +574,18 @@
   </object>
   <object id="627" name="DoorKey" type="blobGreen" gid="3" x="1912" y="921" width="96" height="64">
    <properties>
-    <property name="door" type="int" value="1"/>
-    <property name="door2" type="int" value="2"/>
+    <property name="door" type="int" value="3"/>
    </properties>
   </object>
   <object id="628" name="DoorKey" type="blobGreen" gid="3" x="2106" y="921" width="96" height="64">
    <properties>
-    <property name="door" type="int" value="2"/>
-    <property name="door2" type="int" value="3"/>
+    <property name="door" type="int" value="1"/>
+    <property name="door2" type="int" value="2"/>
    </properties>
   </object>
   <object id="629" name="DoorKey" type="blobBlue" gid="2" x="2006" y="667" width="96" height="64">
    <properties>
-    <property name="door" type="int" value="1"/>
+    <property name="door" type="int" value="2"/>
     <property name="door2" type="int" value="3"/>
    </properties>
   </object>

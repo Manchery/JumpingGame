@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="133" height="60" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#27b99a" nextlayerid="20" nextobjectid="1067">
+ <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="64" columns="0">
+  <tile id="0">
+   <image width="160" height="192" source="alter.png"/>
+  </tile>
+  <tile id="1">
+   <image width="96" height="64" source="blobBlue.png"/>
+  </tile>
+  <tile id="2">
+   <image width="96" height="64" source="blobGreen.png"/>
+  </tile>
+  <tile id="3">
+   <image width="64" height="64" source="blue.png"/>
+  </tile>
+  <tile id="4">
+   <image width="96" height="128" source="bombStroked.png"/>
+  </tile>
+  <tile id="5">
+   <image width="64" height="64" source="castleWall.png"/>
+  </tile>
+  <tile id="6">
+   <image width="384" height="128" source="cloud.png"/>
+  </tile>
+  <tile id="7">
+   <image width="128" height="192" source="column1.png"/>
+  </tile>
+  <tile id="8">
+   <image width="128" height="192" source="column2.png"/>
+  </tile>
+  <tile id="9">
+   <image width="160" height="192" source="doorBlueStroked.png"/>
+  </tile>
+  <tile id="10">
+   <image width="160" height="192" source="doorGreenStroke.png"/>
+  </tile>
+  <tile id="11">
+   <image width="160" height="192" source="doorRedStroked.png"/>
+  </tile>
+  <tile id="12">
+   <image width="160" height="192" source="doorStroked.png"/>
+  </tile>
+  <tile id="13">
+   <image width="64" height="64" source="earthWall.png"/>
+  </tile>
+  <tile id="14">
+   <image width="160" height="192" source="exit.png"/>
+  </tile>
+  <tile id="15">
+   <image width="192" height="192" source="flare.png"/>
+  </tile>
+  <tile id="16">
+   <image width="64" height="64" source="gemBlueStroked.png"/>
+  </tile>
+  <tile id="17">
+   <image width="64" height="64" source="gemRedStroked.png"/>
+  </tile>
+  <tile id="18">
+   <image width="224" height="32" source="grassLarge.png"/>
+  </tile>
+  <tile id="19">
+   <image width="160" height="32" source="grassSmall.png"/>
+  </tile>
+  <tile id="20">
+   <image width="64" height="64" source="grey.png"/>
+  </tile>
+  <tile id="21">
+   <image width="128" height="160" source="hero.png"/>
+  </tile>
+  <tile id="22">
+   <image width="72" height="44" source="keyGreenStroked.png"/>
+  </tile>
+  <tile id="23">
+   <image width="72" height="44" source="keyRedStroked.png"/>
+  </tile>
+  <tile id="24">
+   <image width="71" height="44" source="keyYellowStroked.png"/>
+  </tile>
+  <tile id="25">
+   <image width="192" height="41" source="platform1.png"/>
+  </tile>
+  <tile id="26">
+   <image width="192" height="41" source="platform2.png"/>
+  </tile>
+  <tile id="27">
+   <image width="192" height="41" source="platform3.png"/>
+  </tile>
+  <tile id="28">
+   <image width="197" height="41" source="platform4.png"/>
+  </tile>
+  <tile id="29">
+   <image width="256" height="72" source="platformBase1.png"/>
+  </tile>
+  <tile id="30">
+   <image width="256" height="72" source="platformBase2.png"/>
+  </tile>
+  <tile id="31">
+   <image width="260" height="72" source="platformBase3.png"/>
+  </tile>
+  <tile id="32">
+   <image width="256" height="72" source="platformBase4.png"/>
+  </tile>
+  <tile id="33">
+   <image width="128" height="96" source="platformBlock1.png"/>
+  </tile>
+  <tile id="34">
+   <image width="128" height="96" source="platformBlock2.png"/>
+  </tile>
+  <tile id="35">
+   <image width="128" height="96" source="platformBlock3.png"/>
+  </tile>
+  <tile id="36">
+   <image width="128" height="96" source="platformBlock4.png"/>
+  </tile>
+  <tile id="37">
+   <image width="96" height="64" source="platformConnector1.png"/>
+  </tile>
+  <tile id="38">
+   <image width="96" height="64" source="platformConnector2.png"/>
+  </tile>
+  <tile id="39">
+   <image width="96" height="64" source="platformConnector3.png"/>
+  </tile>
+  <tile id="40">
+   <image width="96" height="64" source="platformConnector4.png"/>
+  </tile>
+  <tile id="41">
+   <image width="96" height="96" source="pushBlock1.png"/>
+  </tile>
+  <tile id="42">
+   <image width="96" height="96" source="pushBlock2.png"/>
+  </tile>
+  <tile id="43">
+   <image width="96" height="96" source="pushBlock3.png"/>
+  </tile>
+  <tile id="44">
+   <image width="64" height="64" source="shadow.png"/>
+  </tile>
+  <tile id="45">
+   <image width="93" height="93" source="shieldStroked.png"/>
+  </tile>
+  <tile id="46">
+   <image width="160" height="128" source="sign.png"/>
+  </tile>
+  <tile id="48">
+   <image width="192" height="96" source="swordStroked.png"/>
+  </tile>
+  <tile id="49">
+   <image width="96" height="96" source="torch.png"/>
+  </tile>
+  <tile id="50">
+   <image width="128" height="32" source="trap.png"/>
+  </tile>
+  <tile id="51">
+   <image width="128" height="96" source="wallDecor1.png"/>
+  </tile>
+  <tile id="52">
+   <image width="128" height="96" source="wallDecor2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="160" height="128" source="wallDecor3.png"/>
+  </tile>
+  <tile id="54">
+   <image width="65" height="64" source="window1.png"/>
+  </tile>
+  <tile id="55">
+   <image width="64" height="64" source="window2.png"/>
+  </tile>
+  <tile id="56">
+   <image width="56" height="59" source="window3.png"/>
+  </tile>
+  <tile id="57">
+   <image width="135" height="115" source="backgroundArch.png"/>
+  </tile>
+  <tile id="58">
+   <image width="380" height="140" source="backgroundMountain.png"/>
+  </tile>
+  <tile id="59">
+   <image width="129" height="332" source="backgroundTower.png"/>
+  </tile>
+  <tile id="60">
+   <image width="109" height="177" source="backgroundTree.png"/>
+  </tile>
+  <tile id="61">
+   <image width="64" height="64" source="earthWall2.png"/>
+  </tile>
+  <tile id="62">
+   <image width="133" height="160" source="skeleton.png"/>
+  </tile>
+  <tile id="63">
+   <image width="384" height="48" source="row1.png"/>
+  </tile>
+  <tile id="64">
+   <image width="63" height="32" source="trapSmall.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="66" name="objs" tilewidth="384" tileheight="332" tilecount="62" columns="0">
+  <tile id="0">
+   <image width="160" height="192" source="alter.png"/>
+  </tile>
+  <tile id="1">
+   <image width="96" height="64" source="blobBlue.png"/>
+  </tile>
+  <tile id="2">
+   <image width="96" height="64" source="blobGreen.png"/>
+  </tile>
+  <tile id="3">
+   <image width="64" height="64" source="blue.png"/>
+  </tile>
+  <tile id="4">
+   <image width="96" height="128" source="bombStroked.png"/>
+  </tile>
+  <tile id="5">
+   <image width="64" height="64" source="castleWall.png"/>
+  </tile>
+  <tile id="6">
+   <image width="384" height="128" source="cloud.png"/>
+  </tile>
+  <tile id="7">
+   <image width="128" height="192" source="column1.png"/>
+  </tile>
+  <tile id="8">
+   <image width="128" height="192" source="column2.png"/>
+  </tile>
+  <tile id="9">
+   <image width="160" height="192" source="doorBlueStroked.png"/>
+  </tile>
+  <tile id="10">
+   <image width="160" height="192" source="doorGreenStroke.png"/>
+  </tile>
+  <tile id="11">
+   <image width="160" height="192" source="doorRedStroked.png"/>
+  </tile>
+  <tile id="12">
+   <image width="160" height="192" source="doorStroked.png"/>
+  </tile>
+  <tile id="13">
+   <image width="64" height="64" source="earthWall.png"/>
+  </tile>
+  <tile id="14">
+   <image width="160" height="192" source="exit.png"/>
+  </tile>
+  <tile id="15">
+   <image width="192" height="192" source="flare.png"/>
+  </tile>
+  <tile id="16">
+   <image width="64" height="64" source="gemBlueStroked.png"/>
+  </tile>
+  <tile id="17">
+   <image width="64" height="64" source="gemRedStroked.png"/>
+  </tile>
+  <tile id="18">
+   <image width="224" height="32" source="grassLarge.png"/>
+  </tile>
+  <tile id="19">
+   <image width="160" height="32" source="grassSmall.png"/>
+  </tile>
+  <tile id="20">
+   <image width="64" height="64" source="grey.png"/>
+  </tile>
+  <tile id="21">
+   <image width="128" height="160" source="hero.png"/>
+  </tile>
+  <tile id="22">
+   <image width="72" height="44" source="keyGreenStroked.png"/>
+  </tile>
+  <tile id="23">
+   <image width="72" height="44" source="keyRedStroked.png"/>
+  </tile>
+  <tile id="24">
+   <image width="71" height="44" source="keyYellowStroked.png"/>
+  </tile>
+  <tile id="25">
+   <image width="192" height="41" source="platform1.png"/>
+  </tile>
+  <tile id="26">
+   <image width="192" height="41" source="platform2.png"/>
+  </tile>
+  <tile id="27">
+   <image width="192" height="41" source="platform3.png"/>
+  </tile>
+  <tile id="28">
+   <image width="197" height="41" source="platform4.png"/>
+  </tile>
+  <tile id="29">
+   <image width="256" height="72" source="platformBase1.png"/>
+  </tile>
+  <tile id="30">
+   <image width="256" height="72" source="platformBase2.png"/>
+  </tile>
+  <tile id="31">
+   <image width="260" height="72" source="platformBase3.png"/>
+  </tile>
+  <tile id="32">
+   <image width="256" height="72" source="platformBase4.png"/>
+  </tile>
+  <tile id="33">
+   <image width="128" height="96" source="platformBlock1.png"/>
+  </tile>
+  <tile id="34">
+   <image width="128" height="96" source="platformBlock2.png"/>
+  </tile>
+  <tile id="35">
+   <image width="128" height="96" source="platformBlock3.png"/>
+  </tile>
+  <tile id="36">
+   <image width="128" height="96" source="platformBlock4.png"/>
+  </tile>
+  <tile id="37">
+   <image width="96" height="64" source="platformConnector1.png"/>
+  </tile>
+  <tile id="38">
+   <image width="96" height="64" source="platformConnector2.png"/>
+  </tile>
+  <tile id="39">
+   <image width="96" height="64" source="platformConnector3.png"/>
+  </tile>
+  <tile id="40">
+   <image width="96" height="64" source="platformConnector4.png"/>
+  </tile>
+  <tile id="41">
+   <image width="96" height="96" source="pushBlock1.png"/>
+  </tile>
+  <tile id="42">
+   <image width="96" height="96" source="pushBlock2.png"/>
+  </tile>
+  <tile id="43">
+   <image width="96" height="96" source="pushBlock3.png"/>
+  </tile>
+  <tile id="44">
+   <image width="64" height="64" source="shadow.png"/>
+  </tile>
+  <tile id="45">
+   <image width="93" height="93" source="shieldStroked.png"/>
+  </tile>
+  <tile id="46">
+   <image width="160" height="128" source="sign.png"/>
+  </tile>
+  <tile id="48">
+   <image width="192" height="96" source="swordStroked.png"/>
+  </tile>
+  <tile id="49">
+   <image width="96" height="96" source="torch.png"/>
+  </tile>
+  <tile id="50">
+   <image width="128" height="32" source="trap.png"/>
+  </tile>
+  <tile id="51">
+   <image width="128" height="96" source="wallDecor1.png"/>
+  </tile>
+  <tile id="52">
+   <image width="128" height="96" source="wallDecor2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="160" height="128" source="wallDecor3.png"/>
+  </tile>
+  <tile id="54">
+   <image width="65" height="64" source="window1.png"/>
+  </tile>
+  <tile id="55">
+   <image width="64" height="64" source="window2.png"/>
+  </tile>
+  <tile id="56">
+   <image width="56" height="59" source="window3.png"/>
+  </tile>
+  <tile id="57">
+   <image width="135" height="115" source="backgroundArch.png"/>
+  </tile>
+  <tile id="58">
+   <image width="380" height="140" source="backgroundMountain.png"/>
+  </tile>
+  <tile id="59">
+   <image width="129" height="332" source="backgroundTower.png"/>
+  </tile>
+  <tile id="60">
+   <image width="109" height="177" source="backgroundTree.png"/>
+  </tile>
+  <tile id="61">
+   <image width="64" height="64" source="earthWall2.png"/>
+  </tile>
+  <tile id="62">
+   <image width="133" height="160" source="skeleton.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="129" name="objs" tilewidth="384" tileheight="332" tilecount="63" columns="0">
+  <tile id="0">
+   <image width="160" height="192" source="alter.png"/>
+  </tile>
+  <tile id="1">
+   <image width="96" height="64" source="blobBlue.png"/>
+  </tile>
+  <tile id="2">
+   <image width="96" height="64" source="blobGreen.png"/>
+  </tile>
+  <tile id="3">
+   <image width="64" height="64" source="blue.png"/>
+  </tile>
+  <tile id="4">
+   <image width="96" height="128" source="bombStroked.png"/>
+  </tile>
+  <tile id="5">
+   <image width="64" height="64" source="castleWall.png"/>
+  </tile>
+  <tile id="6">
+   <image width="384" height="128" source="cloud.png"/>
+  </tile>
+  <tile id="7">
+   <image width="128" height="192" source="column1.png"/>
+  </tile>
+  <tile id="8">
+   <image width="128" height="192" source="column2.png"/>
+  </tile>
+  <tile id="9">
+   <image width="160" height="192" source="doorBlueStroked.png"/>
+  </tile>
+  <tile id="10">
+   <image width="160" height="192" source="doorGreenStroke.png"/>
+  </tile>
+  <tile id="11">
+   <image width="160" height="192" source="doorRedStroked.png"/>
+  </tile>
+  <tile id="12">
+   <image width="160" height="192" source="doorStroked.png"/>
+  </tile>
+  <tile id="13">
+   <image width="64" height="64" source="earthWall.png"/>
+  </tile>
+  <tile id="14">
+   <image width="160" height="192" source="exit.png"/>
+  </tile>
+  <tile id="15">
+   <image width="192" height="192" source="flare.png"/>
+  </tile>
+  <tile id="16">
+   <image width="64" height="64" source="gemBlueStroked.png"/>
+  </tile>
+  <tile id="17">
+   <image width="64" height="64" source="gemRedStroked.png"/>
+  </tile>
+  <tile id="18">
+   <image width="224" height="32" source="grassLarge.png"/>
+  </tile>
+  <tile id="19">
+   <image width="160" height="32" source="grassSmall.png"/>
+  </tile>
+  <tile id="20">
+   <image width="64" height="64" source="grey.png"/>
+  </tile>
+  <tile id="21">
+   <image width="128" height="160" source="hero.png"/>
+  </tile>
+  <tile id="22">
+   <image width="72" height="44" source="keyGreenStroked.png"/>
+  </tile>
+  <tile id="23">
+   <image width="72" height="44" source="keyRedStroked.png"/>
+  </tile>
+  <tile id="24">
+   <image width="71" height="44" source="keyYellowStroked.png"/>
+  </tile>
+  <tile id="25">
+   <image width="192" height="41" source="platform1.png"/>
+  </tile>
+  <tile id="26">
+   <image width="192" height="41" source="platform2.png"/>
+  </tile>
+  <tile id="27">
+   <image width="192" height="41" source="platform3.png"/>
+  </tile>
+  <tile id="28">
+   <image width="197" height="41" source="platform4.png"/>
+  </tile>
+  <tile id="29">
+   <image width="256" height="72" source="platformBase1.png"/>
+  </tile>
+  <tile id="30">
+   <image width="256" height="72" source="platformBase2.png"/>
+  </tile>
+  <tile id="31">
+   <image width="260" height="72" source="platformBase3.png"/>
+  </tile>
+  <tile id="32">
+   <image width="256" height="72" source="platformBase4.png"/>
+  </tile>
+  <tile id="33">
+   <image width="128" height="96" source="platformBlock1.png"/>
+  </tile>
+  <tile id="34">
+   <image width="128" height="96" source="platformBlock2.png"/>
+  </tile>
+  <tile id="35">
+   <image width="128" height="96" source="platformBlock3.png"/>
+  </tile>
+  <tile id="36">
+   <image width="128" height="96" source="platformBlock4.png"/>
+  </tile>
+  <tile id="37">
+   <image width="96" height="64" source="platformConnector1.png"/>
+  </tile>
+  <tile id="38">
+   <image width="96" height="64" source="platformConnector2.png"/>
+  </tile>
+  <tile id="39">
+   <image width="96" height="64" source="platformConnector3.png"/>
+  </tile>
+  <tile id="40">
+   <image width="96" height="64" source="platformConnector4.png"/>
+  </tile>
+  <tile id="41">
+   <image width="96" height="96" source="pushBlock1.png"/>
+  </tile>
+  <tile id="42">
+   <image width="96" height="96" source="pushBlock2.png"/>
+  </tile>
+  <tile id="43">
+   <image width="96" height="96" source="pushBlock3.png"/>
+  </tile>
+  <tile id="44">
+   <image width="64" height="64" source="shadow.png"/>
+  </tile>
+  <tile id="45">
+   <image width="93" height="93" source="shieldStroked.png"/>
+  </tile>
+  <tile id="46">
+   <image width="160" height="128" source="sign.png"/>
+  </tile>
+  <tile id="48">
+   <image width="192" height="96" source="swordStroked.png"/>
+  </tile>
+  <tile id="49">
+   <image width="96" height="96" source="torch.png"/>
+  </tile>
+  <tile id="50">
+   <image width="128" height="32" source="trap.png"/>
+  </tile>
+  <tile id="51">
+   <image width="128" height="96" source="wallDecor1.png"/>
+  </tile>
+  <tile id="52">
+   <image width="128" height="96" source="wallDecor2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="160" height="128" source="wallDecor3.png"/>
+  </tile>
+  <tile id="54">
+   <image width="65" height="64" source="window1.png"/>
+  </tile>
+  <tile id="55">
+   <image width="64" height="64" source="window2.png"/>
+  </tile>
+  <tile id="56">
+   <image width="56" height="59" source="window3.png"/>
+  </tile>
+  <tile id="57">
+   <image width="135" height="115" source="backgroundArch.png"/>
+  </tile>
+  <tile id="58">
+   <image width="380" height="140" source="backgroundMountain.png"/>
+  </tile>
+  <tile id="59">
+   <image width="129" height="332" source="backgroundTower.png"/>
+  </tile>
+  <tile id="60">
+   <image width="109" height="177" source="backgroundTree.png"/>
+  </tile>
+  <tile id="61">
+   <image width="64" height="64" source="earthWall2.png"/>
+  </tile>
+  <tile id="62">
+   <image width="133" height="160" source="skeleton.png"/>
+  </tile>
+  <tile id="63">
+   <image width="384" height="48" source="row1.png"/>
+  </tile>
+ </tileset>
+ <objectgroup id="9" name="parallax">
+  <object id="806" type="cloud" gid="72" x="366.394" y="205.64" width="417.738" height="139.246"/>
+  <object id="807" type="flare" gid="81" x="848.02" y="246.822" width="208.869" height="208.869"/>
+  <object id="808" type="cloud" gid="2147483720" x="1700.2" y="338.471" width="417.738" height="139.246"/>
+  <object id="809" type="cloud" gid="2147483720" x="3644.11" y="193.456" width="417.738" height="139.246"/>
+  <object id="810" type="cloud" gid="72" x="2769.11" y="494.892" width="417.738" height="139.246"/>
+  <object id="811" type="cloud" gid="72" x="1151.64" y="531.924" width="417.738" height="139.246"/>
+  <object id="812" type="backgroundMountain" gid="124" x="1260.41" y="959.507" width="910.901" height="348.115"/>
+  <object id="813" type="backgroundMountain" gid="124" x="1831.9" y="968.21" width="1000.83" height="487.361"/>
+  <object id="814" type="backgroundMountain" gid="124" x="2464.53" y="1068.83" width="1000.83" height="382.927" rotation="-10.4469"/>
+  <object id="815" type="backgroundMountain" gid="124" x="2825.61" y="749.081" width="951.332" height="554.341" rotation="12.4284"/>
+  <object id="817" type="backgroundTower" gid="125" x="3180.32" y="476.171" width="162.091" height="398.157"/>
+  <object id="818" type="backgroundTower" gid="125" x="2109.86" y="681.872" width="140.334" height="361.169"/>
+  <object id="909" type="backgroundTower" gid="125" x="703.5" y="770.863" width="140.334" height="361.169"/>
+  <object id="911" type="backgroundArch" gid="58" x="1848.22" y="768.044" width="203.43" height="162.091"/>
+ </objectgroup>
+ <objectgroup id="1" name="background">
+  <object id="1066" type="castleWall" gid="6" x="0" y="1919" width="4282" height="880"/>
+  <object id="873" type="platformBase4" gid="2147483746" x="152.308" y="1029.04" width="295.521" height="148.821" rotation="-90"/>
+  <object id="901" type="platformBase4" gid="2147483746" x="859.239" y="1030.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="902" type="platformBase4" gid="2147483746" x="1157.24" y="1032.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="903" type="platformBase4" gid="2147483746" x="1453.24" y="1036.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="904" type="platformBase4" gid="2147483746" x="1759.24" y="1036.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="905" type="platformBase4" gid="2147483746" x="2069.24" y="1038.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="906" type="platformBase4" gid="2147483746" x="2387.24" y="1030.59" width="295.521" height="164.821" rotation="-90"/>
+  <object id="988" type="platformBase4" gid="2147483746" x="2724.63" y="1032.33" width="295.521" height="164.821" rotation="-90"/>
+  <object id="989" type="platformBase4" gid="2147483746" x="3034.63" y="1034.33" width="295.521" height="164.821" rotation="-90"/>
+  <object id="990" type="platformBase4" gid="2147483746" x="3352.63" y="1026.33" width="295.521" height="164.821" rotation="-90"/>
+  <object id="1001" type="platformBase4" gid="2147483746" x="3660.13" y="1034.33" width="295.521" height="164.821" rotation="-90"/>
+  <object id="1003" type="platformBase4" gid="2147483746" x="4288.13" y="1028.33" width="295.521" height="164.821" rotation="-90"/>
+  <object id="854" type="platformBase4" gid="98" x="2.06897" y="1057.68" width="295.521" height="110.821"/>
+  <object id="855" type="platformBase4" gid="2147483746" x="355.77" y="1053.68" width="295.521" height="110.821"/>
+  <object id="856" type="platformBase4" gid="2147483746" x="352.77" y="986.8" width="295.521" height="110.821"/>
+  <object id="857" type="platformBase4" gid="98" x="107.069" y="1057.8" width="295.521" height="110.821"/>
+  <object id="858" type="platformBase4" gid="2147483746" x="195.77" y="987.92" width="295.521" height="110.821"/>
+  <object id="859" type="platformBase4" gid="98" x="5.06897" y="985.92" width="295.521" height="110.821"/>
+  <object id="874" type="platformBase4" gid="98" x="622.458" y="1058.86" width="295.521" height="110.821"/>
+  <object id="875" type="platformBase4" gid="2147483746" x="976.159" y="1054.86" width="295.521" height="110.821"/>
+  <object id="876" type="platformBase4" gid="2147483746" x="973.159" y="987.98" width="295.521" height="110.821"/>
+  <object id="877" type="platformBase4" gid="98" x="727.458" y="1058.98" width="295.521" height="110.821"/>
+  <object id="878" type="platformBase4" gid="2147483746" x="816.159" y="989.1" width="295.521" height="110.821"/>
+  <object id="879" type="platformBase4" gid="98" x="625.458" y="987.1" width="295.521" height="110.821"/>
+  <object id="880" type="platformBase4" gid="98" x="1262.46" y="1058.86" width="295.521" height="110.821"/>
+  <object id="881" type="platformBase4" gid="2147483746" x="1616.16" y="1054.86" width="295.521" height="110.821"/>
+  <object id="882" type="platformBase4" gid="2147483746" x="1613.16" y="987.98" width="295.521" height="110.821"/>
+  <object id="883" type="platformBase4" gid="98" x="1367.46" y="1058.98" width="295.521" height="110.821"/>
+  <object id="884" type="platformBase4" gid="2147483746" x="1456.16" y="989.1" width="295.521" height="110.821"/>
+  <object id="885" type="platformBase4" gid="98" x="1265.46" y="987.1" width="295.521" height="110.821"/>
+  <object id="886" type="platformBase4" gid="98" x="1894.46" y="1054.86" width="295.521" height="110.821"/>
+  <object id="887" type="platformBase4" gid="2147483746" x="2248.16" y="1050.86" width="295.521" height="110.821"/>
+  <object id="888" type="platformBase4" gid="2147483746" x="2245.16" y="983.98" width="295.521" height="110.821"/>
+  <object id="889" type="platformBase4" gid="98" x="1999.46" y="1054.98" width="295.521" height="110.821"/>
+  <object id="890" type="platformBase4" gid="2147483746" x="2088.16" y="985.1" width="295.521" height="110.821"/>
+  <object id="891" type="platformBase4" gid="98" x="1897.46" y="983.1" width="295.521" height="110.821"/>
+  <object id="976" type="platformBase4" gid="98" x="2227.85" y="1054.6" width="295.521" height="110.821"/>
+  <object id="977" type="platformBase4" gid="2147483746" x="2581.55" y="1050.6" width="295.521" height="110.821"/>
+  <object id="978" type="platformBase4" gid="2147483746" x="2578.55" y="983.725" width="295.521" height="110.821"/>
+  <object id="979" type="platformBase4" gid="98" x="2332.85" y="1054.72" width="295.521" height="110.821"/>
+  <object id="980" type="platformBase4" gid="2147483746" x="2421.55" y="984.845" width="295.521" height="110.821"/>
+  <object id="981" type="platformBase4" gid="98" x="2230.85" y="982.845" width="295.521" height="110.821"/>
+  <object id="982" type="platformBase4" gid="98" x="2859.85" y="1050.6" width="295.521" height="110.821"/>
+  <object id="983" type="platformBase4" gid="2147483746" x="3213.55" y="1050.6" width="295.521" height="110.821"/>
+  <object id="984" type="platformBase4" gid="2147483746" x="3210.55" y="979.725" width="295.521" height="110.821"/>
+  <object id="985" type="platformBase4" gid="98" x="2964.85" y="1050.72" width="295.521" height="110.821"/>
+  <object id="986" type="platformBase4" gid="2147483746" x="3053.55" y="980.845" width="295.521" height="110.821"/>
+  <object id="987" type="platformBase4" gid="98" x="2862.85" y="978.845" width="295.521" height="110.821"/>
+  <object id="991" type="platformBase4" gid="2147483746" x="3517.05" y="1052.6" width="295.521" height="110.821"/>
+  <object id="992" type="platformBase4" gid="2147483746" x="3514.05" y="985.725" width="295.521" height="110.821"/>
+  <object id="993" type="platformBase4" gid="98" x="3268.35" y="1056.72" width="295.521" height="110.821"/>
+  <object id="994" type="platformBase4" gid="2147483746" x="3357.05" y="986.844" width="295.521" height="110.821"/>
+  <object id="995" type="platformBase4" gid="98" x="3795.35" y="1052.6" width="295.521" height="110.821"/>
+  <object id="996" type="platformBase4" gid="2147483746" x="4149.05" y="1052.6" width="131.521" height="110.821"/>
+  <object id="997" type="platformBase4" gid="2147483746" x="4146.05" y="981.725" width="135.521" height="110.821"/>
+  <object id="998" type="platformBase4" gid="98" x="3900.35" y="1052.72" width="295.521" height="110.821"/>
+  <object id="999" type="platformBase4" gid="2147483746" x="3989.05" y="982.844" width="295.521" height="110.821"/>
+  <object id="1000" type="platformBase4" gid="98" x="3798.35" y="980.844" width="295.521" height="110.821"/>
+ </objectgroup>
+ <objectgroup id="2" name="ground" visible="0"/>
+ <objectgroup id="3" name="castledeco">
+  <object id="715" type="platformBase4" gid="98" x="286" y="1426" width="256" height="96"/>
+  <object id="716" type="platformBase4" gid="98" x="286" y="1385" width="256" height="96"/>
+  <object id="717" type="platformBase4" gid="98" x="286" y="1321" width="256" height="96"/>
+  <object id="718" type="platformBase4" gid="98" x="286" y="1257" width="256" height="96"/>
+  <object id="719" type="platformBase4" gid="98" x="286" y="1065" width="256" height="96"/>
+  <object id="720" type="platformBase4" gid="98" x="286" y="1193" width="256" height="96"/>
+  <object id="721" type="platformBase4" gid="98" x="286" y="1129" width="256" height="96"/>
+  <object id="722" type="platformBase4" gid="98" x="286" y="1001" width="256" height="96"/>
+  <object id="723" type="platformBase4" gid="98" x="222" y="937" width="256" height="96"/>
+  <object id="724" type="platformBase4" gid="2147483746" x="318" y="1001" width="256" height="96"/>
+  <object id="725" type="platformBase4" gid="2147483746" x="318" y="1129" width="256" height="96"/>
+  <object id="726" type="platformBase4" gid="2147483746" x="318" y="1426" width="256" height="96"/>
+  <object id="727" type="platformBase4" gid="2147483746" x="318" y="1065" width="256" height="96"/>
+  <object id="728" type="platformBase4" gid="2147483746" x="318" y="1321" width="256" height="96"/>
+  <object id="729" type="platformBase4" gid="2147483746" x="382" y="937" width="256" height="96"/>
+  <object id="730" type="platformBase4" gid="2147483746" x="318" y="1257" width="256" height="96"/>
+  <object id="731" type="platformBase4" gid="2147483746" x="318" y="1193" width="256" height="96"/>
+  <object id="732" type="platformBase4" gid="2147483746" x="318" y="1385" width="256" height="96"/>
+  <object id="733" type="platformBase4" gid="2147483746" x="382" y="873" width="256" height="96"/>
+  <object id="734" type="platformBase4" gid="98" x="222" y="873" width="256" height="96"/>
+  <object id="735" type="platformBase4" gid="2147483746" x="382" y="809" width="256" height="96"/>
+  <object id="736" type="platformBase4" gid="98" x="222" y="809" width="256" height="96"/>
+  <object id="737" type="platform4" gid="94" x="510" y="649" width="192" height="64" rotation="90"/>
+  <object id="738" type="platform4" gid="94" x="574" y="649" width="192" height="64" rotation="-270"/>
+  <object id="739" type="platform4" gid="94" x="382" y="649" width="192" height="64" rotation="90"/>
+  <object id="740" type="platform4" gid="94" x="446" y="649" width="192" height="64" rotation="-270"/>
+  <object id="741" type="platform4" gid="94" x="254" y="649" width="192" height="64" rotation="90"/>
+  <object id="742" type="platform4" gid="94" x="318" y="649" width="192" height="64" rotation="-270"/>
+  <object id="743" type="platform4" gid="94" x="286" y="841" width="192" height="64" rotation="-90"/>
+  <object id="755" type="platformBase4" gid="98" x="3740" y="1557" width="256" height="96"/>
+  <object id="756" type="platformBase4" gid="98" x="3740" y="1493" width="256" height="96"/>
+  <object id="757" type="platformBase4" gid="98" x="3740" y="1429" width="256" height="96"/>
+  <object id="758" type="platformBase4" gid="98" x="3740" y="1365" width="256" height="96"/>
+  <object id="759" type="platformBase4" gid="98" x="3740" y="1173" width="256" height="96"/>
+  <object id="760" type="platformBase4" gid="98" x="3740" y="1301" width="256" height="96"/>
+  <object id="761" type="platformBase4" gid="98" x="3740" y="1237" width="256" height="96"/>
+  <object id="762" type="platformBase4" gid="98" x="3740" y="1109" width="256" height="96"/>
+  <object id="763" type="platformBase4" gid="98" x="3674" y="812" width="256" height="96"/>
+  <object id="764" type="platformBase4" gid="2147483746" x="3772" y="1109" width="256" height="96"/>
+  <object id="765" type="platformBase4" gid="2147483746" x="3772" y="1237" width="256" height="96"/>
+  <object id="766" type="platformBase4" gid="2147483746" x="3772" y="1557" width="256" height="96"/>
+  <object id="767" type="platformBase4" gid="2147483746" x="3772" y="1173" width="256" height="96"/>
+  <object id="768" type="platformBase4" gid="2147483746" x="3772" y="1429" width="256" height="96"/>
+  <object id="769" type="platformBase4" gid="2147483746" x="3834" y="812" width="256" height="96"/>
+  <object id="770" type="platformBase4" gid="2147483746" x="3772" y="1365" width="256" height="96"/>
+  <object id="771" type="platformBase4" gid="2147483746" x="3772" y="1301" width="256" height="96"/>
+  <object id="772" type="platformBase4" gid="2147483746" x="3772" y="1493" width="256" height="96"/>
+  <object id="773" type="platformBase4" gid="2147483746" x="3834" y="748" width="256" height="96"/>
+  <object id="774" type="platformBase4" gid="98" x="3674" y="748" width="256" height="96"/>
+  <object id="775" type="platformBase4" gid="2147483746" x="3834" y="684" width="256" height="96"/>
+  <object id="776" type="platformBase4" gid="98" x="3674" y="684" width="256" height="96"/>
+  <object id="777" type="platform4" gid="94" x="3962" y="524" width="192" height="64" rotation="90"/>
+  <object id="778" type="platform4" gid="94" x="4026" y="524" width="192" height="64" rotation="-270"/>
+  <object id="779" type="platform4" gid="94" x="3834" y="524" width="192" height="64" rotation="90"/>
+  <object id="780" type="platform4" gid="94" x="3898" y="524" width="192" height="64" rotation="-270"/>
+  <object id="781" type="platform4" gid="94" x="3706" y="524" width="192" height="64" rotation="90"/>
+  <object id="782" type="platform4" gid="94" x="3770" y="524" width="192" height="64" rotation="-270"/>
+  <object id="783" type="platform4" gid="94" x="3738" y="716" width="192" height="64" rotation="-90"/>
+  <object id="795" type="platformBase4" gid="98" x="3742" y="961.5" width="256" height="96"/>
+  <object id="796" type="platformBase4" gid="98" x="3742" y="1025.5" width="256" height="96"/>
+  <object id="797" type="platformBase4" gid="98" x="3742" y="897.5" width="256" height="96"/>
+  <object id="798" type="platformBase4" gid="2147483746" x="3774" y="897.5" width="256" height="96"/>
+  <object id="799" type="platformBase4" gid="2147483746" x="3774" y="1025.5" width="256" height="96"/>
+  <object id="800" type="platformBase4" gid="2147483746" x="3774" y="961.5" width="256" height="96"/>
+  <object id="1054" type="window1" gid="183" x="1953.5" y="1245.75" width="65" height="64"/>
+  <object id="1055" type="platformBlock4" gid="165" x="1066" y="1175.75" width="128" height="96"/>
+  <object id="1056" type="wallDecor3" gid="2147483830" x="3248" y="1789.75" width="160" height="128"/>
+  <object id="1057" type="window3" gid="185" x="3524" y="1828.25" width="56" height="59"/>
+  <object id="1058" type="wallDecor3" gid="2147483830" x="3058" y="1268" width="160" height="128"/>
+  <object id="1059" type="wallDecor3" gid="182" x="2228" y="1628" width="160" height="128"/>
+  <object id="1060" type="wallDecor3" gid="2147483830" x="1270" y="1122" width="160" height="128"/>
+  <object id="1061" type="wallDecor3" gid="182" x="866" y="1842" width="160" height="128"/>
+  <object id="1062" type="platformBlock4" gid="165" x="66" y="1766" width="128" height="96"/>
+  <object id="1063" type="window3" gid="185" x="1598" y="1176.5" width="56" height="59"/>
+  <object id="1064" type="wallDecor3" gid="2147483830" x="4066" y="1586" width="160" height="128"/>
+  <object id="1065" type="platformBlock4" gid="165" x="2042" y="1842" width="128" height="96"/>
+ </objectgroup>
+ <objectgroup id="4" name="shading" opacity="0.16">
+  <object id="112" type="shadow" gid="45" x="4194" y="2026" width="104" height="2038"/>
+  <object id="1040" type="shadow" gid="45" x="-40" y="2009" width="104" height="2038"/>
+  <object id="1042" type="shadow" gid="45" x="523" y="1414" width="48" height="488"/>
+  <object id="1044" type="shadow" gid="45" x="286" y="1413" width="48" height="488"/>
+  <object id="1046" type="shadow" gid="45" x="222" y="924" width="48" height="272"/>
+  <object id="1048" type="shadow" gid="45" x="585" y="922" width="48" height="272"/>
+  <object id="1050" type="shadow" gid="45" x="3742" y="1544" width="48" height="744"/>
+  <object id="1051" type="shadow" gid="45" x="3978" y="1546" width="48" height="744"/>
+  <object id="1052" type="shadow" gid="45" x="3676" y="801" width="48" height="274"/>
+  <object id="1053" type="shadow" gid="45" x="4039" y="800" width="48" height="274"/>
+ </objectgroup>
+ <objectgroup id="6" name="game">
+  <object id="933" name="Exit" type="doorStroked" gid="13" x="3813" y="1547" width="142" height="172"/>
+  <object id="937" name="Land" type="platformBase4" gid="33" x="190" y="1487" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="938" name="Land" type="platformBase3" gid="32" x="446" y="1487" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="939" name="Hero" type="hero" gid="22" x="465" y="1415" width="128" height="160"/>
+  <object id="940" name="Land" type="platformBase4" gid="33" x="3627" y="1618" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+    <property name="revivePoint" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="941" name="Land" type="platformBase3" gid="32" x="3883" y="1618" width="256" height="72">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="949" name="Land" type="platformBase4" gid="32" x="982" y="1420" width="260" height="72"/>
+  <object id="950" name="Land" type="platformBase3" gid="32" x="1580" y="1614" width="260" height="72"/>
+  <object id="951" name="Land" type="platformBase4" gid="32" x="2768" y="1420" width="260" height="72"/>
+  <object id="952" name="Land" type="platformBase4" gid="32" x="2216" y="1420" width="260" height="72"/>
+  <object id="953" name="Land" type="platformBase3" gid="32" x="2768" y="1614" width="260" height="72"/>
+  <object id="954" name="SlidingLand" type="platform4" gid="28" x="736" y="1477" width="192" height="41">
+   <properties>
+    <property name="ID" type="int" value="1"/>
+    <property name="delay" type="float" value="3"/>
+    <property name="endX" type="float" value="3200"/>
+    <property name="endY" type="float" value="1490"/>
+    <property name="startX" type="float" value="736"/>
+    <property name="startY" type="float" value="1490"/>
+   </properties>
+  </object>
+  <object id="955" name="SlidingLand" type="platform3" gid="29" x="542" y="1710" width="197" height="41">
+   <properties>
+    <property name="ID" type="int" value="2"/>
+    <property name="delay" type="float" value="3"/>
+    <property name="endX" type="float" value="3006"/>
+    <property name="endY" type="float" value="1705"/>
+    <property name="startX" type="float" value="542"/>
+    <property name="startY" type="float" value="1705"/>
+   </properties>
+  </object>
+  <object id="956" name="Land" type="platformBase3" gid="32" x="194" y="1614" width="260" height="72"/>
+  <object id="958" name="Land" type="platformBase3" gid="32" x="2308" y="1127" width="260" height="72"/>
+  <object id="1004" name="Trap" type="trap" gid="51" x="984" y="1348" width="128" height="48"/>
+  <object id="1005" name="Trap" type="trap" gid="51" x="1112" y="1348" width="128" height="48"/>
+  <object id="1009" name="Trap" type="trap" gid="51" x="2438" y="1120" width="128" height="32" rotation="180"/>
+  <object id="1010" name="Trap" type="trap" gid="51" x="2566" y="1120" width="128" height="32" rotation="180"/>
+  <object id="1011" name="Trap" type="trap" gid="51" x="1580" y="1542" width="128" height="48"/>
+  <object id="1012" name="Trap" type="trap" gid="51" x="1708" y="1542" width="128" height="48"/>
+  <object id="1014" name="Trap" type="trapSmall" gid="65" x="984" y="1420" width="72" height="48" rotation="-90"/>
+  <object id="1015" name="Trap" type="trapSmall" gid="65" x="1580" y="1614" width="72" height="48" rotation="-90"/>
+  <object id="1016" name="Trap" type="trapSmall" gid="65" x="2219" y="1416" width="60" height="48" rotation="-90"/>
+  <object id="1017" name="Trap" type="trapSmall" gid="65" x="2770" y="1418" width="65" height="48" rotation="-90"/>
+  <object id="1019" name="Trap" type="trapSmall" gid="65" x="2770" y="1610" width="65" height="48" rotation="-90"/>
+  <object id="1020" name="Trap" type="trapSmall" gid="65" x="3026" y="1545" width="65" height="48" rotation="90"/>
+  <object id="1021" name="Trap" type="trapSmall" gid="65" x="452" y="1540" width="72" height="48" rotation="90"/>
+  <object id="1023" name="Coin" type="gemBlueStroked" gid="146" x="800" y="1605" width="64" height="64"/>
+  <object id="1024" name="Coin" type="gemBlueStroked" gid="145" x="2203" y="1124" width="64" height="64"/>
+  <object id="1025" name="Coin" type="gemRedStroked" gid="146" x="2356" y="1242" width="64" height="64"/>
+  <object id="1026" name="Coin" type="gemBlueStroked" gid="145" x="2803" y="1312" width="64" height="64"/>
+  <object id="1027" name="Coin" type="gemRedStroked" gid="146" x="2913" y="1312" width="64" height="64"/>
+  <object id="1028" name="Coin" type="gemRedStroked" gid="145" x="928" y="1234" width="64" height="64"/>
+  <object id="1029" name="Coin" type="gemRedStroked" gid="146" x="3274" y="1403.5" width="64" height="64"/>
+  <object id="1030" name="Coin" type="gemRedStroked" gid="146" x="3478" y="1402.5" width="64" height="64"/>
+  <object id="1031" name="Coin" type="gemBlueStroked" gid="145" x="3378" y="1326.5" width="64" height="64"/>
+  <object id="1032" name="Trap" type="trapSmall" gid="65" x="3027" y="1349" width="65" height="48" rotation="90"/>
+  <object id="1035" name="SoftLand" type="pushBlock3" gid="172" x="1244" y="1542" width="96" height="96"/>
+  <object id="1036" name="SoftLand" type="pushBlock3" gid="172" x="1244" y="1634" width="96" height="96"/>
+  <object id="1037" name="SoftLand" type="pushBlock3" gid="172" x="1856" y="1380" width="96" height="96"/>
+  <object id="1038" name="SoftLand" type="pushBlock3" gid="172" x="1856" y="1472" width="96" height="96"/>
+  <object id="1039" name="GameKey" type="keyRedStroked" gid="152" x="528" y="1600" width="72" height="44"/>
+ </objectgroup>
+ <objectgroup id="7" name="above">
+  <object id="917" type="window1" gid="120" x="379" y="1125" width="65" height="64"/>
+  <object id="918" type="window1" gid="120" x="379" y="984" width="65" height="64"/>
+  <object id="919" type="window1" gid="120" x="3848" y="1273" width="65" height="64"/>
+  <object id="920" type="window1" gid="120" x="3848" y="1105" width="65" height="64"/>
+  <object id="921" type="window1" gid="120" x="3848" y="920.5" width="65" height="64"/>
+  <object id="943" type="exit" gid="15" x="342" y="1416" width="160" height="192"/>
+  <object id="944" type="doorBlueStroked" gid="10" x="270" y="1416" width="148" height="174"/>
+ </objectgroup>
+ <objectgroup id="8" name="bounds" visible="0">
+  <object id="501" x="0" y="-38" width="64" height="1993">
+   <properties>
+    <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+  <object id="1022" x="4192" y="-46.5" width="64" height="1993">
+   <properties>
+    <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

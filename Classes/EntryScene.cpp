@@ -6,6 +6,9 @@
 #include "Chapter0Level1.h"
 #include "Chapter1Level1.h"
 #include "Chapter2Level1.h"
+#include "Chapter3Level1.h"
+#include "Chapter3Level2.h"
+#include "Chapter3Level3.h"
 #include <iostream>
 #include <sstream>
 
@@ -129,7 +132,7 @@ Node * EntryScene::chapterEntry(int idx)
 			case ui::Widget::TouchEventType::ENDED: {
 				Scene* scene; int idx = ((Button*)sender)->getTag();
 				if (idx==0)
-					scene = Chapter2Level1::createScene();
+					scene = Chapter3Level3::createScene();
 				else if (idx==2)
 					scene= Chapter2Level1::createScene();
 				else

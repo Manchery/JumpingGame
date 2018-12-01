@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="96" height="138" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="19" nextobjectid="1278">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="96" height="138" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="19" nextobjectid="1279">
  <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="63" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
@@ -191,7 +191,7 @@
    <image width="384" height="48" source="row1.png"/>
   </tile>
  </tileset>
- <objectgroup id="18" name="water" visible="0" opacity="0.3">
+ <objectgroup id="18" name="water" opacity="0.3">
   <object id="1048" type="blue" gid="4" x="426" y="2352" width="941" height="1486"/>
   <object id="1049" type="blue" gid="4" x="1367" y="4261" width="1586" height="2820"/>
   <object id="1050" type="blue" gid="4" x="-139" y="4196" width="1506" height="654"/>
@@ -247,6 +247,7 @@
   <object id="871" type="flare" gid="16" x="1766" y="1998" width="192" height="192"/>
   <object id="872" type="torch" gid="50" x="2732" y="3536" width="96" height="96"/>
   <object id="873" type="flare" gid="16" x="2684" y="3528" width="192" height="192"/>
+  <object id="1278" type="sign2" gid="47" x="1120" y="2294" width="160" height="128"/>
  </objectgroup>
  <objectgroup id="3" name="castledeco">
   <object id="370" type="window2" gid="56" x="1120" y="2838" width="64" height="64"/>
@@ -1000,7 +1001,7 @@
   <object id="1234" name="Coin" type="gemRedStroked" gid="18" x="783.475" y="1351.93" width="64" height="64"/>
   <object id="1235" name="Coin" type="gemRedStroked" gid="18" x="1006.76" y="1350.85" width="64" height="64"/>
   <object id="1236" name="Coin" type="gemBlueStroked" gid="17" x="896.729" y="1278.98" width="64" height="64"/>
-  <object id="1237" name="Coin" type="gemRedStroked" gid="18" x="1212.07" y="2237.49" width="64" height="64"/>
+  <object id="1237" name="Coin" type="gemRedStroked" gid="18" x="1312.07" y="2237.49" width="64" height="64"/>
   <object id="1238" name="Coin" type="gemBlueStroked" gid="17" x="2793.42" y="2340.97" width="64" height="64"/>
   <object id="1239" name="Coin" type="gemRedStroked" gid="18" x="1464.61" y="3232.57" width="64" height="64"/>
   <object id="1240" name="Coin" type="gemBlueStroked" gid="17" x="1464.61" y="3391.57" width="64" height="64"/>

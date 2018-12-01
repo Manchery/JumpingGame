@@ -12,6 +12,17 @@ bool Hero::init() {
 	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height*0.8);
 	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	physicsBody->setPositionOffset(Vec2(0, -this->getContentSize().height*0.2/2));
+
+	minYOffset= physicsBody->getPositionOffset().y 
+		- ((PhysicsShapeBox*)(physicsBody->getShape(0)))->getSize().height / 2;
+	maxYOffset = physicsBody->getPositionOffset().y
+		+ ((PhysicsShapeBox*)(physicsBody->getShape(0)))->getSize().height / 2;
+
+	minXOffset = physicsBody->getPositionOffset().x
+		- ((PhysicsShapeBox*)(physicsBody->getShape(0)))->getSize().width / 2;
+	maxXOffset = physicsBody->getPositionOffset().x
+		+ ((PhysicsShapeBox*)(physicsBody->getShape(0)))->getSize().width / 2;
+
 	//physicsBody->setLinearDamping(0.2f);
 	physicsBody->setGravityEnable(true);
 	physicsBody->setRotationEnable(false);
@@ -145,8 +156,8 @@ void Hero::shot() {
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(BULLET_M);
-	physicsBody->setCollisionBitmask(0xFFFFFFFF ^ COIN_M);
-	physicsBody->setContactTestBitmask(0xFFFFFFFF^COIN_M);
+	physicsBody->setCollisionBitmask(0xFFFFFFFF ^ COIN_M^EXIT_M);
+	physicsBody->setContactTestBitmask(0xFFFFFFFF^COIN_M^EXIT_M);
 	bullet->setPhysicsBody(physicsBody);
 
 	auto parent = this->getParent();

@@ -59,7 +59,7 @@ void GameScene::commonInitAfterMap(){
 
 	revivePoint = hero->getPosition();
 	heroDied = heroJumped = heroBounced = 0;
-	gotGameKey = 0; needGameKey = 0;
+	gotGameKey = 0; //needGameKey = 0;
 	gotShot = lastGotShot = gotShield = lastGotShield = 0;
 
 	this->schedule(schedule_selector(GameScene::heroUpdate));
@@ -141,12 +141,20 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			frontGroundLayer->addChild(slidingTrap, -1);
 		}
 		else if (name == "SlidingLand") {
-			auto slidingLand = SlidingLand::create("map/" + type + ".png",width,height);
+			float delay = 0;
+			if (dic.find("delay") != dic.end())
+				delay=dic.at("delay").asFloat();
+
+			auto slidingLand = SlidingLand::create("map/" + type + ".png",width,height,delay);
 			slidingLand->setAnchorPoint(Vec2::ZERO);
 			float startX= dic.at("startX").asFloat(),startY= mapSize.height-dic.at("startY").asFloat();
 			float endX = dic.at("endX").asFloat(), endY = mapSize.height - dic.at("endY").asFloat();
 			slidingLand->setTrack(startX,startY,endX,endY);
 			slidingLand->setTag(SLIDING_LAND_T);
+
+			if (dic.find("ID") != dic.end())
+				slidingLand->setName("SlidingLand" + std::to_string(dic.at("ID").asInt()));
+
 			frontGroundLayer->addChild(slidingLand, 1);
 		}
 		else if (name == "SwingLand" || name=="SwingTrap") {
@@ -281,6 +289,9 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				physicsBody->setContactTestBitmask(0xFFFFFFFF);
 
 				sprite->setPhysicsBody(physicsBody);
+
+				needGameKey = 1;
+
 				frontGroundLayer->addChild(sprite, 0);
 			}
 			else if (name == "Exit") {
@@ -616,7 +627,7 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 		//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
 		if (isLand(nodeB)) {
 			if (!(*heroSetOnGround)) {
-				if (nodeB->getTag()==SWING_LAND_T || touchUpSurface(hero,nodeB)) {
+				if (nodeB->getTag()==SWING_LAND_T || heroBottomTouched(nodeB)) {
 					hero->resetJumpTimes();
 					hero->addOnGround();
 					*heroSetOnGround = true;
@@ -732,7 +743,9 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
-	log("%d", hero->getInWater());
+	log("%d", hero->getOnGround());
+	//log("%f %f", hero->getPositionX(), hero->getPositionY());
+	//log("%f %f %f %f", hero->getPhysicsMinX(), hero->getPhysicsMaxX(), hero->getPhysicsMinY(), hero->getPhysicsMaxY());
 	//died
 	if (heroDied) {
 		heroDie();

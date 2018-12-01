@@ -41,7 +41,7 @@ public:
 	Vec2 getHeroGlobalPosition();
 
 	void gamePause();
-	void heroDie();
+	virtual void heroDie();
 	void heroJump();
 
 	void messageSingleLine(const std::string &mes);
@@ -79,6 +79,18 @@ public:
 	}
 	bool getGotShield() {
 		return gotShield;
+	}
+	bool heroBottomTouched(Node *node) {
+		return (node->getBoundingBox().getMaxY() <= hero->getPhysicsMinY() + 10.0f &&
+			node->getBoundingBox().getMaxY() >= hero->getPhysicsMinY() - 10.0f);
+	}
+	bool heroRightTouched(Node *node) {
+		return (node->getBoundingBox().getMinX() <= hero->getPhysicsMaxX() + 10.0f &&
+			node->getBoundingBox().getMinX() >= hero->getPhysicsMaxX() - 10.0f);
+	}
+	bool heroLeftTouched(Node *node) {
+		return (node->getBoundingBox().getMaxX() <= hero->getPhysicsMinX() + 10.0f &&
+			node->getBoundingBox().getMaxX() >= hero->getPhysicsMinX() - 10.0f);
 	}
 
 protected:

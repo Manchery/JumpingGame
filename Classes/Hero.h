@@ -76,6 +76,18 @@ public:
 	bool getShielded() {
 		return shielded;
 	}
+	float getPhysicsMinX() {
+		return this->getBoundingBox().getMidX() + minXOffset;
+	}
+	float getPhysicsMinY() {
+		return this->getBoundingBox().getMidY() + minYOffset;
+	}
+	float getPhysicsMaxX() {
+		return this->getBoundingBox().getMidX() + maxXOffset;
+	}
+	float getPhysicsMaxY() {
+		return this->getBoundingBox().getMidY() + maxYOffset;
+	}
 	
 protected:
 	HeroState heroState,lastState;
@@ -88,6 +100,7 @@ protected:
 	cocos2d::Sprite *slidingGround;
 	bool shielded;
 	float lastShieldTime;
+	float minXOffset, maxXOffset, minYOffset, maxYOffset;
 };
 
 #endif // __HERO_H__

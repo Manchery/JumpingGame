@@ -90,6 +90,15 @@
     <ClCompile Include="..\Classes\Chapter1Level1.cpp">
       <Filter>src\Chapter</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Chapter3Level1.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Chapter3Level2.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Chapter3Level3.cpp">
+      <Filter>src\Chapter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -159,6 +168,15 @@
       <Filter>src\Chapter</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Chapter1Level1.h">
+      <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter3Level1.h">
+      <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter3Level2.h">
+      <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter3Level3.h">
       <Filter>src\Chapter</Filter>
     </ClInclude>
   </ItemGroup>

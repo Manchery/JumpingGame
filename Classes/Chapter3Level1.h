@@ -1,5 +1,5 @@
-#ifndef __CHAPTER2_LEVEL1_H__
-#define __CHAPTER2_LEVEL1_H__
+#ifndef __CHAPTER3_LEVEL1_H__
+#define __CHAPTER3_LEVEL1_H__
 
 #include "cocos2d.h"
 #include "Hero.h"
@@ -10,20 +10,16 @@
 
 USING_NS_CC;
 
-class Chapter2Level1 : public GameScene
+class Chapter3Level1 : public GameScene
 {
 public:
 	static cocos2d::Scene* createScene();
-
 	virtual bool init();
-	virtual void drawMap(const TMXTiledMap * tileMap) override;
-
-	virtual bool onContactBegin(cocos2d::PhysicsContact &contact) override;
 
 	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
-	CREATE_FUNC(Chapter2Level1);
+	CREATE_FUNC(Chapter3Level1);
 };
 
-#endif // __CHAPTER2_LEVEL1_H__
+#endif // __CHAPTER3_LEVEL1_H__
