@@ -55,9 +55,21 @@ bool EntryScene::init()
 		visibleSize.height - 50 - backButton->getContentSize().height / 2));
 	this->addChild(backButton);
 
-	auto node = chapterEntry(0);
-	node->setPosition(visibleSize / 2);
-	this->addChild(node, 1);
+	auto chapter0 = chapterEntry(0);
+	chapter0->setPosition(Vec2(visibleSize.width/2-800,visibleSize.height/2));
+	this->addChild(chapter0, 1);
+
+	auto chapter1 = chapterEntry(1);
+	chapter1->setPosition(Vec2(visibleSize.width / 2-400, visibleSize.height/2));
+	this->addChild(chapter1, 1);
+
+	auto chapter2 = chapterEntry(2);
+	chapter2->setPosition(Vec2(visibleSize.width / 2+400, visibleSize.height/2));
+	this->addChild(chapter2, 1);
+
+	auto chapter3 = chapterEntry(3);
+	chapter3->setPosition(Vec2(visibleSize.width / 2 + 800, visibleSize.height/2));
+	this->addChild(chapter3, 1);
 
 	return true;
 }
@@ -69,17 +81,15 @@ static int bonusNeed = 72;
 static int getCoinTotal() {
 	int total = 0;
 	for (int i = 0; i < 6; i++) {
-		std::stringstream sstr;
-		sstr << "chapter" << i << "CoinCount";
-		total+=UserDefault::getInstance()->getIntegerForKey(sstr.str().c_str());
+		total+=UserDefault::getInstance()->getIntegerForKey(
+			("chapter" + std::to_string(i) + "CoinCount").c_str());
 	}
 	return total;
 }
 static int getCurrentChapter() {
 	for (int i = 0; i < 6; i++) {
-		std::stringstream sstr;
-		sstr << "chapter" << i << "Passed";
-		if (!UserDefault::getInstance()->getBoolForKey(sstr.str().c_str()))
+		if (!UserDefault::getInstance()->getBoolForKey(
+			("chapter" + std::to_string(i) + "Pass").c_str()))
 			return i;
 	}
 	return 6;
@@ -90,8 +100,8 @@ Node * EntryScene::chapterEntry(int idx)
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int paddingX = 20;
 
-	std::stringstream sstr,sstr2;
-	sstr << "chapter" << idx;
+	auto chapterString = "chapter" + std::to_string(idx);
+
 	auto nodeItems = Node::create();
 
 	auto size = Size((visibleSize.width - paddingX * 2 - paddingX * 3) / 4, visibleSize.height / 4);
@@ -101,14 +111,15 @@ Node * EntryScene::chapterEntry(int idx)
 	background->setPosition(Vec2::ZERO);
 	nodeItems->addChild(background, 0);
 
-	auto snapshot = Sprite::create("snapshot/"+sstr.str()+".png");
+	auto snapshot = Sprite::create("snapshot/"+chapterString+".png");
 	snapshot->setContentSize(Size(size.width*0.8,size.height*0.5));
 	snapshot->setPosition(Vec2(0, -size.height*0.25 + size.height * 0.1));
 	nodeItems->addChild(snapshot, 0);
 
 	auto chapterLabel= Label::createWithTTF(chapterName[idx], "fonts/GermaniaOne-Regular.ttf", 64);
-	sstr2 << "chapter" << idx << "CoinCount";
-	sstr.str(""); sstr << "coin "<< UserDefault::getInstance()->getIntegerForKey(sstr2.str().c_str())
+
+	std::stringstream sstr;
+	sstr << "coin "<< UserDefault::getInstance()->getIntegerForKey((chapterString+"CoinCount").c_str())
 		<<"/"<<chapterCoinTotal[idx];
 	auto coinLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 32);
 
@@ -131,12 +142,16 @@ Node * EntryScene::chapterEntry(int idx)
 				break;
 			case ui::Widget::TouchEventType::ENDED: {
 				Scene* scene; int idx = ((Button*)sender)->getTag();
-				if (idx==0)
+				if (idx==-1)
 					scene = Chapter3Level3::createScene();
+				else if (idx == 0)
+					scene = Chapter0Level1::createScene();
+				else if (idx==1)
+					scene = Chapter1Level1::createScene();
 				else if (idx==2)
 					scene= Chapter2Level1::createScene();
-				else
-					scene = Chapter0Level1::createScene();
+				else if (idx==3)
+					scene = Chapter3Level1::createScene();
 				Director::getInstance()->replaceScene(scene);
 			}break;
 			default:

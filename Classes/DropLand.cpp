@@ -34,14 +34,15 @@ bool DropLand::initWithFile(const std::string & filename)
 }
 void DropLand::remove() {
 	this->retain();
-	auto scene = (GameScene*)Director::getInstance()->getRunningScene();
-	scene->addRenerate(this);
+	thisScene->addRenerate(this);
 	dropping = false;
 }
 void DropLand::drop() {
 	if (dropping) return;
 	auto delay = DelayTime::create(0.5f);
 	auto blink=Blink::create(0.1f, 1);
+	thisScene = (GameScene*)Director::getInstance()->getRunningScene();
+
 	auto seq = Sequence::create(delay, blink, delay->clone(), blink->clone(), delay->clone(), blink->clone(),
 		delay->clone(),CallFunc::create(CC_CALLBACK_0(DropLand::remove,this)),nullptr);
 	this->runAction(seq);

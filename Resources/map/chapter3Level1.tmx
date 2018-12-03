@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="144" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="9" nextobjectid="630">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="144" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="9" nextobjectid="631">
  <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="63" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
@@ -589,6 +589,7 @@
     <property name="door2" type="int" value="3"/>
    </properties>
   </object>
+  <object id="630" name="Coin" type="gemRedStroked" gid="18" x="4428" y="860" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="7" name="above" visible="0"/>
  <objectgroup id="8" name="bounds">

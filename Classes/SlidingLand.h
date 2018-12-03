@@ -18,13 +18,22 @@ public:
 	float getStartY() { return startY; }
 	float getEndX() { return endX; }
 	float getEndY() { return endY; }
-	
+	bool isWait() {
+		return delayTime < 0;
+	}
+	bool isLaunched() {
+		return launched;
+	}
+	void setStopTime(float t) {
+		stopTimeSet = t;
+	}
 protected:
 	float startY,endY,startX, endX;
 	float delayTime;
-	float stopTime = 0;
+	float stopTime = 0,stopTimeSet;
 	bool stoped = false;
 	Vec2 tempVelocity;
+	bool launched;
 };
 
 #endif // __SLIDING_LAND_H__

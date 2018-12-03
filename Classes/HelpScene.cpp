@@ -51,9 +51,7 @@ bool HelpScene::init()
 
 	helpPageTotal = 5;
 	for (int i = 1; i <= 5; i++) {
-		std::stringstream sstr;
-		sstr << "ui/helppage" << i << ".png";
-		helpPages.push_back(Sprite::create(sstr.str())->getTexture());
+		helpPages.push_back(Sprite::create("ui/helppage" + std::to_string(i) + ".png")->getTexture());
 	}
 
 	auto helpPage = Sprite::create("ui/helppage1.png");

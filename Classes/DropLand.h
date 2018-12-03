@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+class GameScene;
 class DropLand : public cocos2d::Sprite
 {
 public:
@@ -13,6 +14,7 @@ public:
 	void drop();
 private:
 	bool dropping;
+	GameScene* thisScene;
 };
 
 #endif // __DROP_LAND_H__

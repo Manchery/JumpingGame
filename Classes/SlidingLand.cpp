@@ -37,6 +37,8 @@ bool SlidingLand::initWithFile(const std::string & filename, float width, float 
 	this->setTag(SLIDING_LAND_T);
 	this->delayTime = delay;
 
+	this->stopTimeSet = 1.0f;
+
 	return true;
 }
 
@@ -45,17 +47,21 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 	startX = startx; startY = starty; endX = endx; endY = endy;
 	this->setPosition(startX, startY);
 	this->unscheduleAllCallbacks();
-	this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
+	if (!isWait())
+		this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
 }
 void SlidingLand::resetTrack() {
 	this->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	this->setPosition(startX, startY);
 	this->unscheduleAllCallbacks();
-	this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
+	if (!isWait())
+		this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
 }
 
 void SlidingLand::startSliding(float dt)
 {
+	if (launched == true) return;
+	launched = true;
 	if (fabs(startX - endX) > 10.0f) {
 		if (startX < endX)
 			this->getPhysicsBody()->setVelocity(Vec2(100.0f, 100.0f*(endY - startY) / (fabs(endX - startX))));
@@ -77,7 +83,7 @@ void SlidingLand::slidingUpdate(float dt)
 	auto vel = this->getPhysicsBody()->getVelocity();
 	if (stoped) {
 		stopTime += dt;
-		if (stopTime >= 1.0f) {
+		if (stopTime >= stopTimeSet) {
 			this->getPhysicsBody()->setVelocity(Vec2(-tempVelocity.x, -tempVelocity.y));
 			stopTime = 0; stoped = 0;
 		}

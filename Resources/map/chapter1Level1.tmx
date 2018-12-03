@@ -1236,11 +1236,11 @@
   <object id="982" name="SlidingLand" type="platform4" gid="29" x="1252" y="3546" width="192" height="41">
    <properties>
     <property name="bodyType" value="static"/>
-    <property name="endX" type="float" value="1124"/>
+    <property name="endX" type="float" value="1252"/>
     <property name="endY" type="float" value="2712"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
-    <property name="startX" type="float" value="1124"/>
+    <property name="startX" type="float" value="1252"/>
     <property name="startY" type="float" value="3546"/>
    </properties>
   </object>

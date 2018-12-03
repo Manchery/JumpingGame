@@ -80,6 +80,7 @@ public:
 		return this->getBoundingBox().getMidX() + minXOffset;
 	}
 	float getPhysicsMinY() {
+		cocos2d::log("%f %f", this->getBoundingBox().getMidY(), minYOffset);
 		return this->getBoundingBox().getMidY() + minYOffset;
 	}
 	float getPhysicsMaxX() {

@@ -144,18 +144,29 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			float delay = 0;
 			if (dic.find("delay") != dic.end())
 				delay=dic.at("delay").asFloat();
+			if (dic.find("wait")!=dic.end() && dic.at("wait").asBool())
+				delay = -1.0f;
 
 			auto slidingLand = SlidingLand::create("map/" + type + ".png",width,height,delay);
 			slidingLand->setAnchorPoint(Vec2::ZERO);
 			float startX= dic.at("startX").asFloat(),startY= mapSize.height-dic.at("startY").asFloat();
 			float endX = dic.at("endX").asFloat(), endY = mapSize.height - dic.at("endY").asFloat();
 			slidingLand->setTrack(startX,startY,endX,endY);
-			slidingLand->setTag(SLIDING_LAND_T);
+			if (dic.find("trap") != dic.end() && dic.at("trap").asBool())
+				slidingLand->setTag(SLIDING_TRAP_T);
+			else
+				slidingLand->setTag(SLIDING_LAND_T);
+
+			if (dic.find("stopTime") != dic.end())
+				slidingLand->setStopTime(dic.at("stopTime").asFloat());
 
 			if (dic.find("ID") != dic.end())
 				slidingLand->setName("SlidingLand" + std::to_string(dic.at("ID").asInt()));
 
-			frontGroundLayer->addChild(slidingLand, 1);
+			if (dic.find("background") != dic.end() && dic.at("background").asBool())
+				backGroundLayer->addChild(slidingLand, 100);
+			else
+				frontGroundLayer->addChild(slidingLand, 1);
 		}
 		else if (name == "SwingLand" || name=="SwingTrap") {
 			auto swingLand = SwingLand::create("map/" + type + ".png",width,height, name == "SwingTrap");
@@ -190,8 +201,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				door->move();
 
 			int id = dic.at("doorID").asInt();
-			std::stringstream sstr; sstr << "Door" << id;
-			door->setName(sstr.str());
+			door->setName("Door"+std::to_string(id));
 
 			frontGroundLayer->addChild(door, 1);
 		}
@@ -634,6 +644,9 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 					//log("on ground");
 					if (nodeB->getTag() == SLIDING_LAND_T) {
 						hero->setSlidingGround((Sprite*)nodeB);
+						auto slidingLand = (SlidingLand*)nodeB;
+						if (slidingLand->isWait() && !slidingLand->isLaunched())
+							slidingLand->startSliding(0.0f);
 					}
 					if (nodeB->getTag() == DROP_LAND_T) {
 						auto dropLand = (DropLand*)nodeB;
@@ -894,9 +907,9 @@ void GameScene::heroDie() {
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	gotShot = lastGotShot;
 	gotShield = lastGotShield;
-	if (hero->getHeroType() == HEROSHOT && !lastGotShot)
+	if (hero->getHeroType() == HEROSHOT && !(lastGotShot || UserDefault::getInstance()->getBoolForKey("canShot")))
 		hero->switchTypeTo(0);
-	if (hero->getHeroType() == HEROSHIELD && !lastGotShield)
+	if (hero->getHeroType() == HEROSHIELD && !(lastGotShield || UserDefault::getInstance()->getBoolForKey("canShield")))
 		hero->switchTypeTo(0);
 	hero->resetOnGround(); hero->resetInWater();
 	hero->resetSlidingGround();
