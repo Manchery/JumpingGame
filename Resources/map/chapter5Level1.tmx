@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="304" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="11" nextobjectid="895">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="304" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="11" nextobjectid="941">
  <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="64" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
@@ -591,19 +591,62 @@
  </objectgroup>
  <objectgroup id="2" name="ground" visible="0"/>
  <objectgroup id="3" name="castledeco">
-  <object id="220" type="platformBlock4" gid="37" x="1244" y="2208" width="128" height="96"/>
-  <object id="228" type="window1" gid="55" x="998" y="2090" width="65" height="64"/>
-  <object id="268" type="platformBlock3" gid="36" x="1556" y="2153" width="128" height="96"/>
-  <object id="370" type="window2" gid="56" x="880" y="1934" width="64" height="64"/>
-  <object id="483" type="window3" gid="57" x="1124" y="1937" width="56" height="59"/>
-  <object id="536" type="exit" gid="15" x="258" y="2209" width="160" height="192"/>
-  <object id="579" type="torch" gid="50" x="161" y="2067" width="96" height="96"/>
-  <object id="580" type="flare" gid="16" x="113" y="2059" width="192" height="192"/>
-  <object id="581" type="torch" gid="50" x="441" y="2067" width="96" height="96"/>
-  <object id="582" type="flare" gid="16" x="393" y="2059" width="192" height="192"/>
-  <object id="887" type="wallDecor3" gid="184" x="610" y="2222" width="160" height="128"/>
-  <object id="888" type="platformConnector4" gid="171" x="1783.5" y="2088.5" width="96" height="64"/>
-  <object id="889" type="platformConnector3" gid="170" x="1512.5" y="1975.5" width="124" height="78"/>
+  <object id="220" type="platformBlock4" gid="37" x="832" y="1366" width="128" height="96"/>
+  <object id="228" type="window1" gid="55" x="5588" y="1400" width="65" height="64"/>
+  <object id="268" type="platformBlock3" gid="36" x="1144" y="215" width="128" height="96"/>
+  <object id="370" type="window2" gid="56" x="1132" y="1488" width="64" height="64"/>
+  <object id="483" type="window3" gid="57" x="934" y="761" width="56" height="59"/>
+  <object id="536" type="exit" gid="15" x="222" y="1120" width="160" height="192"/>
+  <object id="579" type="torch" gid="50" x="125" y="978" width="96" height="96"/>
+  <object id="580" type="flare" gid="16" x="77" y="970" width="192" height="192"/>
+  <object id="581" type="torch" gid="50" x="405" y="978" width="96" height="96"/>
+  <object id="582" type="flare" gid="16" x="357" y="970" width="192" height="192"/>
+  <object id="887" type="wallDecor3" gid="184" x="456" y="1412" width="160" height="128"/>
+  <object id="888" type="platformConnector4" gid="171" x="2681.5" y="1428.5" width="96" height="64"/>
+  <object id="889" type="platformConnector3" gid="170" x="1718.5" y="1479.5" width="124" height="78"/>
+  <object id="895" type="wallDecor3" gid="184" x="1434" y="1484" width="160" height="128"/>
+  <object id="896" type="wallDecor3" gid="184" x="642" y="114" width="160" height="128"/>
+  <object id="897" type="wallDecor3" gid="184" x="2544" y="306" width="160" height="128"/>
+  <object id="898" type="wallDecor3" gid="184" x="1500" y="1483" width="160" height="128"/>
+  <object id="899" type="wallDecor3" gid="184" x="1320" y="234" width="160" height="128"/>
+  <object id="900" type="wallDecor3" gid="2147483832" x="2312" y="1406" width="160" height="128"/>
+  <object id="901" type="wallDecor3" gid="2147483832" x="3764" y="1368" width="160" height="128"/>
+  <object id="902" type="wallDecor3" gid="2147483832" x="3990" y="144" width="160" height="128"/>
+  <object id="903" type="wallDecor3" gid="2147483832" x="4062" y="714" width="160" height="128"/>
+  <object id="904" type="wallDecor3" gid="2147483832" x="2754" y="678" width="160" height="128"/>
+  <object id="905" type="wallDecor3" gid="2147483832" x="1390" y="1002" width="160" height="128"/>
+  <object id="906" type="wallDecor3" gid="2147483832" x="1668" y="796" width="160" height="128"/>
+  <object id="908" type="wallDecor3" gid="2147483832" x="652" y="740" width="160" height="128"/>
+  <object id="909" type="wallDecor3" gid="2147483832" x="5058" y="1474" width="160" height="128"/>
+  <object id="910" type="wallDecor3" gid="2147483832" x="5374" y="326" width="160" height="128"/>
+  <object id="911" type="wallDecor3" gid="2147483832" x="5980" y="970" width="160" height="128"/>
+  <object id="912" type="wallDecor3" gid="2147483832" x="6934" y="1300" width="160" height="128"/>
+  <object id="913" type="wallDecor3" gid="2147483832" x="7308" y="196" width="160" height="128"/>
+  <object id="914" type="wallDecor3" gid="2147483832" x="7640" y="910" width="160" height="128"/>
+  <object id="915" type="wallDecor3" gid="2147483832" x="9248" y="1240" width="160" height="128"/>
+  <object id="916" type="wallDecor3" gid="2147483832" x="8400" y="1596" width="160" height="128"/>
+  <object id="917" type="wallDecor3" gid="2147483832" x="8894" y="96" width="160" height="128"/>
+  <object id="919" type="platformBlock3" gid="36" x="4766" y="1470" width="128" height="96"/>
+  <object id="920" type="platformBlock3" gid="36" x="7546" y="228" width="128" height="96"/>
+  <object id="921" type="platformBlock4" gid="37" x="1878" y="212" width="128" height="96"/>
+  <object id="922" type="platformBlock4" gid="37" x="4116" y="1482" width="128" height="96"/>
+  <object id="923" type="platformBlock4" gid="37" x="6144" y="188" width="128" height="96"/>
+  <object id="924" type="platformBlock4" gid="37" x="7118" y="1426" width="128" height="96"/>
+  <object id="925" type="platformBlock4" gid="37" x="9124" y="220" width="128" height="96"/>
+  <object id="926" type="platformConnector3" gid="170" x="4370" y="289" width="124" height="78"/>
+  <object id="927" type="platformConnector3" gid="170" x="9340" y="1449" width="124" height="78"/>
+  <object id="928" type="platformConnector4" gid="171" x="3346" y="280" width="96" height="64"/>
+  <object id="929" type="platformConnector4" gid="171" x="3340" y="186" width="96" height="64"/>
+  <object id="930" type="platformConnector4" gid="171" x="9016" y="1524" width="96" height="64"/>
+  <object id="931" type="window3" gid="57" x="2242" y="992.5" width="56" height="59"/>
+  <object id="932" type="window3" gid="57" x="3990" y="978.5" width="56" height="59"/>
+  <object id="933" type="window3" gid="57" x="5698" y="628.5" width="56" height="59"/>
+  <object id="934" type="window3" gid="57" x="7306" y="812.5" width="56" height="59"/>
+  <object id="935" type="window3" gid="57" x="8712" y="738.5" width="56" height="59"/>
+  <object id="937" type="window2" gid="56" x="2902" y="178" width="64" height="64"/>
+  <object id="938" type="window2" gid="56" x="8152" y="208" width="64" height="64"/>
+  <object id="939" type="window1" gid="55" x="6027.5" y="1400" width="65" height="64"/>
+  <object id="940" type="window1" gid="55" x="6449.5" y="1400" width="65" height="64"/>
  </objectgroup>
  <objectgroup id="4" name="shading" opacity="0.16">
   <object id="112" type="shadow" gid="45" x="9668" y="1645" width="194" height="1813"/>

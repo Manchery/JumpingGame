@@ -173,7 +173,13 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			swingLand->setPosition(Vec2(x+swingLand->getContentSize().width/2, 
 				y+swingLand->getContentSize().height/2));
 
-			if (name=="SwingLand") swingLand->setTag(SWING_LAND_T);
+			if (name == "SwingLand") {
+				swingLand->setTag(SWING_LAND_T);
+				if (dic.find("velocity") != dic.end()) {
+					swingLand->unscheduleAllCallbacks();
+					swingLand->getPhysicsBody()->setAngularVelocity(dic.at("velocity").asFloat()*PI);
+				}
+			}
 			else if (name == "SwingTrap") {
 				swingLand->setTag(SWING_TRAP_T);
 				if (dic.find("velocity") != dic.end())
@@ -371,7 +377,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			physicsBody->setContactTestBitmask(HERO_M);
 
 			water->setPhysicsBody(physicsBody);
-			backGroundLayer->addChild(water, -100);
+			backGroundLayer->addChild(water, -10);
 		}
 	}
 }
@@ -386,9 +392,6 @@ bool GameScene::init()
 	initMap("map/chapter0.tmx",Color4B::Color4B(39,185,154,255));
 	commonInitAfterMap();
 
-	/*followEnemy = FollowEnemy::create(hero);
-	followEnemy->retain();
-	frontGroundLayer->addChild(followEnemy, 1);*/
 	return true;
 }
 void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundColor){
@@ -430,7 +433,8 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 	//background
 	auto layerColor = LayerColor::create(backgroundColor);
 	layerColor->setContentSize(mapSize);
-	backGroundLayer->addChild(layerColor, -1);
+	backGroundLayer->addChild(layerColor, -100);
+
 	auto objGroups = tileMap->getObjectGroups();
 	for (auto objGroup : objGroups) {
 		if (objGroup->getGroupName() != "game" && objGroup->getGroupName() != "bounds" && 
@@ -727,12 +731,12 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 		else if (hero->getHeroType() == HEROSHIELD)
 			hero->shield();
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_1) {
+	/*if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 		followEnemy->startFollow();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_2) {
 		followEnemy->stopFollow();
-	}
+	}*/
 	return true;
 }
 bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
@@ -758,17 +762,11 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 void GameScene::heroUpdate(float dt)
 {
 	log("%d", hero->getOnGround());
-	//log("%f %f", hero->getPositionX(), hero->getPositionY());
-	//log("%f %f %f %f", hero->getPhysicsMinX(), hero->getPhysicsMaxX(), hero->getPhysicsMinY(), hero->getPhysicsMaxY());
 	//died
 	if (heroDied) {
 		heroDie();
 		return;
 	}
-	//water
-	//if (hero->getInWater()) {
-	//	hero->getPhysicsBody()->setLinearDamping(0.3f);
-	//}
 	//heroTexture
 	if (!hero->getOnGround()) {
 		if (rightKeyDown)
@@ -903,8 +901,6 @@ void GameScene::gamePause() {
 	Director::getInstance()->pushScene(PauseScene::createScene());
 }
 void GameScene::heroDie() {
-	if (followEnemy != nullptr)
-		followEnemy->stopFollow();
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	gotShot = lastGotShot;
 	gotShield = lastGotShield;
@@ -1001,7 +997,7 @@ void GameScene::win()
 	_eventDispatcher->removeEventListenersForTarget(this);
 
 	auto exit=(Sprite*)frontGroundLayer->getChildByName("Exit");
-	exit->setTexture("map/exit.png");
+	if (exit!=nullptr) exit->setTexture("map/exit.png");
 
 	auto heroModel = Sprite::createWithTexture(hero->getTexture());
 	auto jumpBy = JumpBy::create(0.8f, Vec2::ZERO, 100, 2);

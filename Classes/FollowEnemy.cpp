@@ -2,6 +2,9 @@
 #include "GameScene.h"
 #include "common.h"
 
+#define GENTIME 5.0f
+#define DELAYFRAME 150
+
 FollowEnemy* FollowEnemy::create(Hero *hero)
 {
 	FollowEnemy *sprite = new (std::nothrow) FollowEnemy();
@@ -25,8 +28,9 @@ bool FollowEnemy::initWithHero(Hero *hero) {
 	//this->setVisible(false);
 	this->setOpacity(0);
 
-	auto physicsSize = Size(this->getContentSize().width*0.75, this->getContentSize().height);
+	auto physicsSize = Size(this->getContentSize().width*0.65, this->getContentSize().height*0.8);
 	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	physicsBody->setPositionOffset(Vec2(0, -this->getContentSize().height*0.2 / 2));
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(FOLLOW_ENEMY_M);
@@ -34,7 +38,7 @@ bool FollowEnemy::initWithHero(Hero *hero) {
 	physicsBody->setContactTestBitmask(0);
 	this->setPhysicsBody(physicsBody);
 
-	countDown = 5.0f; following = 0;
+	countDown = GENTIME; following = 0;
 
 	this->setTag(FOLLOW_ENEMY_T);
 	return true;
@@ -65,7 +69,7 @@ void FollowEnemy::stopFollow() {
 	while (!texQueue.empty()) {
 		texQueue.front()->release(); texQueue.pop();
 	}
-	countDown = 5.0f;
+	countDown = GENTIME;
 }
 
 void FollowEnemy::follow(float dt)
@@ -75,7 +79,7 @@ void FollowEnemy::follow(float dt)
 	auto texture = attachedHero->getTexture();
 	texture->retain();
 	texQueue.push(texture);
-	if (texQueue.size() > 100) {
+	if (texQueue.size() > DELAYFRAME) {
 		this->setPosition(posQueue.front()); 
 		posQueue.pop();
 		//this->getPhysicsBody()->setVelocity(velQueue.front());
@@ -84,7 +88,7 @@ void FollowEnemy::follow(float dt)
 	}
 	if (!following) {
 		countDown -= dt;
-		this->setOpacity((GLubyte)std::min(255,(int)((1.0f-countDown/5.0f)*255)));
+		this->setOpacity((GLubyte)std::min(255,(int)((1.0f-countDown/ GENTIME)*255)));
 		if (countDown <= 0.0f) {
 			following = 1;
 			this->getPhysicsBody()->setContactTestBitmask(
