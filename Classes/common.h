@@ -9,6 +9,7 @@
 #define HERO_T 1
 #define ENEMY_T 2
 #define FOLLOW_ENEMY_T 3
+#define BOSS_T 4
 
 #define BULLET_T 10
 #define COIN_T 11
@@ -25,6 +26,7 @@
 #define TRAP_T 200
 #define SLIDING_TRAP_T 201
 #define SWING_TRAP_T 202
+#define DEAD_TRAP_T 203
 
 #define DOOR_T 300
 #define DOOR_KEY_T 301
@@ -42,8 +44,9 @@
 #define EXIT_M 0x100
 #define GAME_KEY_M 0x200
 #define WATER_M 0x400
+#define BOSS_M 0x800
 
-const int chapterCoinTotal[] = { 9+9,30,30,12,12,12,12};
+const int chapterCoinTotal[] = { 9+9,30,30,30,12,12,12};
 
 bool isLand(const cocos2d::Node *node);
 bool isTrap(const cocos2d::Node *node);

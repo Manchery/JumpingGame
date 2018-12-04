@@ -19,7 +19,7 @@ bool Chapter3Level3::init()
 	}
 
 	initMap("map/chapter3Level3.tmx", Color4B::Color4B(39, 185, 154, 255));
-	coinTotal = chapterCoinTotal[0];
+	coinTotal = chapterCoinTotal[3];
 	commonInitAfterMap();
 
 	//logUserDefault();

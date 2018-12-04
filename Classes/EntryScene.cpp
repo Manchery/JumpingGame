@@ -9,6 +9,7 @@
 #include "Chapter3Level1.h"
 #include "Chapter3Level2.h"
 #include "Chapter3Level3.h"
+#include "Chapter5Level1.h"
 #include <iostream>
 #include <sstream>
 
@@ -64,12 +65,16 @@ bool EntryScene::init()
 	this->addChild(chapter1, 1);
 
 	auto chapter2 = chapterEntry(2);
-	chapter2->setPosition(Vec2(visibleSize.width / 2+400, visibleSize.height/2));
+	chapter2->setPosition(Vec2(visibleSize.width / 2 , visibleSize.height/2));
 	this->addChild(chapter2, 1);
 
 	auto chapter3 = chapterEntry(3);
-	chapter3->setPosition(Vec2(visibleSize.width / 2 + 800, visibleSize.height/2));
+	chapter3->setPosition(Vec2(visibleSize.width / 2 + 400, visibleSize.height/2));
 	this->addChild(chapter3, 1);
+
+	auto chapter4 = chapterEntry(4);
+	chapter4->setPosition(Vec2(visibleSize.width / 2 + 800, visibleSize.height / 2));
+	this->addChild(chapter4, 1);
 
 	return true;
 }
@@ -152,6 +157,8 @@ Node * EntryScene::chapterEntry(int idx)
 					scene= Chapter2Level1::createScene();
 				else if (idx==3)
 					scene = Chapter3Level1::createScene();
+				else if (idx == 4)
+					scene = Chapter5Level1::createScene();
 				Director::getInstance()->replaceScene(scene);
 			}break;
 			default:

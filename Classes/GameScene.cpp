@@ -433,7 +433,8 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 	backGroundLayer->addChild(layerColor, -1);
 	auto objGroups = tileMap->getObjectGroups();
 	for (auto objGroup : objGroups) {
-		if (objGroup->getGroupName() != "game")
+		if (objGroup->getGroupName() != "game" && objGroup->getGroupName() != "bounds" && 
+			objGroup->getGroupName() != "water" && objGroup->getGroupName() != "boss")
 			drawBackGround(objGroup->getObjects());
 	}
 	
@@ -809,8 +810,8 @@ void GameScene::heroUpdate(float dt)
 	}
 	if (heroJumped) {
 		velocity.y = 850.0f;
-		if (hero->getHeroType() == 2) velocity.y *= 0.8;
-		if (hero->getInWater()) velocity.y *= 0.8;
+		if (hero->getHeroType() == 2) velocity.y *= 0.8f;
+		if (hero->getInWater()) velocity.y *= 0.8f;
 		heroJumped = 0;
 	}
 	if (hero->getInWater())
