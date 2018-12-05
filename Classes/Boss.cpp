@@ -33,29 +33,49 @@ bool Boss::init(float width, float height) {
 	this->setTag(BOSS_T);
 	this->hp = 5;
 	this->damagable = 1;
+
+	contentSize = this->getContentSize();
 	
 	return true;
+}
+
+void Boss::drop() {
+	auto delay = DelayTime::create(0.5f);
+	auto blink = Blink::create(0.1f, 1);
+	auto seq = Sequence::create(delay, blink, delay->clone(), blink->clone(), delay->clone(), blink->clone(),
+		delay->clone(), CallFunc::create(CC_CALLBACK_0(Boss::removeFromParent, this)), nullptr);
+	this->runAction(seq);
 }
 
 bool Boss::damaged()
 {
 	if (!damagable) return false;
 
+	this->setTexture("map/bossDamaged.png");
+	this->setContentSize(contentSize);
 	damagable = false;
 	
-	if (!(--hp))
+	if (!(--hp)) {
+		drop();
 		return true; // win
+	}
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	position = this->getPosition();
 	auto moveTo = MoveTo::create(2.0f,Vec2(visibleSize.width, position.y));
 	this->runAction(moveTo);
-	this->scheduleOnce(schedule_selector(Boss::comeBack), 2.0f+3.0f);
+	this->scheduleOnce(schedule_selector(Boss::comeBack), 2.0f+6.0f);
 	return false;
+}
+
+void Boss::setDamagable(float dt) {
+	damagable = true;
+	this->setTexture("map/boss.png");
+	this->setContentSize(contentSize);
 }
 
 void Boss::comeBack(float ft)
 {
 	this->runAction(MoveTo::create(2.0f, position));
-	damagable = true;
+	this->scheduleOnce(schedule_selector(Boss::setDamagable), 2.5f);
 }

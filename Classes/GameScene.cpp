@@ -176,6 +176,12 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			swingLand->setPosition(Vec2(x+swingLand->getContentSize().width/2, 
 				y+swingLand->getContentSize().height/2));
 
+			if (dic.find("stopTime") != dic.end()) {
+				swingLand->setStopTime(dic.at("stopTime").asFloat());
+			}
+			if (dic.find("swingTime") != dic.end()) {
+				swingLand->setSwingTime(dic.at("swingTime").asFloat());
+			}
 			if (name == "SwingLand") {
 				swingLand->setTag(SWING_LAND_T);
 				if (dic.find("velocity") != dic.end()) {
@@ -216,8 +222,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 		}
 		else if (name == "DoorKey") {
 
-			auto doorKey = DoorKey::create("map/" + type + ".png");
-			doorKey->setContentSize(Size(width, height));
+			auto doorKey = DoorKey::create(width, height);
 			doorKey->setAnchorPoint(Vec2::ZERO);
 			doorKey->setPosition(Vec2(x,y));
 			doorKey->setTag(DOOR_KEY_T);
@@ -286,6 +291,10 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				sprite->setPhysicsBody(physicsBody);
 				if (rotation != 0)
 					sprite->setRotation(rotation);
+
+				if (dic.find("ID") != dic.end())
+					sprite->setName("Trap" + std::to_string(dic.at("ID").asInt()));
+
 				frontGroundLayer->addChild(sprite, 0);
 			}
 			else if (name == "Coin") {
@@ -717,7 +726,8 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW || keyCode == EventKeyboard::KeyCode::KEY_C) {
 		upKeyDown = 1;
 		//log("%d %d", hero->getJumpTimes(), hero->getOnGround());
-		if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0 || heroBounced))) {
+		//if ((hero->getJumpTimes() < hero->getJumpLimit()) && !(hero->getJumpTimes()==0 && !(hero->getOnGround()>0 || heroBounced))) {
+		if (hero->getJumpTimes() < hero->getJumpLimit()) {
 			heroJump(); heroBounced = 0;
 		}
 	}
@@ -852,10 +862,7 @@ void GameScene::mapUpdate(float dt) {
 		frontGroundLayer->setPosition(layerPosition); 
 		backGroundLayer->setPosition(layerPosition);
 	}
-	//dashboard
-	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
-	auto scoreLabel=(Label*)this->getChildByName("CoinScoreBoard")->getChildByName("ScoreLabel");
-	scoreLabel->setString(sstr.str());
+	
 }
 
 void GameScene::regenerateUpdate(float dt)
@@ -881,6 +888,11 @@ void GameScene::messageUpdate(float dt)
 
 void GameScene::timerUpdate(float dt)
 {
+	//dashboard
+	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
+	auto scoreLabel = (Label*)this->getChildByName("CoinScoreBoard")->getChildByName("ScoreLabel");
+	scoreLabel->setString(sstr.str());
+
 	if ((int)(runningTime + dt) != (int)runningTime)
 		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime + dt)));
 	runningTime += dt;
@@ -920,7 +932,7 @@ void GameScene::heroDie() {
 }
 void GameScene::heroJump() {
 	heroJumped = 1;
-	hero->addJumpTimes();
+	if (!hero->getOnGround() && !heroBounced) hero->addJumpTimes();
 	if (AUDIO_PLAY)
 		SimpleAudioEngine::getInstance()->playEffect("sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
 }

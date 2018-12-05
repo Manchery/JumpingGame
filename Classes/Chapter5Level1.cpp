@@ -20,12 +20,15 @@ void Chapter5Level1::onEnterTransitionDidFinish()
 	lastKey = EventKeyboard::KeyCode::KEY_NONE;
 	heroJumped = heroBounced = 0;
 
-	frontGroundLayer->setPosition(Vec2::ZERO);
-	backGroundLayer->setPosition(Vec2::ZERO);
-	
-	for (int i = 0; i < trapCnt; i++) {
-		auto deadTrap = frontGroundLayer->getChildByName("DeadTrap"+std::to_string(i));
-		deadTrap->setPositionX(0.0f);
+	if (heroDied || firstLoad) {
+		frontGroundLayer->setPosition(Vec2::ZERO);
+		backGroundLayer->setPosition(Vec2::ZERO);
+
+		for (int i = 0; i < trapCnt; i++) {
+			auto deadTrap = frontGroundLayer->getChildByName("DeadTrap" + std::to_string(i));
+			deadTrap->setPositionX(0.0f);
+		}
+		firstLoad = false;
 	}
 
 	if (heroDied) {
@@ -64,13 +67,8 @@ bool Chapter5Level1::init()
 
 	drawBoss("map/chapter5Level1.tmx");
 
-	/*Size visibleSize = Director::getInstance()->getVisibleSize();
-	auto moveTo = MoveTo::create((visibleSize.width - mapSize.width)/SCENEVELOCITY, 
-		Vec2(-visibleSize.width + mapSize.width,0));
-	frontGroundLayer->runAction(moveTo);
-	backGroundLayer->runAction(moveTo->clone());*/
-
 	//logUserDefault();
+	firstLoad = true;
 	return true;
 }
 
@@ -104,7 +102,7 @@ void Chapter5Level1::drawBoss(const std::string & tmxFile)
 			sprite->setOpacity(0);
 			sprite->setContentSize(Size(width, height));
 			sprite->setAnchorPoint(Vec2::ZERO);
-			sprite->setPosition(x, y);
+			sprite->setPosition(x, y-height); // confusing
 			auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 
 			sprite->setTag(LAND_T);
@@ -149,17 +147,19 @@ void Chapter5Level1::gamePass()
 {
 	for (int i = 0; i < trapCnt; i++) {
 		auto deadTrap = frontGroundLayer->getChildByName("DeadTrap" + std::to_string(i));
-		deadTrap->stopAllActions();
+		deadTrap->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	}
 	win();
-
 }
 
 void Chapter5Level1::mapUpdate(float dt){
-	frontGroundLayer->setPosition(frontGroundLayer->getPositionX() - SCENEVELOCITY * dt, 
-		frontGroundLayer->getPositionY());
-	backGroundLayer->setPosition(backGroundLayer->getPositionX() - SCENEVELOCITY * dt,
-		backGroundLayer->getPositionY());
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	if (frontGroundLayer->getPositionX() > visibleSize.width - mapSize.width) {
+		frontGroundLayer->setPosition(frontGroundLayer->getPositionX() - SCENEVELOCITY * dt,
+			frontGroundLayer->getPositionY());
+		backGroundLayer->setPosition(backGroundLayer->getPositionX() - SCENEVELOCITY * dt,
+			backGroundLayer->getPositionY());
+	}
 }
 
 bool Chapter5Level1::onContactBegin(cocos2d::PhysicsContact & contact)

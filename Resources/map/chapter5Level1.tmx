@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="304" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="11" nextobjectid="941">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="304" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="11" nextobjectid="975">
  <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="64" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
@@ -612,7 +612,7 @@
   <object id="900" type="wallDecor3" gid="2147483832" x="2312" y="1406" width="160" height="128"/>
   <object id="901" type="wallDecor3" gid="2147483832" x="3764" y="1368" width="160" height="128"/>
   <object id="902" type="wallDecor3" gid="2147483832" x="3990" y="144" width="160" height="128"/>
-  <object id="903" type="wallDecor3" gid="2147483832" x="4062" y="714" width="160" height="128"/>
+  <object id="903" type="wallDecor3" gid="2147483832" x="3934" y="608" width="160" height="128"/>
   <object id="904" type="wallDecor3" gid="2147483832" x="2754" y="678" width="160" height="128"/>
   <object id="905" type="wallDecor3" gid="2147483832" x="1390" y="1002" width="160" height="128"/>
   <object id="906" type="wallDecor3" gid="2147483832" x="1668" y="796" width="160" height="128"/>
@@ -885,24 +885,6 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="815" name="Land" type="platformBase4" gid="33" x="8960" y="1077" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" value="1.00"/>
-   </properties>
-  </object>
-  <object id="816" name="Land" type="platformBase4" gid="33" x="9472" y="1216" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" value="1.00"/>
-   </properties>
-  </object>
-  <object id="817" name="Land" type="platformBase3" gid="32" x="9216" y="899" width="256" height="96">
-   <properties>
-    <property name="bodyType" value="static"/>
-    <property name="friction" value="1.00"/>
-   </properties>
-  </object>
   <object id="833" name="Land" type="platformBase4" gid="33" x="14267" y="397" width="256" height="96">
    <properties>
     <property name="bodyType" value="static"/>
@@ -992,10 +974,8 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="594" name="Coin" type="gemRedStroked" gid="18" x="674" y="1082" width="64" height="64"/>
-  <object id="596" name="Coin" type="gemBlueStroked" gid="17" x="500" y="1082" width="64" height="64"/>
-  <object id="617" name="SlidingTrap" type="trap" gid="51" x="938" y="920" width="128" height="24"/>
-  <object id="620" name="Hero" type="hero" gid="22" x="296" y="1129" width="128" height="160"/>
+  <object id="617" name="SlidingTrap" type="trap" gid="51" x="948" y="920" width="128" height="24"/>
+  <object id="620" name="Hero" type="hero" gid="22" x="296" y="1120" width="128" height="160"/>
   <object id="652" name="Land" type="platform4" gid="93" x="1109" y="858" width="171" height="41">
    <properties>
     <property name="ID" type="int" value="1"/>
@@ -1114,8 +1094,18 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="692" name="SwingLand" type="row1" gid="194" x="4632" y="888" width="384" height="48"/>
-  <object id="698" name="SwingLand" type="row1" gid="194" x="5088" y="642" width="384" height="48"/>
+  <object id="692" name="SwingLand" type="row1" gid="194" x="4632" y="888" width="384" height="48">
+   <properties>
+    <property name="stopTime" type="float" value="8"/>
+    <property name="swingTime" type="float" value="4"/>
+   </properties>
+  </object>
+  <object id="698" name="SwingLand" type="row1" gid="194" x="5088" y="642" width="384" height="48">
+   <properties>
+    <property name="stopTime" type="float" value="8"/>
+    <property name="swingTime" type="float" value="4"/>
+   </properties>
+  </object>
   <object id="718" name="DropLand" type="platform4" gid="93" x="5656.5" y="819.5" width="171" height="41">
    <properties>
     <property name="ID" type="int" value="1"/>
@@ -1224,11 +1214,11 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="836" name="SlidingTrap" type="trap" gid="51" x="969" y="920" width="128" height="24"/>
-  <object id="837" name="SlidingTrap" type="trap" gid="51" x="2303.5" y="737" width="128" height="24"/>
-  <object id="838" name="SlidingTrap" type="trap" gid="51" x="2336.5" y="737" width="128" height="24"/>
-  <object id="839" name="SlidingTrap" type="trap" gid="51" x="6243.5" y="799" width="128" height="24"/>
-  <object id="840" name="SlidingTrap" type="trap" gid="51" x="6276.5" y="799" width="128" height="24"/>
+  <object id="836" name="SlidingTrap" type="trap" gid="51" x="979" y="920" width="128" height="24"/>
+  <object id="837" name="SlidingTrap" type="trap" gid="51" x="2308.5" y="737" width="128" height="24"/>
+  <object id="838" name="SlidingTrap" type="trap" gid="51" x="2341.5" y="737" width="128" height="24"/>
+  <object id="839" name="SlidingTrap" type="trap" gid="51" x="6248.5" y="799" width="128" height="24"/>
+  <object id="840" name="SlidingTrap" type="trap" gid="51" x="6281.5" y="799" width="128" height="24"/>
   <object id="841" name="SwingTrap" type="row2" gid="194" x="7514" y="674" width="384" height="48"/>
   <object id="842" name="Trap" type="trap" gid="51" x="1278" y="1120" width="128" height="32"/>
   <object id="843" name="Trap" type="trap" gid="51" x="1406" y="1120" width="128" height="32"/>
@@ -1260,8 +1250,56 @@
   <object id="869" name="Trap" type="trap" gid="51" x="8257.5" y="1120" width="128" height="32"/>
   <object id="870" name="Trap" type="trap" gid="51" x="8389.5" y="1120" width="128" height="32"/>
   <object id="871" name="Trap" type="trap" gid="51" x="8513.5" y="1120" width="128" height="32"/>
+  <object id="941" name="Land" type="platformBase4" gid="33" x="8960" y="1077" width="256" height="96">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="942" name="Land" type="platformBase4" gid="33" x="9472" y="1216" width="256" height="96">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="943" name="Land" type="platformBase3" gid="32" x="9216" y="899" width="256" height="96">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="friction" value="1.00"/>
+   </properties>
+  </object>
+  <object id="944" name="Coin" type="gemRedStroked" gid="18" x="830" y="842" width="64" height="64"/>
+  <object id="945" name="Coin" type="gemBlueStroked" gid="17" x="1054" y="672" width="64" height="64"/>
+  <object id="946" name="Coin" type="gemRedStroked" gid="18" x="2138" y="806" width="64" height="64"/>
+  <object id="947" name="Coin" type="gemBlueStroked" gid="17" x="2138" y="694" width="64" height="64"/>
+  <object id="948" name="Coin" type="gemBlueStroked" gid="17" x="3479" y="822" width="64" height="64"/>
+  <object id="949" name="Coin" type="gemRedStroked" gid="18" x="4096.5" y="516" width="64" height="64"/>
+  <object id="950" name="Coin" type="gemRedStroked" gid="18" x="3943.5" y="630" width="64" height="64"/>
+  <object id="951" name="Coin" type="gemBlueStroked" gid="17" x="4257.5" y="626" width="64" height="64"/>
+  <object id="952" name="Coin" type="gemBlueStroked" gid="17" x="4737" y="793" width="64" height="64"/>
+  <object id="953" name="Coin" type="gemBlueStroked" gid="17" x="5297" y="542" width="64" height="64"/>
+  <object id="954" name="Coin" type="gemRedStroked" gid="18" x="5710" y="730" width="64" height="64"/>
+  <object id="955" name="Coin" type="gemBlueStroked" gid="17" x="6570" y="860" width="64" height="64"/>
+  <object id="957" name="Coin" type="gemRedStroked" gid="18" x="8340.75" y="986" width="64" height="64"/>
+  <object id="958" name="Coin" type="gemRedStroked" gid="18" x="8177.75" y="1026" width="64" height="64"/>
+  <object id="959" name="Coin" type="gemBlueStroked" gid="17" x="8491.75" y="1022" width="64" height="64"/>
+  <object id="960" name="Coin" type="gemBlueStroked" gid="17" x="7200" y="864" width="64" height="64"/>
+  <object id="961" name="Coin" type="gemRedStroked" gid="18" x="1811" y="1054" width="64" height="64"/>
+  <object id="962" name="Coin" type="gemBlueStroked" gid="17" x="1538" y="790" width="64" height="64"/>
+  <object id="963" name="Coin" type="gemRedStroked" gid="18" x="608" y="1056" width="64" height="64"/>
+  <object id="964" name="Coin" type="gemBlueStroked" gid="17" x="2714" y="886" width="64" height="64"/>
+  <object id="965" name="Coin" type="gemRedStroked" gid="18" x="5996" y="584" width="64" height="64"/>
+  <object id="966" name="Coin" type="gemBlueStroked" gid="18" x="6294" y="490" width="64" height="64"/>
+  <object id="967" name="Coin" type="gemRedStroked" gid="17" x="7200" y="556" width="64" height="64"/>
+  <object id="968" name="Coin" type="gemRedStroked" gid="18" x="7460" y="1058" width="64" height="64"/>
+  <object id="969" name="Coin" type="gemRedStroked" gid="18" x="9058" y="924" width="64" height="64"/>
+  <object id="970" name="Coin" type="gemRedStroked" gid="18" x="3135" y="796" width="64" height="64"/>
+  <object id="971" name="Coin" type="gemRedStroked" gid="18" x="4350" y="1052" width="64" height="64"/>
+  <object id="972" name="Coin" type="gemRedStroked" gid="18" x="7200" y="712" width="64" height="64"/>
+  <object id="973" name="Coin" type="gemRedStroked" gid="18" x="4835" y="793" width="64" height="64"/>
+  <object id="974" name="Coin" type="gemRedStroked" gid="18" x="5203" y="544" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="10" name="boss">
+ <objectgroup id="10" name="boss" visible="0">
   <object id="890" name="Trap" type="trap" gid="51" x="0" y="361" width="256" height="64" rotation="90"/>
   <object id="891" name="Trap" type="trap" gid="51" x="0" y="617" width="256" height="64" rotation="90"/>
   <object id="892" name="Trap" type="trap" gid="51" x="0" y="873" width="256" height="64" rotation="90"/>

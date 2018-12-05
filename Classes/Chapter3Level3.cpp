@@ -24,6 +24,13 @@ bool Chapter3Level3::init()
 	coinTotal = chapterCoinTotal[3];
 	commonInitAfterMap();
 
+	for (int i = 1; i <= 6; i++) {
+		auto slidingLand = (SlidingLand*)(backGroundLayer->getChildByName("SlidingLand" + std::to_string(i)));
+		auto trap = (Sprite*)(frontGroundLayer->getChildByName("Trap" + std::to_string(i)));
+		trap->retain();
+		slidingLand->setAttachedTrap(trap);
+	}
+
 	//logUserDefault();
 	return true;
 }

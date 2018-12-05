@@ -43,6 +43,8 @@ bool SwingLand::initWithFile(const std::string & filename, float width, float he
 	}
 
 	//this->setTag(SWING_LAND_T);
+	stopTime = 4.0f;
+	swingTime = 8.0f;
 
 	return true;
 }
@@ -66,8 +68,8 @@ void SwingLand::stopSwing()
 void SwingLand::swingUpdate(float dt)
 {
 	clock += dt;
-	if (((state==0 || state==2) && clock >= 4.0f) ||
-		((state == 1 || state == 3) && clock >= 8.0f)) {
+	if (((state==0 || state==2) && clock >= stopTime) ||
+		((state == 1 || state == 3) && clock >= swingTime)) {
 		clock = 0;
 		state=(state+1)%4;
 		if (state == 0 || state == 2) {

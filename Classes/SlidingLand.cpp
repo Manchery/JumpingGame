@@ -78,6 +78,8 @@ void SlidingLand::startSliding(float dt)
 		else
 			this->getPhysicsBody()->setVelocity(Vec2(-100.0f*(endX - startX) / (fabs(endY - startY)), -100.0f));
 	}
+	if (attachedTrap!=nullptr)
+		attachedTrap->getPhysicsBody()->setVelocity(this->getPhysicsBody()->getVelocity());
 	this->unscheduleAllCallbacks();
 	this->schedule(schedule_selector(SlidingLand::slidingUpdate));
 }
@@ -109,6 +111,9 @@ void SlidingLand::slidingUpdate(float dt)
 			}
 		}
 	}
+
+	if (attachedTrap != nullptr)
+		attachedTrap->getPhysicsBody()->setVelocity(this->getPhysicsBody()->getVelocity());
 }
 
 

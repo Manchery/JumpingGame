@@ -12,6 +12,8 @@ public:
 	virtual bool init();
 	Node * chapterEntry(int idx);
 
+	void enterChapter(int idx);
+
 	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event);
 
 	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);

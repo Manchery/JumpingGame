@@ -27,6 +27,10 @@ public:
 	void setStopTime(float t) {
 		stopTimeSet = t;
 	}
+	void setAttachedTrap(Sprite *trap) {
+		trap->retain();
+		attachedTrap = trap;
+	}
 protected:
 	float startY,endY,startX, endX;
 	float delayTime;
@@ -34,6 +38,7 @@ protected:
 	bool stoped = false;
 	Vec2 tempVelocity;
 	bool launched;
+	Sprite *attachedTrap;
 };
 
 #endif // __SLIDING_LAND_H__

@@ -383,7 +383,7 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="619" name="GameKey" type="keyRedStroked" gid="24" x="1430" y="2964" width="72" height="44"/>
+  <object id="619" name="GameKey" type="keyRedStroked" gid="24" x="1463" y="2964" width="72" height="44"/>
   <object id="620" name="Hero" type="hero" gid="22" x="2764.55" y="672" width="128" height="160"/>
   <object id="621" name="Enemy" type="skeleton" gid="2147483711" x="1400" y="2455" width="133" height="160">
    <properties>
@@ -695,8 +695,8 @@
    </properties>
   </object>
   <object id="755" name="SwingLand" type="row1" gid="64" x="1838" y="2792" width="384" height="48"/>
-  <object id="758" name="SoftLand" type="pushBlock3" gid="44" x="1312" y="2939" width="96" height="96"/>
-  <object id="759" name="SoftLand" type="pushBlock3" gid="44" x="1312" y="3031" width="96" height="96"/>
+  <object id="758" name="SoftLand" type="pushBlock3" gid="44" x="1345" y="2939" width="96" height="96"/>
+  <object id="759" name="SoftLand" type="pushBlock3" gid="44" x="1345" y="3031" width="96" height="96"/>
   <object id="760" name="Enemy" type="skeleton" gid="2147483711" x="1760" y="1303" width="133" height="160">
    <properties>
     <property name="maxX" type="float" value="1760"/>

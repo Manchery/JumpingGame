@@ -104,7 +104,7 @@ protected:
 	bool upKeyDown, leftKeyDown, rightKeyDown, downKeyDown;
 	cocos2d::EventKeyboard::KeyCode lastKey;
 	Vec2 revivePoint;
-	bool heroDied,heroJumped,heroBounced;
+	bool heroDied, heroJumped,heroBounced;
 	int coinCount,coinTotal;
 	bool needGameKey, gotGameKey;
 	bool gotShot, lastGotShot, gotShield, lastGotShield;

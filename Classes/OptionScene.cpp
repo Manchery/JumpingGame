@@ -82,7 +82,7 @@ bool OptionScene::init(bool canResetGame)
 	resolutionLabel->setPosition(Vec2(-optionBackGround->getContentSize().width / 2 + 120, 4.5*sy));
 	menuNode->addChild(resolutionLabel);
 
-	auto smallLabel = Label::createWithTTF("480 x 320", "fonts/GermaniaOne-Regular.ttf", 72);
+	auto smallLabel = Label::createWithTTF("480 x 360", "fonts/GermaniaOne-Regular.ttf", 72);
 	smallLabel->setAnchorPoint(Vec2(0, 0.5));
 	smallLabel->setPosition(Vec2(-60, 4.5*sy));
 	menuNode->addChild(smallLabel);

@@ -44,20 +44,24 @@ void Door::setTrack(float posx, float starty, float endy)
 
 void Door::move() {
 	if (state == 0) {
-		auto moveBy = MoveBy::create(2, Vec2(0, endY - startY));
-		this->runAction(moveBy);
+		this->stopAllActions();
+		auto moveTo = MoveTo::create(
+			2.0f*fabs(this->getPositionY()-endY)/fabs(endY-startY), Vec2(posX, endY));
+		this->runAction(moveTo);
 	}
 	else {
-		auto moveBy = MoveBy::create(2, Vec2(0, -(endY - startY)));
-		this->runAction(moveBy);
+		this->stopAllActions();
+		auto moveTo = MoveTo::create(
+			2.0f*fabs(this->getPositionY() - startY) / fabs(endY - startY), Vec2(posX, startY));
+		this->runAction(moveTo);
 	}
 	state ^= 1;
 }
 
-DoorKey* DoorKey::create(const std::string& filename)
+DoorKey* DoorKey::create(float width, float height)
 {
 	DoorKey *sprite = new (std::nothrow) DoorKey();
-	if (sprite && sprite->initWithFile(filename))
+	if (sprite && sprite->initWithFile(width,height))
 	{
 		sprite->autorelease();
 		return sprite;
@@ -66,10 +70,13 @@ DoorKey* DoorKey::create(const std::string& filename)
 	return nullptr;
 }
 
-bool DoorKey::initWithFile(const std::string & filename)
+bool DoorKey::initWithFile(float width, float height)
 {
-	if (!Sprite::initWithFile(filename))
+	if (!Sprite::init())
 		return false;
+	
+	this->setTexture("map/blobBlue.png");
+	this->setContentSize(Size(width, height));
 
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
 	//physicsBody->setGravityEnable(false);
@@ -84,6 +91,9 @@ bool DoorKey::initWithFile(const std::string & filename)
 
 	doors.clear();
 
+	contentSize = this->getContentSize();
+	enabled = true;
+
 	return true;
 }
 
@@ -93,6 +103,18 @@ void DoorKey::addDoor(Door * door)
 }
 
 void DoorKey::lock(){
+	if (!enabled) return;
 	for (auto door:doors)
 		door->move();
+	this->setTexture("map/blobGreen.png");
+	this->setContentSize(contentSize);
+	enabled = false;
+	this->scheduleOnce(schedule_selector(DoorKey::enableAgain), 1.0f);
+}
+
+void DoorKey::enableAgain(float dt)
+{
+	this->setTexture("map/blobBlue.png");
+	this->setContentSize(contentSize);
+	enabled = true;
 }

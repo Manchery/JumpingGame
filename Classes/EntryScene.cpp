@@ -8,6 +8,7 @@
 #include "Chapter2Level1.h"
 #include "Chapter3Level1.h"
 #include "Chapter3Level2.h"
+#include "Chapter3Level3.h"
 #include "Chapter4Level1.h"
 #include "Chapter5Level1.h"
 #include "Chapter6Level1.h"
@@ -85,7 +86,7 @@ bool EntryScene::init()
 static std::string chapterName[] = {
 	"Chapter Zero","Chapter 1","Chapter 2","Chapter 3", "Chapter 4","Chapter Final","Chapter Bonus"
 };
-static int bonusNeed = 168;
+static int bonusNeed = 170;
 static int getCoinTotal() {
 	int total = 0;
 	for (int i = 0; i < 6; i++) {
@@ -149,7 +150,7 @@ Node * EntryScene::chapterEntry(int idx)
 	nodeItems->addChild(coinLabel, 1);
 	nodeItems->addChild(timeLabel, 1);
 	
-	if (idx <= getCurrentChapter() && (idx!=6 || getCoinTotal()>bonusNeed)) {
+	if (idx <= getCurrentChapter() && (idx!=6 || getCoinTotal()>=bonusNeed)) {
 		auto button = Button::create();
 		button->ignoreContentAdaptWithSize(false);
 		button->setContentSize(size);
@@ -162,24 +163,7 @@ Node * EntryScene::chapterEntry(int idx)
 			case ui::Widget::TouchEventType::BEGAN:
 				break;
 			case ui::Widget::TouchEventType::ENDED: {
-				Scene* scene; int idx = ((Button*)sender)->getTag();
-				if (idx==-1)
-					scene = Chapter0Level1::createScene();
-				else if (idx == 0)
-					scene = Chapter0Level1::createScene();
-				else if (idx==1)
-					scene = Chapter1Level1::createScene();
-				else if (idx==2)
-					scene= Chapter2Level1::createScene();
-				else if (idx==3)
-					scene = Chapter3Level1::createScene();
-				else if (idx == 4)
-					scene = Chapter4Level1::createScene();
-				else if (idx == 5)
-					scene = Chapter5Level1::createScene();
-				else if (idx == 6)
-					scene = Chapter6Level1::createScene();
-				Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
+				enterChapter(((Button*)sender)->getTag());
 			}break;
 			default:
 				break;
@@ -198,23 +182,55 @@ Node * EntryScene::chapterEntry(int idx)
 	return nodeItems;
 }
 
+void EntryScene::enterChapter(int idx) {
+	Scene* scene;
+	if (idx == -1)
+		scene = Chapter0Level1::createScene();
+	else if (idx == 0)
+		scene = Chapter0Level1::createScene();
+	else if (idx == 1)
+		scene = Chapter1Level1::createScene();
+	else if (idx == 2)
+		scene = Chapter2Level1::createScene();
+	else if (idx == 3)
+		scene = Chapter3Level1::createScene();
+	else if (idx == 4)
+		scene = Chapter4Level1::createScene();
+	else if (idx == 5)
+		scene = Chapter5Level1::createScene();
+	else if (idx == 6)
+		scene = Chapter6Level1::createScene();
+	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
+}
+
 bool EntryScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	return true;
 }
 bool EntryScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
-	chapters[iter]->setVisible(false);
-	if (chapters[iter]->getChildByName("Button") != nullptr)
-		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
+	
 	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+		chapters[iter]->setVisible(false);
+		if (chapters[iter]->getChildByName("Button") != nullptr)
+			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
 		if (iter < chapterTotal - 1) 
 			iter++;
+		chapters[iter]->setVisible(true);
+		if (chapters[iter]->getChildByName("Button") != nullptr)
+			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+		chapters[iter]->setVisible(false);
+		if (chapters[iter]->getChildByName("Button") != nullptr)
+			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
 		if (iter > 0)
 			iter--;
+		chapters[iter]->setVisible(true);
+		if (chapters[iter]->getChildByName("Button") != nullptr)
+			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
 	}
-	chapters[iter]->setVisible(true);
-	if (chapters[iter]->getChildByName("Button") != nullptr)
-		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
+	if (keyCode == EventKeyboard::KeyCode::KEY_ENTER) {
+		enterChapter(((Button*)chapters[iter]->getChildByName("Button"))->getTag());
+	}
+	
 	return true;
 }

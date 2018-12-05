@@ -16,9 +16,16 @@ public:
 	void swingAnticlockwise();
 	void stopSwing();
 	void swingUpdate(float dt);
+	void setSwingTime(float t) {
+		swingTime = t;
+	}
+	void setStopTime(float t) {
+		stopTime = t;
+	}
 private:
 	float clock;
 	int state;
+	float swingTime, stopTime;
 };
 
 #endif // __SWING_LAND_H__

@@ -27,6 +27,7 @@ public:
 	CREATE_FUNC(Chapter5Level1);
 private:
 	int trapCnt;
+	bool firstLoad;
 };
 
 #endif // __CHAPTER5_LEVEL1_H__

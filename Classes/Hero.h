@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-#define JUMP_LIMIT 2
+#define JUMP_LIMIT 1
 
 enum HeroState {
 	RIGHT=0,
