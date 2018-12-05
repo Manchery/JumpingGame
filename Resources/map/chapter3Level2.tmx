@@ -784,7 +784,7 @@
     <property name="startY" type="float" value="1490"/>
    </properties>
   </object>
-  <object id="955" name="SlidingLand" type="platform3" gid="29" x="542" y="1710" width="197" height="41">
+  <object id="955" name="SlidingLand" type="platform3" gid="29" x="546" y="1710" width="197" height="41">
    <properties>
     <property name="ID" type="int" value="2"/>
     <property name="delay" type="float" value="3"/>
@@ -794,12 +794,12 @@
     <property name="startY" type="float" value="1705"/>
    </properties>
   </object>
-  <object id="956" name="Land" type="platformBase3" gid="32" x="194" y="1614" width="260" height="72"/>
+  <object id="956" name="Land" type="platformBase3" gid="32" x="136" y="1614" width="260" height="72"/>
   <object id="958" name="Land" type="platformBase3" gid="32" x="2308" y="1127" width="260" height="72"/>
   <object id="1004" name="Trap" type="trap" gid="51" x="984" y="1348" width="128" height="48"/>
   <object id="1005" name="Trap" type="trap" gid="51" x="1112" y="1348" width="128" height="48"/>
-  <object id="1009" name="Trap" type="trap" gid="51" x="2438" y="1120" width="128" height="32" rotation="180"/>
-  <object id="1010" name="Trap" type="trap" gid="51" x="2566" y="1120" width="128" height="32" rotation="180"/>
+  <object id="1009" name="Trap" type="trap" gid="51" x="2442" y="1120" width="128" height="32" rotation="180"/>
+  <object id="1010" name="Trap" type="trap" gid="51" x="2562" y="1120" width="128" height="32" rotation="180"/>
   <object id="1011" name="Trap" type="trap" gid="51" x="1580" y="1542" width="128" height="48"/>
   <object id="1012" name="Trap" type="trap" gid="51" x="1708" y="1542" width="128" height="48"/>
   <object id="1014" name="Trap" type="trapSmall" gid="65" x="984" y="1420" width="72" height="48" rotation="-90"/>
@@ -808,7 +808,7 @@
   <object id="1017" name="Trap" type="trapSmall" gid="65" x="2770" y="1418" width="65" height="48" rotation="-90"/>
   <object id="1019" name="Trap" type="trapSmall" gid="65" x="2770" y="1610" width="65" height="48" rotation="-90"/>
   <object id="1020" name="Trap" type="trapSmall" gid="65" x="3026" y="1545" width="65" height="48" rotation="90"/>
-  <object id="1021" name="Trap" type="trapSmall" gid="65" x="452" y="1540" width="72" height="48" rotation="90"/>
+  <object id="1021" name="Trap" type="trapSmall" gid="65" x="394" y="1540" width="72" height="48" rotation="90"/>
   <object id="1023" name="Coin" type="gemBlueStroked" gid="146" x="800" y="1605" width="64" height="64"/>
   <object id="1024" name="Coin" type="gemBlueStroked" gid="145" x="2203" y="1124" width="64" height="64"/>
   <object id="1025" name="Coin" type="gemRedStroked" gid="146" x="2356" y="1242" width="64" height="64"/>
@@ -823,7 +823,7 @@
   <object id="1036" name="SoftLand" type="pushBlock3" gid="172" x="1244" y="1634" width="96" height="96"/>
   <object id="1037" name="SoftLand" type="pushBlock3" gid="172" x="1856" y="1380" width="96" height="96"/>
   <object id="1038" name="SoftLand" type="pushBlock3" gid="172" x="1856" y="1472" width="96" height="96"/>
-  <object id="1039" name="GameKey" type="keyRedStroked" gid="152" x="528" y="1600" width="72" height="44"/>
+  <object id="1039" name="GameKey" type="keyRedStroked" gid="152" x="470" y="1600" width="72" height="44"/>
  </objectgroup>
  <objectgroup id="7" name="above">
   <object id="917" type="window1" gid="120" x="379" y="1125" width="65" height="64"/>

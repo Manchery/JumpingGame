@@ -39,6 +39,8 @@ bool SlidingLand::initWithFile(const std::string & filename, float width, float 
 
 	this->stopTimeSet = 1.0f;
 
+	this->launched = false;
+
 	return true;
 }
 
@@ -47,6 +49,7 @@ void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 	startX = startx; startY = starty; endX = endx; endY = endy;
 	this->setPosition(startX, startY);
 	this->unscheduleAllCallbacks();
+	launched = false;
 	if (!isWait())
 		this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
 }
@@ -54,7 +57,8 @@ void SlidingLand::resetTrack() {
 	this->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	this->setPosition(startX, startY);
 	this->unscheduleAllCallbacks();
-	if (!isWait())
+	launched = false;
+	if (!isWait()) 
 		this->scheduleOnce(schedule_selector(SlidingLand::startSliding), delayTime);
 }
 

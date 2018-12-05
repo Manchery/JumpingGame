@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+#define INFTIME (1<<30)
+
 #define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY false
 

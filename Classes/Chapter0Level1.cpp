@@ -18,6 +18,8 @@ bool Chapter0Level1::init()
 		return false;
 	}
 
+	chapterID = 0;
+
 	initMap("map/chapter0Level1.tmx", Color4B::Color4B(39, 185, 154, 255));
 	coinTotal = chapterCoinTotal[0];
 	commonInitAfterMap();
@@ -34,17 +36,8 @@ void Chapter0Level1::messageUpdate(float dt)
 	}
 }
 
-void Chapter0Level1::switchScene(float dt)
-{
-	Chapter0Level2* scene=(Chapter0Level2*)Chapter0Level2::createScene();
-	scene->setCoinCount(this->coinCount);
-	scene->getHero()->switchTypeTo(hero->getHeroType());
-	scene->setRunningTime(runningTime);
-	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f,scene));
-}
-
 void Chapter0Level1::gamePass()
 {
-	switchScene(0.0f); // or win()
+	nextLevel((Chapter0Level2*)Chapter0Level2::createScene());
 }
 

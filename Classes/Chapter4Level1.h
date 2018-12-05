@@ -17,7 +17,6 @@ public:
 	virtual void onEnterTransitionDidFinish() override;
 	virtual bool init();
 
-	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter4Level1);

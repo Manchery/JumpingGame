@@ -38,6 +38,9 @@ void logUserDefault()
 		sstr.str("");
 		sstr << "chapter" << i << "Pass";
 		log("%s %d", sstr.str().c_str(), (int)(userData->getBoolForKey(sstr.str().c_str())));
+		sstr.str("");
+		sstr << "chapter" << i << "Time";
+		log("%s %d", sstr.str().c_str(), userData->getIntegerForKey(sstr.str().c_str()));
 	}
 }
 
@@ -58,6 +61,9 @@ void setGameDefault(){
 		sstr.str("");
 		sstr << "chapter" << i << "Pass";
 		userData->setBoolForKey(sstr.str().c_str(), false);
+		sstr.str("");
+		sstr << "chapter" << i << "Time";
+		userData->setIntegerForKey(sstr.str().c_str(), INFTIME);
 	}
 	userData->setBoolForKey("canShot", false);
 	userData->setBoolForKey("canShield", false);

@@ -19,6 +19,8 @@ bool Chapter6Level1::init()
 		return false;
 	}
 
+	chapterID = 6;
+
 	initMap("map/chapter6Level1.tmx", Color4B::Color4B(135, 242, 243, 255));
 	coinTotal = chapterCoinTotal[6];
 	commonInitAfterMap();
@@ -26,18 +28,9 @@ bool Chapter6Level1::init()
 	return true;
 }
 
-void Chapter6Level1::switchScene(float dt)
-{
-	Director::getInstance()->replaceScene(HelloScene::createScene());
-}
-
 void Chapter6Level1::gamePass()
 {
 	win();
-	auto userData = UserDefault::getInstance();
-	userData->setBoolForKey("chapter5Pass", true);
-	auto record = userData->getIntegerForKey("chapter5CoinCount");
-	userData->setIntegerForKey("chapter5CoinCount", std::max(record, coinCount));
 }
 
 void Chapter6Level1::mapUpdate(float dt){

@@ -17,7 +17,6 @@ public:
 	virtual bool init();
 	virtual void messageUpdate(float dt) override;
 
-	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter0Level1);

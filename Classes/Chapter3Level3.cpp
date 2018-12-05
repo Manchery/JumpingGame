@@ -18,6 +18,8 @@ bool Chapter3Level3::init()
 		return false;
 	}
 
+	chapterID = 3;
+
 	initMap("map/chapter3Level3.tmx", Color4B::Color4B(39, 185, 154, 255));
 	coinTotal = chapterCoinTotal[3];
 	commonInitAfterMap();
@@ -26,16 +28,7 @@ bool Chapter3Level3::init()
 	return true;
 }
 
-void Chapter3Level3::switchScene(float dt)
-{
-	Director::getInstance()->replaceScene(HelloScene::createScene());
-}
-
 void Chapter3Level3::gamePass()
 {
 	win();
-	auto userData = UserDefault::getInstance();
-	userData->setBoolForKey("chapter3Pass", true);
-	auto record = userData->getIntegerForKey("chapter0CoinCount");
-	userData->setIntegerForKey("chapter3CoinCount", std::max(record, coinCount));
 }

@@ -994,7 +994,7 @@
   </object>
   <object id="594" name="Coin" type="gemRedStroked" gid="18" x="674" y="1082" width="64" height="64"/>
   <object id="596" name="Coin" type="gemBlueStroked" gid="17" x="500" y="1082" width="64" height="64"/>
-  <object id="617" name="SlidingTrap" type="trap" gid="51" x="938" y="920" width="128" height="32"/>
+  <object id="617" name="SlidingTrap" type="trap" gid="51" x="938" y="920" width="128" height="24"/>
   <object id="620" name="Hero" type="hero" gid="22" x="296" y="1129" width="128" height="160"/>
   <object id="652" name="Land" type="platform4" gid="93" x="1109" y="858" width="171" height="41">
    <properties>
@@ -1224,11 +1224,11 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="836" name="SlidingTrap" type="trap" gid="51" x="969" y="920" width="128" height="32"/>
-  <object id="837" name="SlidingTrap" type="trap" gid="51" x="2303.5" y="737" width="128" height="32"/>
-  <object id="838" name="SlidingTrap" type="trap" gid="51" x="2336.5" y="737" width="128" height="32"/>
-  <object id="839" name="SlidingTrap" type="trap" gid="51" x="6243.5" y="799" width="128" height="32"/>
-  <object id="840" name="SlidingTrap" type="trap" gid="51" x="6276.5" y="799" width="128" height="32"/>
+  <object id="836" name="SlidingTrap" type="trap" gid="51" x="969" y="920" width="128" height="24"/>
+  <object id="837" name="SlidingTrap" type="trap" gid="51" x="2303.5" y="737" width="128" height="24"/>
+  <object id="838" name="SlidingTrap" type="trap" gid="51" x="2336.5" y="737" width="128" height="24"/>
+  <object id="839" name="SlidingTrap" type="trap" gid="51" x="6243.5" y="799" width="128" height="24"/>
+  <object id="840" name="SlidingTrap" type="trap" gid="51" x="6276.5" y="799" width="128" height="24"/>
   <object id="841" name="SwingTrap" type="row2" gid="194" x="7514" y="674" width="384" height="48"/>
   <object id="842" name="Trap" type="trap" gid="51" x="1278" y="1120" width="128" height="32"/>
   <object id="843" name="Trap" type="trap" gid="51" x="1406" y="1120" width="128" height="32"/>

@@ -19,7 +19,6 @@ public:
 
 	virtual bool onContactBegin(cocos2d::PhysicsContact &contact) override;
 
-	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter1Level1);

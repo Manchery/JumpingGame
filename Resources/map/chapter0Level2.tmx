@@ -471,7 +471,6 @@
     <property name="bodyType" value="static"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
-    <property name="revivePoint" type="bool" value="true"/>
    </properties>
   </object>
   <object id="471" name="Land" type="platform4" gid="29" x="1535" y="841.5" width="192" height="41">
@@ -479,6 +478,7 @@
     <property name="bodyType" value="static"/>
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
+    <property name="revivePoint" type="bool" value="true"/>
    </properties>
   </object>
   <object id="475" name="SlidingLand" type="platform3" gid="28" x="1969" y="742.5" width="192" height="41">

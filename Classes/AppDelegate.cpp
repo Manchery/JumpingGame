@@ -43,10 +43,11 @@ using namespace CocosDenshion;
 #include "HelloScene.h"
 #include "TileTestScene.h"
 #include "GameScene.h"
+#include "LoadingScene.h"
 #include <sstream>
 #include "SimpleAudioEngine.h"
 //#define START_SCENE GameScene
-#define START_SCENE HelloScene
+#define START_SCENE LoadingScene
 //#define START_SCENE TileTestScene
 
 USING_NS_CC;
@@ -111,15 +112,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		auto resolutionOption = UserDefault::getInstance()->getStringForKey("resolution");
 		//glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
 		if (resolutionOption=="large")
-			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
+			glview = GLViewImpl::createWithRect("Sticker Knight Platformer", cocos2d::Rect(0, 0, largeResolutionSize.width, largeResolutionSize.height));
 		else if (resolutionOption == "medium")
-			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
+			glview = GLViewImpl::createWithRect("Sticker Knight Platformer", cocos2d::Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
 		else if(resolutionOption == "small")
-			glview = GLViewImpl::createWithRect("JumpingGame Manchery", cocos2d::Rect(0, 0, smallResolutionSize.width, smallResolutionSize.height));
+			glview = GLViewImpl::createWithRect("Sticker Knight Platformer", cocos2d::Rect(0, 0, smallResolutionSize.width, smallResolutionSize.height));
 		else if(resolutionOption == "fullscreen")
-			glview = GLViewImpl::createWithFullScreen("JumpingGame Manchery");
+			glview = GLViewImpl::createWithFullScreen("Sticker Knight Platformer");
 #else
-        glview = GLViewImpl::create("JumpingGame Manchery");
+        glview = GLViewImpl::create("Sticker Knight Platformer");
 #endif
         director->setOpenGLView(glview);
     }

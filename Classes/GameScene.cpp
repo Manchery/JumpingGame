@@ -3,6 +3,7 @@
 #include "HelloScene.h"
 #include "PauseScene.h"
 #include "ReviveScene.h"
+#include "EntryScene.h"
 #include "common.h"
 #include "SlidingLand.h"
 #include "Hero.h"
@@ -61,6 +62,8 @@ void GameScene::commonInitAfterMap(){
 	heroDied = heroJumped = heroBounced = 0;
 	gotGameKey = 0; //needGameKey = 0;
 	gotShot = lastGotShot = gotShield = lastGotShield = 0;
+
+	mapUpdate(0.0f);
 
 	this->schedule(schedule_selector(GameScene::heroUpdate));
 	this->schedule(schedule_selector(GameScene::mapUpdate));
@@ -388,6 +391,8 @@ bool GameScene::init()
 	{
 		return false;
 	}
+
+	chapterID = 0;
 	
 	initMap("map/chapter0.tmx",Color4B::Color4B(39,185,154,255));
 	commonInitAfterMap();
@@ -898,7 +903,7 @@ Vec2 GameScene::getHeroGlobalPosition() {
 }
 
 void GameScene::gamePause() {
-	Director::getInstance()->pushScene(PauseScene::createScene());
+	Director::getInstance()->pushScene(PauseScene::createScene(chapterID));
 }
 void GameScene::heroDie() {
 	Director::getInstance()->pushScene(ReviveScene::createScene());
@@ -986,9 +991,9 @@ void GameScene::messageDoubleLine(const std::string & mes1, const std::string & 
 	this->addChild(nodeItems, 10);
 }
 
-void GameScene::switchScene(float dt)
+void GameScene::backToEntry(float dt)
 {
-	Director::getInstance()->replaceScene(HelloScene::createScene());
+	Director::getInstance()->replaceScene(EntryScene::createScene());
 }
 
 void GameScene::win()
@@ -1016,7 +1021,26 @@ void GameScene::win()
 	//hero->setVisible(false);
 	hero->removeFromParent();
 	
-	scheduleOnce(schedule_selector(GameScene::switchScene), 4.0f);
+	scheduleOnce(schedule_selector(GameScene::backToEntry), 4.0f);
+
+	//user data
+
+	auto userData = UserDefault::getInstance();
+	userData->setBoolForKey(("chapter"+std::to_string(chapterID)+"Pass").c_str(), true);
+	auto recordCoin = userData->getIntegerForKey(("chapter" + std::to_string(chapterID) + "CoinCount").c_str());
+	userData->setIntegerForKey(("chapter" + std::to_string(chapterID) + "CoinCount").c_str(), 
+		std::max(recordCoin, coinCount));
+	auto recordTime = userData->getIntegerForKey(("chapter" + std::to_string(chapterID) + "Time").c_str());
+	userData->setIntegerForKey(("chapter" + std::to_string(chapterID) + "Time").c_str(),
+		std::min(recordTime, int(runningTime)));
+}
+
+void GameScene::nextLevel(GameScene * scene)
+{
+	scene->setCoinCount(this->coinCount);
+	scene->getHero()->switchTypeTo(hero->getHeroType());
+	scene->setRunningTime(runningTime);
+	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
 }
 
 void GameScene::gamePass()

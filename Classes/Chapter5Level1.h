@@ -19,7 +19,6 @@ public:
 	virtual bool init();
 	void drawBoss(const std::string & tmxFile);
 
-	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
 	virtual void mapUpdate(float dt) override;

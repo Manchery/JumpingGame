@@ -56,6 +56,8 @@ bool Chapter5Level1::init()
 		return false;
 	}
 
+	chapterID = 5;
+
 	initMap("map/chapter5Level1.tmx", Color4B::Color4B(53, 73, 94, 255));
 	coinTotal = chapterCoinTotal[5];
 	commonInitAfterMap();
@@ -143,18 +145,14 @@ void Chapter5Level1::drawBoss(const std::string & tmxFile)
 	}
 }
 
-void Chapter5Level1::switchScene(float dt)
-{
-	Director::getInstance()->replaceScene(HelloScene::createScene());
-}
-
 void Chapter5Level1::gamePass()
 {
+	for (int i = 0; i < trapCnt; i++) {
+		auto deadTrap = frontGroundLayer->getChildByName("DeadTrap" + std::to_string(i));
+		deadTrap->stopAllActions();
+	}
 	win();
-	auto userData = UserDefault::getInstance();
-	userData->setBoolForKey("chapter5Pass", true);
-	auto record = userData->getIntegerForKey("chapter5CoinCount");
-	userData->setIntegerForKey("chapter5CoinCount", std::max(record, coinCount));
+
 }
 
 void Chapter5Level1::mapUpdate(float dt){

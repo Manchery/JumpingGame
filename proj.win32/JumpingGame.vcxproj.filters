@@ -111,6 +111,9 @@
     <ClCompile Include="..\Classes\Chapter4Level1.cpp">
       <Filter>src\Chapter</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\LoadingScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Chapter4Level1.h">
       <Filter>src\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoadingScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -46,8 +46,9 @@ public:
 
 	void messageSingleLine(const std::string &mes);
 	void messageDoubleLine(const std::string &mes1,const std::string &mes2);
-	virtual void switchScene(float dt);
+	void backToEntry(float dt);
 	void win();
+	void nextLevel(GameScene *scene);
 	virtual void gamePass();
 
 	void drawBackGround(ValueVector & arrObj, int zOrder);
@@ -108,6 +109,7 @@ protected:
 	bool needGameKey, gotGameKey;
 	bool gotShot, lastGotShot, gotShield, lastGotShield;
 	float runningTime;
+	int chapterID;
 };
 
 #endif // __GAME_SCENE_H__

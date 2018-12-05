@@ -2,6 +2,8 @@
 #define __ENTRY_SCENE_H__
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class EntryScene : public cocos2d::Scene
 {
 public:
@@ -10,8 +12,15 @@ public:
 	virtual bool init();
 	Node * chapterEntry(int idx);
 
+	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event);
+
+	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);
+
 	CREATE_FUNC(EntryScene);
 private:
+	std::vector<Node*> chapters;
+	Node *curChapter;
+	int chapterTotal,iter;
 };
 
 #endif // __ENTRY_SCENE_H__

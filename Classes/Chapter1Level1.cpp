@@ -18,6 +18,8 @@ bool Chapter1Level1::init()
 		return false;
 	}
 
+	chapterID = 1;
+
 	initMap("map/chapter1Level1.tmx", Color4B::Color4B(53, 73, 94, 255));
 	coinTotal = chapterCoinTotal[1];
 	commonInitAfterMap();
@@ -77,19 +79,9 @@ bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 	return true;
 }
 
-void Chapter1Level1::switchScene(float dt)
-{
-	Director::getInstance()->replaceScene(HelloScene::createScene());
-}
-
 void Chapter1Level1::gamePass()
 {
 	win();
-	auto userData = UserDefault::getInstance();
-	userData->setBoolForKey("chapter1Pass", true);
-	auto record = userData->getIntegerForKey("chapter1CoinCount");
-	userData->setIntegerForKey("chapter1CoinCount", std::max(record, coinCount));
-
 	UserDefault::getInstance()->setBoolForKey("canShot", true);
 }
 

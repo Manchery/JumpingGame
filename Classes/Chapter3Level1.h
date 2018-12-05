@@ -16,7 +16,6 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 
-	virtual void switchScene(float dt) override;
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter3Level1);

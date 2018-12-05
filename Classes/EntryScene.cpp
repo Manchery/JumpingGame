@@ -7,9 +7,11 @@
 #include "Chapter1Level1.h"
 #include "Chapter2Level1.h"
 #include "Chapter3Level1.h"
+#include "Chapter3Level2.h"
 #include "Chapter4Level1.h"
 #include "Chapter5Level1.h"
 #include "Chapter6Level1.h"
+#include "common.h"
 #include <iostream>
 #include <sstream>
 
@@ -56,25 +58,26 @@ bool EntryScene::init()
 		visibleSize.height - 50 - backButton->getContentSize().height / 2));
 	this->addChild(backButton);
 
-	auto chapter0 = chapterEntry(0);
-	chapter0->setPosition(Vec2(visibleSize.width/2-800,visibleSize.height/2));
-	this->addChild(chapter0, 1);
+	chapterTotal = 7;
 
-	auto chapter1 = chapterEntry(1);
-	chapter1->setPosition(Vec2(visibleSize.width / 2-400, visibleSize.height/2));
-	this->addChild(chapter1, 1);
+	for (int i = 0; i < chapterTotal; i++) {
+		auto chapter = chapterEntry(i); chapter->retain();
+		chapter->setPosition(Vec2(visibleSize.width / 2 , visibleSize.height / 2));
+		chapter->setVisible(false);
+		if (chapter->getChildByName("Button") != nullptr)
+			((Button*)chapter->getChildByName("Button"))->setEnabled(false);
+		this->addChild(chapter, 1);
+		chapters.push_back(chapter);
+	}
+	iter = 0;
+	chapters[iter]->setVisible(true);
+	if (chapters[iter]->getChildByName("Button") != nullptr)
+		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
 
-	auto chapter2 = chapterEntry(2);
-	chapter2->setPosition(Vec2(visibleSize.width / 2 , visibleSize.height/2));
-	this->addChild(chapter2, 1);
-
-	auto chapter3 = chapterEntry(3);
-	chapter3->setPosition(Vec2(visibleSize.width / 2 + 400, visibleSize.height/2));
-	this->addChild(chapter3, 1);
-
-	auto chapter4 = chapterEntry(4);
-	chapter4->setPosition(Vec2(visibleSize.width / 2 + 800, visibleSize.height / 2));
-	this->addChild(chapter4, 1);
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(EntryScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(EntryScene::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
 	return true;
 }
@@ -82,7 +85,7 @@ bool EntryScene::init()
 static std::string chapterName[] = {
 	"Chapter Zero","Chapter 1","Chapter 2","Chapter 3", "Chapter 4","Chapter Final","Chapter Bonus"
 };
-static int bonusNeed = 72;
+static int bonusNeed = 168;
 static int getCoinTotal() {
 	int total = 0;
 	for (int i = 0; i < 6; i++) {
@@ -103,13 +106,13 @@ static int getCurrentChapter() {
 Node * EntryScene::chapterEntry(int idx)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	int paddingX = 20;
+	int padding = 200;
 
 	auto chapterString = "chapter" + std::to_string(idx);
 
 	auto nodeItems = Node::create();
 
-	auto size = Size((visibleSize.width - paddingX * 2 - paddingX * 3) / 4, visibleSize.height / 4);
+	auto size = Size((visibleSize.width) /2, visibleSize.height - padding *2);
 	
 	auto background = Sprite::create("ui/helpBackground.png");
 	background->setContentSize(size);
@@ -121,18 +124,30 @@ Node * EntryScene::chapterEntry(int idx)
 	snapshot->setPosition(Vec2(0, -size.height*0.25 + size.height * 0.1));
 	nodeItems->addChild(snapshot, 0);
 
-	auto chapterLabel= Label::createWithTTF(chapterName[idx], "fonts/GermaniaOne-Regular.ttf", 64);
+	auto chapterLabel= Label::createWithTTF(chapterName[idx], "fonts/GermaniaOne-Regular.ttf", 128);
 
 	std::stringstream sstr;
 	sstr << "coin "<< UserDefault::getInstance()->getIntegerForKey((chapterString+"CoinCount").c_str())
 		<<"/"<<chapterCoinTotal[idx];
-	auto coinLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 32);
+	auto coinLabel = Label::createWithTTF(sstr.str(), "fonts/GermaniaOne-Regular.ttf", 64);
 
-	chapterLabel->setPosition(Vec2(0,size.height/2-20-32));
-	coinLabel->setPosition(Vec2(0, size.height / 2 - 20 - 64-20-32));
+	char buf[100]; 
+	auto recordTime = UserDefault::getInstance()->getIntegerForKey((chapterString + "Time").c_str());
+	if (recordTime == INFTIME)
+		sprintf(buf, "-- : --");
+	else
+		sprintf(buf, "%02d : %02d", recordTime / 60, recordTime % 60);
+	auto timeLabel = Label::createWithTTF(buf, "fonts/GermaniaOne-Regular.ttf", 64);
+
+	padding = 30;
+
+	chapterLabel->setPosition(Vec2(0,size.height/2- padding-128));
+	coinLabel->setPosition(Vec2(0, size.height / 2 - padding - 128- padding -64));
+	timeLabel->setPosition(Vec2(0, size.height / 2 - padding - 128 - padding - 64 - padding - 64));
 
 	nodeItems->addChild(chapterLabel, 1);
 	nodeItems->addChild(coinLabel, 1);
+	nodeItems->addChild(timeLabel, 1);
 	
 	if (idx <= getCurrentChapter() && (idx!=6 || getCoinTotal()>bonusNeed)) {
 		auto button = Button::create();
@@ -140,6 +155,7 @@ Node * EntryScene::chapterEntry(int idx)
 		button->setContentSize(size);
 		button->setOpacity(0);
 		button->setTag(idx);
+		button->setName("Button");
 		button->setPosition(background->getPosition());
 		button->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 			switch (type) {
@@ -148,7 +164,7 @@ Node * EntryScene::chapterEntry(int idx)
 			case ui::Widget::TouchEventType::ENDED: {
 				Scene* scene; int idx = ((Button*)sender)->getTag();
 				if (idx==-1)
-					scene = Chapter4Level1::createScene();
+					scene = Chapter0Level1::createScene();
 				else if (idx == 0)
 					scene = Chapter0Level1::createScene();
 				else if (idx==1)
@@ -159,7 +175,11 @@ Node * EntryScene::chapterEntry(int idx)
 					scene = Chapter3Level1::createScene();
 				else if (idx == 4)
 					scene = Chapter4Level1::createScene();
-				Director::getInstance()->replaceScene(scene);
+				else if (idx == 5)
+					scene = Chapter5Level1::createScene();
+				else if (idx == 6)
+					scene = Chapter6Level1::createScene();
+				Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
 			}break;
 			default:
 				break;
@@ -178,3 +198,23 @@ Node * EntryScene::chapterEntry(int idx)
 	return nodeItems;
 }
 
+bool EntryScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
+	return true;
+}
+bool EntryScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+	chapters[iter]->setVisible(false);
+	if (chapters[iter]->getChildByName("Button") != nullptr)
+		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
+		if (iter < chapterTotal - 1) 
+			iter++;
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
+		if (iter > 0)
+			iter--;
+	}
+	chapters[iter]->setVisible(true);
+	if (chapters[iter]->getChildByName("Button") != nullptr)
+		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
+	return true;
+}
