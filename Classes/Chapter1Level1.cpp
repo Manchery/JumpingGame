@@ -71,6 +71,7 @@ bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 		(nodeB->getTag() == HERO_T && nodeA->getName() == "EnableShot")) {
 		if (!hero->getTypeUnlocked(1)) {
 			gotShot = 1;
+			EFFECT("equip.mp3");
 			//UserDefault::getInstance()->setBoolForKey("canShot", true);
 			messageSingleLine("Sword!");
 		}

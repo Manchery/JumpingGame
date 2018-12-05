@@ -792,7 +792,11 @@
     <property name="jump" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="387" name="SwingLand" type="row1" gid="193" x="928" y="1349" width="576" height="72"/>
+  <object id="387" name="SwingLand" type="row1" gid="193" x="928" y="1349" width="576" height="72">
+   <properties>
+    <property name="stopTime" type="float" value="0"/>
+   </properties>
+  </object>
   <object id="388" name="DropLand" type="platform1" gid="26" x="544" y="969" width="192" height="41"/>
   <object id="391" name="DropLand" type="platform1" gid="26" x="1696" y="969" width="192" height="41"/>
   <object id="411" name="Coin" type="gemBlueStroked" gid="17" x="2116.5" y="1411" width="64" height="64"/>

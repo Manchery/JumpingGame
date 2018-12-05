@@ -29,6 +29,11 @@ bool Chapter2Level1::init()
 	return true;
 }
 
+void Chapter2Level1::initBackgroundMusic()
+{
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/water.wav", true);
+}
+
 
 void Chapter2Level1::drawMap(const TMXTiledMap *tileMap)
 {
@@ -74,6 +79,7 @@ bool Chapter2Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 		(nodeB->getTag() == HERO_T && nodeA->getName() == "EnableShield")) {
 		if (!hero->getTypeUnlocked(2)) {
 			gotShield = 1;
+			EFFECT("equip.mp3");
 			//UserDefault::getInstance()->setBoolForKey("canShot", true);
 			messageSingleLine("Shield!");
 		}

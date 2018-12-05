@@ -1116,7 +1116,7 @@
     <property name="startY" type="float" value="1490"/>
    </properties>
   </object>
-  <object id="719" name="DropLand" type="platform3" gid="94" x="6244.5" y="840" width="171" height="41">
+  <object id="719" name="Land" type="platform3" gid="94" x="6244.5" y="840" width="171" height="41">
    <properties>
     <property name="ID" type="int" value="2"/>
     <property name="delay" type="float" value="3"/>

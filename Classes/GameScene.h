@@ -2,12 +2,14 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 #include "Hero.h"
 #include "Enemy.h"
 #include "FollowEnemy.h"
 #include "common.h"
 #include "SwingLand.h"
 
+using namespace CocosDenshion;
 USING_NS_CC;
 
 class GameScene : public cocos2d::Scene
@@ -93,7 +95,6 @@ public:
 		return (node->getBoundingBox().getMaxX() <= hero->getPhysicsMinX() + 10.0f &&
 			node->getBoundingBox().getMaxX() >= hero->getPhysicsMinX() - 10.0f);
 	}
-
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
 	std::vector<Node*> destroyedList;
@@ -110,6 +111,7 @@ protected:
 	bool gotShot, lastGotShot, gotShield, lastGotShield;
 	float runningTime;
 	int chapterID;
+	bool toldKey;
 };
 
 #endif // __GAME_SCENE_H__

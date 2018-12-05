@@ -3,10 +3,12 @@
 
 #include "cocos2d.h"
 
+#define EFFECT(__FILE__) SimpleAudioEngine::getInstance()->playEffect("sounds/"##__FILE__##, false, 1.0f, 1.0f, 1.0f)
+
 #define INFTIME (1<<30)
 
-#define PHYSICS_DRAW_DEBUG true
-#define AUDIO_PLAY false
+#define PHYSICS_DRAW_DEBUG false
+#define AUDIO_PLAY true
 
 #define HERO_T 1
 #define ENEMY_T 2

@@ -509,7 +509,7 @@ void GameScene::initDashboard(){
 
 void GameScene::initBackgroundMusic(){
 	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/spring_music.wav", true);
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/spacewind.wav", true);
 }
 
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
@@ -527,21 +527,8 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 		auto doorKey = (DoorKey*)nodeB;
 		doorKey->lock();
 	}
-
 	if (nodeA->getTag() == BULLET_T) {
-		nodeA->removeFromParentAndCleanup(1);
-		//nodeA->removeFromParent();
-		if (nodeB->getTag() == SOFT_LAND_T) {
-			nodeB->retain();
-			destroyedList.push_back(nodeB);
-			nodeB->removeFromParent();
-		}
-		else if (nodeB->getTag() == ENEMY_T) {
-			nodeB->retain();
-			destroyedList.push_back(nodeB);
-			nodeB->removeFromParent(); 
-		}
-		return false;
+		std::swap(nodeA, nodeB);
 	}
 	if (nodeB->getTag() == BULLET_T) {
 		nodeB->removeFromParentAndCleanup(1);
@@ -549,12 +536,16 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 		if (nodeA->getTag() == SOFT_LAND_T) {
 			nodeA->retain();
 			destroyedList.push_back(nodeA);
-			nodeA->removeFromParent(); 
+			nodeA->removeFromParent();
+
+			EFFECT("slime.wav");
 		}
 		else if (nodeA->getTag() == ENEMY_T) {
 			nodeA->retain();
 			destroyedList.push_back(nodeA);
 			nodeA->removeFromParent(); 
+
+			EFFECT("hurt1.wav");
 		}
 		return false;
 	}
@@ -576,16 +567,8 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			return false;
 		}
 		if (nodeB->getTag() == ENEMY_T) {
-			/*if (touchUpSurface(hero, nodeB)) {
-				nodeB->retain();
-				destroyedList.push_back(nodeB);
-				nodeB->removeFromParent();
-				return false;
-			}
-			else {*/
 			heroDied = 1;
 			return false;
-			//}
 		}
 		if (nodeB->getTag() == SWING_TRAP_T) {
 			heroDied = 1;
@@ -601,6 +584,9 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			nodeB->retain();
 			destroyedList.push_back(nodeB);
 			nodeB->removeFromParent();
+
+			EFFECT("coin.wav");
+			
 			return false;
 		}
 		if (nodeB->getTag() == GAME_KEY_T) {
@@ -608,13 +594,22 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			nodeB->retain();
 			destroyedList.push_back(nodeB);
 			nodeB->removeFromParent();
+
+			EFFECT("coin.wav");
+
 			return false;
 		}
 		if (nodeB->getTag() == EXIT_T) {
 			if (gotGameKey || !needGameKey)
 				gamePass();
-			else
-				messageSingleLine("No key to open it...");
+			else {
+				if (!toldKey) {
+					messageSingleLine("No key to open it ...");
+					toldKey = true;
+				}
+
+				EFFECT("thud.wav");
+			}
 			return false;
 		}
 	}
@@ -681,6 +676,8 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 					if (nodeB->getName() == "Jump") {
 						heroJumped = 1;
 						heroBounced = 1;
+
+						EFFECT("slime.wav");
 					}
 					else {
 						heroBounced = 0;
@@ -737,12 +734,15 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
 		this->gamePause();
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_A) {
+	if (keyCode == EventKeyboard::KeyCode::KEY_Z) {
 		hero->switchType();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_X) {
-		if (hero->getHeroType() == HEROSHOT)
+		if (hero->getHeroType() == HEROSHOT) {
+
+			EFFECT("sword.wav");
 			hero->shot();
+		}
 		else if (hero->getHeroType() == HEROSHIELD)
 			hero->shield();
 	}
@@ -804,7 +804,7 @@ void GameScene::heroUpdate(float dt)
 	}
 
 	auto delta = 450.0f;
-	if (hero->getInWater()) delta *= 0.5;
+	if (hero->getInWater()) delta *= 0.7;
 	auto velocity = hero->getPhysicsBody()->getVelocity();
 	
 	//velocityX
@@ -918,6 +918,8 @@ void GameScene::gamePause() {
 	Director::getInstance()->pushScene(PauseScene::createScene(chapterID));
 }
 void GameScene::heroDie() {
+	EFFECT("hurt2.wav");
+
 	Director::getInstance()->pushScene(ReviveScene::createScene());
 	gotShot = lastGotShot;
 	gotShield = lastGotShield;
@@ -933,8 +935,6 @@ void GameScene::heroDie() {
 void GameScene::heroJump() {
 	heroJumped = 1;
 	if (!hero->getOnGround() && !heroBounced) hero->addJumpTimes();
-	if (AUDIO_PLAY)
-		SimpleAudioEngine::getInstance()->playEffect("sounds/jump.wav", false, 1.0f, 1.0f, 1.0f);
 }
 
 void GameScene::messageSingleLine(const std::string & mes)
@@ -1045,6 +1045,8 @@ void GameScene::win()
 	auto recordTime = userData->getIntegerForKey(("chapter" + std::to_string(chapterID) + "Time").c_str());
 	userData->setIntegerForKey(("chapter" + std::to_string(chapterID) + "Time").c_str(),
 		std::min(recordTime, int(runningTime)));
+
+	EFFECT("win.wav");
 }
 
 void GameScene::nextLevel(GameScene * scene)
@@ -1053,6 +1055,8 @@ void GameScene::nextLevel(GameScene * scene)
 	scene->getHero()->switchTypeTo(hero->getHeroType());
 	scene->setRunningTime(runningTime);
 	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
+
+	EFFECT("door.wav");
 }
 
 void GameScene::gamePass()
