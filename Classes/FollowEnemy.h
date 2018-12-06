@@ -13,7 +13,7 @@ public:
 	static FollowEnemy* create(Hero *hero);
 
 	virtual bool initWithHero(Hero *hero);
-	void startFollow();
+	void startFollow(float dt);
 	void stopFollow();
 	void follow(float dt);
 	

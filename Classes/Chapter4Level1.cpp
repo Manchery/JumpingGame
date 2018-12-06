@@ -15,7 +15,8 @@ void Chapter4Level1::onEnterTransitionDidFinish()
 	//flush
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
-	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	//lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	lastKey = EventKeyboard::KeyCode::KEY_LEFT_ARROW; 
 	heroJumped = heroBounced = 0;
 
 	if (heroDied) {
@@ -36,7 +37,7 @@ void Chapter4Level1::onEnterTransitionDidFinish()
 
 		if (followEnemy != nullptr) {
 			followEnemy->stopFollow();
-			followEnemy->startFollow();
+			followEnemy->startFollow(0.0f);
 		}
 
 		heroDied = 0;
@@ -54,13 +55,15 @@ bool Chapter4Level1::init()
 
 	initMap("map/chapter4Level1.tmx", Color4B::Color4B(53, 73, 94, 255));
 	coinTotal = chapterCoinTotal[4];
+
 	commonInitAfterMap();
 
 	followEnemy = FollowEnemy::create(hero);
 	followEnemy->retain();
 	frontGroundLayer->addChild(followEnemy, 1);
 
-	followEnemy->startFollow();
+	//followEnemy->startFollow(0.0f);
+	followEnemy->scheduleOnce(schedule_selector(FollowEnemy::startFollow),2.5f);
 
 	hero->leftSilence();
 

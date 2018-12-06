@@ -691,7 +691,7 @@
   <object id="470" type="grassSmall" gid="20" x="1987" y="2622" width="160" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="527" y="2618.5" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="527" y="2602" width="128" height="160"/>
   <object id="222" name="Land" type="platformBase2" gid="31" x="192" y="2714" width="256" height="96">
    <properties>
     <property name="bodyType" value="static"/>

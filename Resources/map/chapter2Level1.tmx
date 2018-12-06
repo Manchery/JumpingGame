@@ -562,7 +562,7 @@
   <object id="1191" type="shadow" gid="45" x="2128" y="4322" width="48" height="160"/>
  </objectgroup>
  <objectgroup id="17" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="445.241" y="751.345" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="445.241" y="738" width="128" height="160"/>
   <object id="437" name="Exit" type="doorBlueStroked" gid="2147483658" x="333.241" y="3169.34" width="160" height="192">
    <properties>
     <property name="map" value="scene/game/map/sandbox3.json"/>

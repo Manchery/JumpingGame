@@ -565,7 +565,7 @@
   <object id="617" name="SlidingTrap" type="trap" gid="51" x="1536" y="928" width="128" height="32"/>
   <object id="618" name="SlidingTrap" type="trap" gid="51" x="1664" y="928" width="128" height="32"/>
   <object id="619" name="GameKey" type="keyRedStroked" gid="24" x="3421" y="632" width="72" height="44"/>
-  <object id="620" name="Hero" type="hero" gid="22" x="297" y="928" width="128" height="160"/>
+  <object id="620" name="Hero" type="hero" gid="22" x="297" y="912" width="128" height="160"/>
   <object id="621" name="Enemy" type="skeleton" gid="2147483711" x="3875" y="924" width="133" height="160">
    <properties>
     <property name="maxX" type="float" value="4215"/>

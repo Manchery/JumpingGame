@@ -975,7 +975,7 @@
    </properties>
   </object>
   <object id="617" name="SlidingTrap" type="trap" gid="51" x="948" y="920" width="128" height="24"/>
-  <object id="620" name="Hero" type="hero" gid="22" x="296" y="1120" width="128" height="160"/>
+  <object id="620" name="Hero" type="hero" gid="22" x="296" y="1104" width="128" height="160"/>
   <object id="652" name="Land" type="platform4" gid="93" x="1109" y="858" width="171" height="41">
    <properties>
     <property name="ID" type="int" value="1"/>

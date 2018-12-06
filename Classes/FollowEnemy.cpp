@@ -44,7 +44,7 @@ bool FollowEnemy::initWithHero(Hero *hero) {
 	return true;
 }
 
-void FollowEnemy::startFollow(){
+void FollowEnemy::startFollow(float dt){
 	this->schedule(schedule_selector(FollowEnemy::follow));
 }
 void FollowEnemy::stopFollow() {

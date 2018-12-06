@@ -292,7 +292,7 @@
   <object id="118" type="grassLarge" gid="19" x="673" y="1093" width="224" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="237" y="1086.5" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="237" y="1072" width="128" height="160"/>
   <object id="190" name="Coin" type="gemBlueStroked" gid="17" x="429" y="993" width="64" height="64"/>
   <object id="191" name="Coin" type="gemRedStroked" gid="17" x="543" y="917.5" width="64" height="64"/>
   <object id="192" name="Coin" type="gemBlueStroked" gid="17" x="651" y="994" width="64" height="64"/>

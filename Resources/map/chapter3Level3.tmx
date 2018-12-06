@@ -756,7 +756,7 @@
     <property name="stopTime" type="float" value="0"/>
    </properties>
   </object>
-  <object id="58" name="Hero" type="hero" gid="22" x="345" y="1595.5" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="345" y="1586" width="128" height="160"/>
   <object id="190" name="Coin" type="gemBlueStroked" gid="17" x="2372.67" y="1728" width="64" height="64"/>
   <object id="222" name="Land" type="platformBase2" gid="31" x="0" y="1674" width="256" height="72">
    <properties>

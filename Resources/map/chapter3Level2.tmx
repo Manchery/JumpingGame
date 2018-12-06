@@ -755,7 +755,7 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="939" name="Hero" type="hero" gid="22" x="465" y="1415" width="128" height="160"/>
+  <object id="939" name="Hero" type="hero" gid="22" x="465" y="1399" width="128" height="160"/>
   <object id="940" name="Land" type="platformBase4" gid="33" x="3627" y="1618" width="256" height="72">
    <properties>
     <property name="bodyType" value="static"/>

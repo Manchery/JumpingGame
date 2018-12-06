@@ -819,7 +819,7 @@
   <object id="778" type="shadow" gid="45" x="4844" y="3991" width="64" height="178"/>
  </objectgroup>
  <objectgroup id="6" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="669" y="1616" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="669" y="1601" width="128" height="160"/>
   <object id="385" name="Trap" type="trap" gid="51" x="1504" y="1855" width="128" height="32"/>
   <object id="386" name="Trap" type="trap" gid="51" x="1632" y="1855" width="128" height="32"/>
   <object id="387" name="Trap" type="trap" gid="51" x="1760" y="1855" width="128" height="32"/>

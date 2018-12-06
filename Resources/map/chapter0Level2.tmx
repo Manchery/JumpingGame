@@ -270,7 +270,7 @@
   <object id="340" type="flare" gid="16" x="1447" y="610" width="192" height="192"/>
  </objectgroup>
  <objectgroup id="6" name="game">
-  <object id="58" name="Hero" type="hero" gid="22" x="288" y="512" width="128" height="160"/>
+  <object id="58" name="Hero" type="hero" gid="22" x="288" y="496" width="128" height="160"/>
   <object id="189" name="Enemy" type="skeleton" gid="2147483711" x="2412" y="1105" width="133" height="160">
    <properties>
     <property name="maxX" type="float" value="2412"/>
