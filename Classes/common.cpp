@@ -4,6 +4,35 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
+float getMinYOffset(Sprite *sprite) {
+	return sprite->getPhysicsBody()->getPositionOffset().y
+		- ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().width / 2;
+}
+float getMaxYOffset(Sprite *sprite) {
+	return sprite->getPhysicsBody()->getPositionOffset().y
+		+ ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().width / 2;
+}
+float getMinXOffset(Sprite *sprite) {
+	return sprite->getPhysicsBody()->getPositionOffset().x
+		- ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().height / 2;
+}
+float getMaxXOffset(Sprite *sprite) {
+	return sprite->getPhysicsBody()->getPositionOffset().x
+		+ ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().height / 2;
+}
+float getPhysicsMinX(Sprite *sprite) {
+	return sprite->getBoundingBox().getMidX() + getMinXOffset(sprite);
+}
+float getPhysicsMinY(Sprite *sprite) {
+	return sprite->getBoundingBox().getMidY() + getMinYOffset(sprite);
+}
+float getPhysicsMaxX(Sprite *sprite) {
+	return sprite->getBoundingBox().getMidX() + getMaxXOffset(sprite);
+}
+float getPhysicsMaxY(Sprite *sprite) {
+	return sprite->getBoundingBox().getMidY() + getMaxYOffset(sprite);
+}
+
 bool isLand(const cocos2d::Node *node) {
 	int tag = node->getTag();
 	return tag == LAND_T || tag == SOFT_LAND_T || tag == SLIDING_LAND_T || tag == DROP_LAND_T ||

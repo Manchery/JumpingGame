@@ -2,6 +2,7 @@
 #define __COMMON_H__
 
 #include "cocos2d.h"
+USING_NS_CC;
 
 #define EFFECT(__FILE__) SimpleAudioEngine::getInstance()->playEffect("sounds/"##__FILE__##, false, 1.0f, 1.0f, 1.0f)
 #define BGM(__FILE__) SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/"##__FILE__##, true)
@@ -53,6 +54,15 @@
 #define BOSS_M 0x800
 
 const int chapterCoinTotal[] = { 20,30,30,30,30,30,30};
+
+float getMinYOffset(Sprite *sprite);
+float getMaxYOffset(Sprite *sprite);
+float getMinXOffset(Sprite *sprite);
+float getMaxXOffset(Sprite *sprite);
+float getPhysicsMinX(Sprite *sprite);
+float getPhysicsMinY(Sprite *sprite);
+float getPhysicsMaxX(Sprite *sprite);
+float getPhysicsMaxY(Sprite *sprite);
 
 bool isLand(const cocos2d::Node *node);
 bool isTrap(const cocos2d::Node *node);

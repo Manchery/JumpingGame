@@ -84,16 +84,16 @@ public:
 		return gotShield;
 	}
 	bool heroBottomTouched(Node *node) {
-		return (node->getBoundingBox().getMaxY() <= hero->getPhysicsMinY() + 10.0f &&
-			node->getBoundingBox().getMaxY() >= hero->getPhysicsMinY() - 10.0f);
+		return (getPhysicsMaxY((Sprite*)node) <= hero->getPhysicsMinY() + 10.0f &&
+			getPhysicsMaxY((Sprite*)node) >= hero->getPhysicsMinY() - 10.0f);
 	}
 	bool heroRightTouched(Node *node) {
-		return (node->getBoundingBox().getMinX() <= hero->getPhysicsMaxX() + 10.0f &&
-			node->getBoundingBox().getMinX() >= hero->getPhysicsMaxX() - 10.0f);
+		return (getPhysicsMinX((Sprite*)node) <= hero->getPhysicsMaxX() + 10.0f &&
+			getPhysicsMinX((Sprite*)node) >= hero->getPhysicsMaxX() - 10.0f);
 	}
 	bool heroLeftTouched(Node *node) {
-		return (node->getBoundingBox().getMaxX() <= hero->getPhysicsMinX() + 10.0f &&
-			node->getBoundingBox().getMaxX() >= hero->getPhysicsMinX() - 10.0f);
+		return (getPhysicsMaxX((Sprite*)node) <= hero->getPhysicsMinX() + 10.0f &&
+			getPhysicsMaxX((Sprite*)node) >= hero->getPhysicsMinX() - 10.0f);
 	}
 protected:
 	Layer *frontGroundLayer, *backGroundLayer;
