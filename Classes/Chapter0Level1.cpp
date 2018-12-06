@@ -30,7 +30,7 @@ bool Chapter0Level1::init()
 
 void Chapter0Level1::messageUpdate(float dt)
 {
-	if (!toldHello) {
+	if (!toldHello && runningTime >= 2.0f) {
 		messageDoubleLine("Hello!", "You are now Sticker Knight.");
 		toldHello = 1;
 	}

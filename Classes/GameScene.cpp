@@ -167,7 +167,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				slidingLand->setName("SlidingLand" + std::to_string(dic.at("ID").asInt()));
 
 			if (dic.find("background") != dic.end() && dic.at("background").asBool())
-				backGroundLayer->addChild(slidingLand, 100);
+				backGroundLayer->addChild(slidingLand, -1);
 			else
 				frontGroundLayer->addChild(slidingLand, 1);
 		}
@@ -282,6 +282,10 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			}
 			else if (name == "Trap") {
 				sprite->setTag(TRAP_T);
+
+				auto physicsSize = Size(sprite->getContentSize().width, sprite->getContentSize().height*0.5);
+				auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+				physicsBody->setPositionOffset(Vec2(0, -sprite->getContentSize().height*0.5 / 2));
 
 				physicsBody->setDynamic(false);
 				physicsBody->setCategoryBitmask(LAND_M);
@@ -451,9 +455,13 @@ void GameScene::initMap(const std::string & tmxFile, const Color4B &backgroundCo
 
 	auto objGroups = tileMap->getObjectGroups();
 	for (auto objGroup : objGroups) {
-		if (objGroup->getGroupName() != "game" && objGroup->getGroupName() != "bounds" && 
-			objGroup->getGroupName() != "water" && objGroup->getGroupName() != "boss")
-			drawBackGround(objGroup->getObjects());
+		if (objGroup->getGroupName() != "game" && objGroup->getGroupName() != "bounds" &&
+			objGroup->getGroupName() != "water" && objGroup->getGroupName() != "boss") {
+			if (objGroup->getGroupName() == "parallax")
+				drawBackGround(objGroup->getObjects(),-10);
+			else
+				drawBackGround(objGroup->getObjects());
+		}
 	}
 	
 	//map
@@ -804,7 +812,7 @@ void GameScene::heroUpdate(float dt)
 	}
 
 	auto delta = 450.0f;
-	if (hero->getInWater()) delta *= 0.7;
+	if (hero->getInWater()) delta *= 0.7f;
 	auto velocity = hero->getPhysicsBody()->getVelocity();
 	
 	//velocityX
@@ -827,8 +835,11 @@ void GameScene::heroUpdate(float dt)
 		if (hero->getInWater()) velocity.y *= 0.8f;
 		heroJumped = 0;
 	}
-	if (hero->getInWater())
+	if (hero->getInWater()) {
 		velocity.y = std::max(-800.0f*0.4f, velocity.y);
+		if (downKeyDown)
+			velocity.y = -800.0f*0.8f;
+	}
 	else
 		velocity.y = std::max(-800.0f, velocity.y);
 

@@ -688,6 +688,7 @@
    <properties>
     <property name="ID" type="int" value="1"/>
     <property name="background" type="bool" value="true"/>
+    <property name="delay" type="float" value="2"/>
     <property name="endX" type="float" value="864"/>
     <property name="endY" type="float" value="1602"/>
     <property name="startX" type="float" value="864"/>
@@ -699,7 +700,7 @@
    <properties>
     <property name="ID" type="int" value="2"/>
     <property name="background" type="bool" value="true"/>
-    <property name="delay" type="float" value="0.5"/>
+    <property name="delay" type="float" value="2.5"/>
     <property name="endX" type="float" value="958"/>
     <property name="endY" type="float" value="1602"/>
     <property name="startX" type="float" value="958"/>
@@ -711,7 +712,7 @@
    <properties>
     <property name="ID" type="int" value="3"/>
     <property name="background" type="bool" value="true"/>
-    <property name="delay" type="float" value="1"/>
+    <property name="delay" type="float" value="3"/>
     <property name="endX" type="float" value="1217"/>
     <property name="endY" type="float" value="1602"/>
     <property name="startX" type="float" value="1217"/>
@@ -723,6 +724,7 @@
    <properties>
     <property name="ID" type="int" value="4"/>
     <property name="background" type="bool" value="true"/>
+    <property name="delay" type="float" value="2"/>
     <property name="endX" type="float" value="1474"/>
     <property name="endY" type="float" value="1634"/>
     <property name="startX" type="float" value="1474"/>
@@ -734,7 +736,7 @@
    <properties>
     <property name="ID" type="int" value="5"/>
     <property name="background" type="bool" value="true"/>
-    <property name="delay" type="float" value="0.2"/>
+    <property name="delay" type="float" value="2.2"/>
     <property name="endX" type="float" value="1575"/>
     <property name="endY" type="float" value="1634"/>
     <property name="startX" type="float" value="1575"/>
@@ -746,7 +748,7 @@
    <properties>
     <property name="ID" type="int" value="6"/>
     <property name="background" type="bool" value="true"/>
-    <property name="delay" type="float" value="0.4"/>
+    <property name="delay" type="float" value="2.4"/>
     <property name="endX" type="float" value="1674"/>
     <property name="endY" type="float" value="1634"/>
     <property name="startX" type="float" value="1674"/>

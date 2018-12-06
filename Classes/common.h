@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 
 #define EFFECT(__FILE__) SimpleAudioEngine::getInstance()->playEffect("sounds/"##__FILE__##, false, 1.0f, 1.0f, 1.0f)
+#define BGM(__FILE__) SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/"##__FILE__##, true)
+#define STOPBGM SimpleAudioEngine::getInstance()->stopBackgroundMusic()
 
 #define INFTIME (1<<30)
 

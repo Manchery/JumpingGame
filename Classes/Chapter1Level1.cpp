@@ -24,7 +24,17 @@ bool Chapter1Level1::init()
 	coinTotal = chapterCoinTotal[1];
 	commonInitAfterMap();
 
+	gotSwordTime = 1e9; gotDoorOpen = false;
+
 	return true;
+}
+
+void Chapter1Level1::messageUpdate(float dt)
+{
+	if (runningTime - gotSwordTime > 80.0f && !gotDoorOpen && !toldDoor) {
+		messageSingleLine("Maybe you can trigger some gear with a dart of sword.");
+		toldDoor = true;
+	}
 }
 
 void Chapter1Level1::drawMap(const TMXTiledMap *tileMap)
@@ -61,8 +71,6 @@ void Chapter1Level1::drawMap(const TMXTiledMap *tileMap)
 
 bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 {
-	if (!GameScene::onContactBegin(contact))
-		return false;
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 	if (nodeA == nullptr || nodeB == nullptr) return false;
@@ -73,10 +81,18 @@ bool Chapter1Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 			gotShot = 1;
 			EFFECT("equip.mp3");
 			//UserDefault::getInstance()->setBoolForKey("canShot", true);
-			messageSingleLine("Sword!");
+			messageDoubleLine("New-found Sword! A new Knight form is unlocked.","Be sure to experiment a dart of sword!");
+
+			gotSwordTime = runningTime;
 		}
 		return false;
 	}
+	if ((nodeA->getTag() == DOOR_KEY_T && nodeB->getTag()==BULLET_T) || 
+		(nodeB->getTag() == DOOR_KEY_T && nodeA->getTag() == BULLET_T)) {
+		gotDoorOpen = true;
+	}
+	if (!GameScene::onContactBegin(contact))
+		return false;
 	return true;
 }
 

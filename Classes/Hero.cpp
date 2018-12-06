@@ -161,8 +161,8 @@ void Hero::shot() {
 	physicsBody->setGravityEnable(false);
 	physicsBody->setRotationEnable(false);
 	physicsBody->setCategoryBitmask(BULLET_M);
-	physicsBody->setCollisionBitmask(0xFFFFFFFF ^ COIN_M^EXIT_M);
-	physicsBody->setContactTestBitmask(0xFFFFFFFF^COIN_M^EXIT_M);
+	physicsBody->setCollisionBitmask(0xFFFFFFFF ^ COIN_M^EXIT_M^GAME_KEY_M);
+	physicsBody->setContactTestBitmask(0xFFFFFFFF^COIN_M^EXIT_M^GAME_KEY_M);
 	bullet->setPhysicsBody(physicsBody);
 
 	auto parent = this->getParent();

@@ -65,6 +65,9 @@ bool Boss::damaged()
 	auto moveTo = MoveTo::create(2.0f,Vec2(visibleSize.width, position.y));
 	this->runAction(moveTo);
 	this->scheduleOnce(schedule_selector(Boss::comeBack), 2.0f+6.0f);
+
+	EFFECT("ghostdeath.wav");
+
 	return false;
 }
 
@@ -72,6 +75,8 @@ void Boss::setDamagable(float dt) {
 	damagable = true;
 	this->setTexture("map/boss.png");
 	this->setContentSize(contentSize);
+
+	//EFFECT("ghostbirth.wav");
 }
 
 void Boss::comeBack(float ft)

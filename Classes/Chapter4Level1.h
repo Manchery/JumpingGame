@@ -16,10 +16,13 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual void onEnterTransitionDidFinish() override;
 	virtual bool init();
+	virtual void messageUpdate(float dt) override;
 
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter4Level1);
+private:
+	bool toldHello;
 };
 
 #endif // __CHAPTER4_LEVEL1_H__

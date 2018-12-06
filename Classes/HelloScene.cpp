@@ -74,14 +74,12 @@ bool HelloScene::init()
 	menu->setPosition(visibleSize.width / 2, visibleSize.height / 4);
 	this->addChild(menu, 2);
 
-	/*if (AUDIO_PLAY) {
-		SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/titletheme.wav", true);
-	}*/
-
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(HelloScene::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(HelloScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+	BGM("titletheme.wav");
 
 	return true;
 }

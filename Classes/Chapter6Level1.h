@@ -16,11 +16,14 @@ public:
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
+	virtual void messageUpdate(float dt) override;
 
 	virtual void gamePass() override;
 	virtual void mapUpdate(float ft) override;
 
 	CREATE_FUNC(Chapter6Level1);
+private:
+	bool toldHello;
 };
 
 #endif // __CHAPTER6_LEVEL1_H__

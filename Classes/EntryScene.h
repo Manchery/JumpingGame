@@ -23,6 +23,7 @@ private:
 	std::vector<Node*> chapters;
 	Node *curChapter;
 	int chapterTotal,iter;
+	static int chapterPage;
 };
 
 #endif // __ENTRY_SCENE_H__

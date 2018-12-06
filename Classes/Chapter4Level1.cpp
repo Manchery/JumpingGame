@@ -67,6 +67,14 @@ bool Chapter4Level1::init()
 	return true;
 }
 
+void Chapter4Level1::messageUpdate(float dt)
+{
+	if (!toldHello && runningTime>=2.0f) {
+		messageDoubleLine("Do not abandon your shadow,", "Or he will chase you and kill you.");
+		toldHello = 1;
+	}
+}
+
 void Chapter4Level1::gamePass()
 {
 	win();

@@ -72,6 +72,15 @@ bool Chapter5Level1::init()
 	return true;
 }
 
+void Chapter5Level1::messageUpdate(float dt)
+{
+	if (!toldHello && runningTime >= 2.0f) {
+		messageDoubleLine("Chandelure, your ultimate opponent!", "Try to beat it with your Sword.");
+		EFFECT("ghostbirth.wav");
+		toldHello = 1;
+	}
+}
+
 void Chapter5Level1::drawBoss(const std::string & tmxFile)
 {
 	auto tileMap = TMXTiledMap::create(tmxFile);

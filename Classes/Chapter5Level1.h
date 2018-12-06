@@ -17,6 +17,7 @@ public:
 	virtual void onEnterTransitionDidFinish() override;
 
 	virtual bool init();
+	virtual void messageUpdate(float dt) override;
 	void drawBoss(const std::string & tmxFile);
 
 	virtual void gamePass() override;
@@ -28,6 +29,7 @@ public:
 private:
 	int trapCnt;
 	bool firstLoad;
+	bool toldHello;
 };
 
 #endif // __CHAPTER5_LEVEL1_H__

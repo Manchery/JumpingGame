@@ -28,6 +28,15 @@ bool Chapter6Level1::init()
 	return true;
 }
 
+
+void Chapter6Level1::messageUpdate(float dt)
+{
+	if (!toldHello && runningTime >= 2.0f) {
+		messageDoubleLine("A fancy land full of diamonds and happiness,", "collect them !");
+		toldHello = 1;
+	}
+}
+
 void Chapter6Level1::gamePass()
 {
 	win();

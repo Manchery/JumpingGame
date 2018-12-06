@@ -23,7 +23,9 @@ bool SlidingTrap::initWithFile(const std::string & filename, float width, float 
 
 	this->setContentSize(Size(width, height));
 
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	auto physicsSize = Size(this->getContentSize().width, this->getContentSize().height*0.5);
+	auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
+	physicsBody->setPositionOffset(Vec2(0, -this->getContentSize().height*0.5 / 2));
 	//physicsBody->setGravityEnable(false);
 	//physicsBody->setRotationEnable(false);
 	physicsBody->setDynamic(false);

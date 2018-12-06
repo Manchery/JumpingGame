@@ -20,6 +20,8 @@ using namespace cocos2d::ui;
 using namespace CocosDenshion;
 USING_NS_CC;
 
+int EntryScene::chapterPage = 0;
+
 Scene* EntryScene::createScene()
 {
 	return EntryScene::create();
@@ -70,7 +72,7 @@ bool EntryScene::init()
 		this->addChild(chapter, 1);
 		chapters.push_back(chapter);
 	}
-	iter = 0;
+	iter = chapterPage;
 	chapters[iter]->setVisible(true);
 	if (chapters[iter]->getChildByName("Button") != nullptr)
 		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
@@ -79,6 +81,8 @@ bool EntryScene::init()
 	keyListener->onKeyPressed = CC_CALLBACK_2(EntryScene::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(EntryScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+	STOPBGM;
 
 	return true;
 }
@@ -201,6 +205,7 @@ void EntryScene::enterChapter(int idx) {
 	else if (idx == 6)
 		scene = Chapter6Level1::createScene();
 	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
+	//Director::getInstance()->replaceScene(scene);
 }
 
 bool EntryScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
@@ -214,6 +219,7 @@ bool EntryScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
 		if (iter < chapterTotal - 1) 
 			iter++;
+		chapterPage = iter;
 		chapters[iter]->setVisible(true);
 		if (chapters[iter]->getChildByName("Button") != nullptr)
 			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
@@ -224,6 +230,7 @@ bool EntryScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(false);
 		if (iter > 0)
 			iter--;
+		chapterPage = iter;
 		chapters[iter]->setVisible(true);
 		if (chapters[iter]->getChildByName("Button") != nullptr)
 			((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);

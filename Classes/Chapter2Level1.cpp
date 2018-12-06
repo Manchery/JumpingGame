@@ -29,6 +29,14 @@ bool Chapter2Level1::init()
 	return true;
 }
 
+void Chapter2Level1::messageUpdate(float dt)
+{
+	if (!toldHello && runningTime >= 2.0f) {
+		messageDoubleLine("Dirty smelly drainage ditch,", "you can save time by diving swiftly.");
+		toldHello = 1;
+	}
+}
+
 void Chapter2Level1::initBackgroundMusic()
 {
 	SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/water.wav", true);
@@ -81,7 +89,7 @@ bool Chapter2Level1::onContactBegin(cocos2d::PhysicsContact & contact)
 			gotShield = 1;
 			EFFECT("equip.mp3");
 			//UserDefault::getInstance()->setBoolForKey("canShot", true);
-			messageSingleLine("Shield!");
+			messageDoubleLine("New-found Shield! A new Knight form is unlocked.", "Shield protects you against spikes!");
 		}
 		return false;
 	}

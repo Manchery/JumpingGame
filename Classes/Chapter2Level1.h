@@ -16,6 +16,7 @@ public:
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
+	virtual void messageUpdate(float dt) override;
 
 	virtual void initBackgroundMusic() override;
 
@@ -26,6 +27,8 @@ public:
 	virtual void gamePass() override;
 
 	CREATE_FUNC(Chapter2Level1);
+private:
+	bool toldHello;
 };
 
 #endif // __CHAPTER2_LEVEL1_H__
