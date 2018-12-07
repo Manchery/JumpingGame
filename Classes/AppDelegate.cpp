@@ -50,6 +50,12 @@ using namespace CocosDenshion;
 #define START_SCENE LoadingScene
 //#define START_SCENE TileTestScene
 
+
+ //typewriting
+#include <imm.h>
+#pragma comment (lib ,"imm32.lib")
+ //---------------------------end
+
 USING_NS_CC;
 using namespace CocosDenshion;
 
@@ -124,6 +130,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
         director->setOpenGLView(glview);
     }
+
+	//disable chinese typewriting
+	HWND handle = Director::getInstance()->getOpenGLView()->getWin32Window();
+	HIMC g_hIMC = NULL;//g_hIMC used to reset
+	g_hIMC = ImmAssociateContext(handle, NULL);
+	//ImmAssociateContext(handle, g_hIMC);
+	//
 
     // turn on display FPS
     //director->setDisplayStats(true);
