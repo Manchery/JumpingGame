@@ -789,7 +789,7 @@
     <property name="ID" type="int" value="1"/>
    </properties>
   </object>
-  <object id="632" name="Trap" type="trapSmall" gid="129" x="2649.5" y="926" width="42" height="32" rotation="180">
+  <object id="632" name="Trap" type="trapSmall" gid="129" x="2649.5" y="686" width="42" height="32" rotation="180">
    <properties>
     <property name="ID" type="int" value="2"/>
    </properties>

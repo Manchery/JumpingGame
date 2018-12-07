@@ -15,9 +15,8 @@ Scene* HelloScene::createScene()
 }
 
 void HelloScene::onEnterTransitionDidFinish() {
-	for (int i = 0; i < menuItems.size(); i++) {
-		menuItems[i]->unselected();
-	}
+	for (auto menuItem:menuItems) 
+		menuItem->unselected();
 }
 
 bool HelloScene::init()
@@ -42,7 +41,8 @@ bool HelloScene::init()
 	this->addChild(title, 1);
 
 	auto heroModel = Sprite::create("map/hero.png");
-	heroModel->setPosition(100, visibleSize.height*0.29f);
+	heroModel->setAnchorPoint(Vec2::ZERO);
+	heroModel->setPosition(Vec2(330,703));
 	auto jumpBy = JumpBy::create(0.8f, Vec2::ZERO, 100, 2);
 	auto delay = DelayTime::create(1.0f);
 	heroModel->runAction(RepeatForever::create(Sequence::create(jumpBy, delay, nullptr)));

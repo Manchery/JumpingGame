@@ -21,22 +21,22 @@ using namespace CocosDenshion;
 USING_NS_CC;
 
 static std::string chapterID[] = {
-	"Chapter O:","Chapter 1:","Chapter 2:","Chapter 3:", "Chapter 4:","Final chapter:","Bonus Chapter:"
+	"Chapter O:","Chapter 1:","Chapter 2:","Chapter 3:", "Chapter 4:","Chapter 5:","Bonus Chapter:"
 };
 static std::string chapterName[] = {
-	"Chapter Zero","Chapter 1","Chapter 2","Chapter 3", "Chapter 4","Chapter Final","Fantastic Fail"
+	"Knight and Castle","New-found Sword","Shield equipped","Into the Backyard", "Closest Opponent","Ultimate Battle","Fantastic Fair"
 };
 static int bonusNeed = 170;
 static int getCoinTotal() {
 	int total = 0;
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 7; i++) {
 		total += UserDefault::getInstance()->getIntegerForKey(
 			("chapter" + std::to_string(i) + "CoinCount").c_str());
 	}
 	return total;
 }
 static int getCurrentChapter() {
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 7; i++) {
 		if (!UserDefault::getInstance()->getBoolForKey(
 			("chapter" + std::to_string(i) + "Pass").c_str()))
 			return i;
@@ -287,7 +287,7 @@ Node * EntryScene::chapterEntry(int idx)
 	}
 	else {
 		auto locked = Sprite::create("ui/lock.png");
-		locked->setContentSize(Size(256, 256));
+		locked->setContentSize(Size(256, 330)*0.5);
 		locked->setPosition(snapshot->getPosition());
 		nodeItems->addChild(locked, 2);
 	}

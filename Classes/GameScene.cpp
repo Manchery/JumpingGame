@@ -667,7 +667,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 				gamePass();
 			else {
 				if (!toldKey) {
-					messageSingleLine("No key to open it ...");
+					messageSingleLine("No key for it ...");
 					toldKey = true;
 				}
 

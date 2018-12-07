@@ -218,22 +218,34 @@ bool LoadingScene::init()
 	backGround->setPosition(Vec2::ZERO);
 	this->addChild(backGround, -1);
 
+	auto title = Sprite::create("ui/title.png");
+	title->setContentSize(title->getContentSize()*2.0f);
+	title->setPosition(visibleSize.width / 2, visibleSize.height / 4 * 3);
+	this->addChild(title, 1);
+
 	totalNum = uiImages.size()+mapImages.size() + heroImages.size()+snapshotImages.size();
 	loadedNum = 0;
 
 	Sprite *progressBkground = Sprite::create("ui/sliderTrack.png"); 
 	Size progressBackSize = progressBkground->getContentSize();
-	progressBkground->setPosition(visibleSize/2);
-	this->addChild(progressBkground);
+	progressBkground->setPosition(visibleSize.width / 2, visibleSize.height / 3);
+	this->addChild(progressBkground,2);
+	Sprite *progressBkground2 = Sprite::create("ui/sliderBackground.png");
+	progressBkground2->setPosition(visibleSize.width / 2, visibleSize.height / 3);
+	this->addChild(progressBkground2, 0);
 
 	loadProgress = ProgressTimer::create(Sprite::create("ui/sliderProgress.png"));
 	loadProgress->setBarChangeRate(Vec2(1, 0)); 
 	loadProgress->setType(ProgressTimer::Type::BAR); 
 	loadProgress->setMidpoint(Vec2(0, 1)); 
 	Size progressSize = loadProgress->getContentSize();
-	loadProgress->setPosition(visibleSize / 2);
+	loadProgress->setPosition(visibleSize.width / 2, visibleSize.height / 3);
 	loadProgress->setPercentage(0.0f);
-	this->addChild(loadProgress);
+	this->addChild(loadProgress,1);
+
+	auto loadingLabel = Label::createWithTTF("Loading", "fonts/GermaniaOne-Regular.ttf", 72);
+	loadingLabel->setPosition(visibleSize.width / 2, visibleSize.height / 3+128);
+	this->addChild(loadingLabel);
 
 	return true;
 }

@@ -805,8 +805,8 @@
   <object id="759" type="shadow" gid="45" x="4492" y="2576" width="64" height="474"/>
   <object id="760" type="shadow" gid="45" x="4494" y="3225" width="64" height="486"/>
   <object id="761" type="shadow" gid="45" x="3907" y="2741" width="64" height="164"/>
-  <object id="762" type="shadow" gid="45" x="5677" y="1792" width="186" height="54"/>
-  <object id="763" type="shadow" gid="45" x="5677" y="2717" width="186" height="54"/>
+  <object id="762" type="shadow" gid="45" x="5675" y="1792" width="192" height="54"/>
+  <object id="763" type="shadow" gid="45" x="5673" y="2717" width="194" height="54"/>
   <object id="765" type="shadow" gid="45" x="5453" y="943" width="252" height="54"/>
   <object id="766" type="shadow" gid="45" x="5868" y="3452" width="64" height="3302"/>
   <object id="768" type="shadow" gid="45" x="3270" y="2425" width="64" height="324"/>
@@ -818,8 +818,8 @@
   <object id="774" type="shadow" gid="45" x="664" y="2641" width="64" height="484"/>
   <object id="775" type="shadow" gid="45" x="668" y="3774" width="64" height="954"/>
   <object id="776" type="shadow" gid="45" x="1067" y="2821" width="64" height="118"/>
-  <object id="777" type="shadow" gid="45" x="4268" y="3990" width="64" height="178"/>
-  <object id="778" type="shadow" gid="45" x="4844" y="3991" width="64" height="178"/>
+  <object id="777" type="shadow" gid="45" x="4268" y="4146" width="64" height="334"/>
+  <object id="778" type="shadow" gid="45" x="4844" y="4135" width="64" height="322"/>
  </objectgroup>
  <objectgroup id="6" name="game">
   <object id="58" name="Hero" type="hero" gid="22" x="669" y="1601" width="128" height="160"/>
@@ -999,7 +999,7 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="605" name="GameKey" type="keyRedStroked" gid="24" x="6004" y="3666" width="72" height="44"/>
+  <object id="605" name="GameKey" type="keyRedStroked" gid="24" x="6009" y="3662" width="72" height="44"/>
   <object id="608" name="Trap" type="trap" gid="51" x="5243" y="3730.5" width="128" height="32"/>
   <object id="609" name="Trap" type="trap" gid="51" x="5371" y="3730.5" width="128" height="32"/>
   <object id="629" name="Land" type="platformBase4" gid="33" x="3820" y="3824" width="256" height="96">
@@ -1194,11 +1194,11 @@
     <property name="door2" type="int" value="2"/>
    </properties>
   </object>
-  <object id="886" name="SoftLand" type="pushBlock3" gid="44" x="5868" y="3636" width="96" height="96"/>
-  <object id="887" name="SoftLand" type="pushBlock3" gid="44" x="5868" y="3728" width="96" height="96"/>
-  <object id="888" name="SoftLand" type="pushBlock3" gid="44" x="881" y="3591" width="96" height="96"/>
-  <object id="889" name="SoftLand" type="pushBlock3" gid="44" x="881" y="3683" width="96" height="96"/>
-  <object id="890" name="SoftLand" type="pushBlock3" gid="44" x="881" y="3779" width="96" height="96"/>
+  <object id="886" name="SoftLand" type="pushBlock3" gid="44" x="5875" y="3636" width="96" height="96"/>
+  <object id="887" name="SoftLand" type="pushBlock3" gid="44" x="5875" y="3728" width="96" height="96"/>
+  <object id="888" name="SoftLand" type="pushBlock3" gid="44" x="871" y="3591" width="96" height="96"/>
+  <object id="889" name="SoftLand" type="pushBlock3" gid="44" x="871" y="3683" width="96" height="96"/>
+  <object id="890" name="SoftLand" type="pushBlock3" gid="44" x="871" y="3779" width="96" height="96"/>
   <object id="891" name="SoftLand" type="pushBlock3" gid="44" x="2940" y="2604" width="96" height="96"/>
   <object id="892" name="SoftLand" type="pushBlock3" gid="44" x="2940" y="2696" width="96" height="96"/>
   <object id="893" name="SoftLand" type="pushBlock3" gid="44" x="2940" y="2788" width="96" height="96"/>
@@ -1354,7 +1354,7 @@
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="789" x="5867" y="156" width="93.25" height="3304">
+  <object id="789" x="5863" y="156" width="93.25" height="3372">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
