@@ -36,6 +36,11 @@ void Chapter0Level1::messageUpdate(float dt)
 	}
 }
 
+void Chapter0Level1::initBackgroundMusic()
+{
+	BGM(CHAPTER0INTROBGM);
+}
+
 void Chapter0Level1::gamePass()
 {
 	nextLevel((Chapter0Level2*)Chapter0Level2::createScene());

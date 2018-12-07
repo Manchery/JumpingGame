@@ -627,6 +627,9 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact) {
 			hero->addInWater();
 			bool *heroSetInWater = new bool(true);
 			contact.setData(heroSetInWater);
+
+			EFFECT("water.wav");
+
 			return false;
 		}
 		if (nodeB->getTag() == ENEMY_T) {
@@ -730,8 +733,11 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 						dropLand->drop();
 					}
 					if (nodeB->getName() == "RevivePoint") {
-						setRevivePoint(Vec2(nodeB->getPositionX()+nodeB->getContentSize().width/2-hero->getContentSize().width/2,
-							nodeB->getPositionY()+nodeB->getContentSize().height+20.0f));
+						Vec2 newpoint = Vec2(nodeB->getPositionX() + nodeB->getContentSize().width / 2 - hero->getContentSize().width / 2,
+							nodeB->getPositionY() + nodeB->getContentSize().height + 20.0f);
+						if (revivePoint != newpoint)
+							EFFECT("revive.mp3");
+						setRevivePoint(newpoint);
 						lastGotShot = gotShot;
 						lastGotShield = gotShield;
 						//nodeB->setName("");
@@ -802,8 +808,6 @@ bool GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_X) {
 		if (hero->getHeroType() == HEROSHOT) {
-
-			EFFECT("sword.wav");
 			hero->shot();
 		}
 		else if (hero->getHeroType() == HEROSHIELD)

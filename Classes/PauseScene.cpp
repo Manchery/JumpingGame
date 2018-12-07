@@ -48,6 +48,7 @@ bool PauseScene::init(int chapterId)
 
 	auto menuItemResume = MenuItemImage::create("ui/buttonResumeNormal.png", "ui/buttonResumeSelected.png");
 	menuItemResume->setCallback([&](Ref *sender) {
+		RESUMEBGM;
 		Director::getInstance()->popScene();
 	});
 	menuItemResume->setPositionY(sy + (height + padding) * 3);
@@ -91,6 +92,7 @@ bool PauseScene::init(int chapterId)
 	keyListener->onKeyReleased = CC_CALLBACK_2(PauseScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
+	PAUSEBGM;
 	return true;
 }
 

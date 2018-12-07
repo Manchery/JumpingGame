@@ -28,6 +28,11 @@ bool Chapter3Level1::init()
 	return true;
 }
 
+void Chapter3Level1::initBackgroundMusic()
+{
+	BGM(CHAPTER3BGM);
+}
+
 void Chapter3Level1::gamePass()
 {
 	nextLevel((Chapter3Level2*)Chapter3Level2::createScene());

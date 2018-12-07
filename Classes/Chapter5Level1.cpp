@@ -45,6 +45,7 @@ void Chapter5Level1::onEnterTransitionDidFinish()
 			if (sprite->getTag() == GAME_KEY_T)
 				gotGameKey = 0;
 		}
+		((Boss*)(frontGroundLayer->getChildByTag(BOSS_T)))->resetHP();
 		destroyedList.clear();
 		heroDied = 0;
 	}
@@ -79,6 +80,10 @@ void Chapter5Level1::messageUpdate(float dt)
 		EFFECT("ghostbirth.wav");
 		toldHello = 1;
 	}
+}
+
+void Chapter5Level1::initBackgroundMusic() {
+	BGM(CHAPTER5BGM);
 }
 
 void Chapter5Level1::drawBoss(const std::string & tmxFile)

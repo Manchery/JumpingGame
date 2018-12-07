@@ -2,6 +2,8 @@
 #include "common.h"
 #include "GameScene.h"
 
+#define BOSS_HP 5
+
 Boss* Boss::create(float width, float height)
 {
 	Boss *sprite = new (std::nothrow) Boss();
@@ -31,7 +33,7 @@ bool Boss::init(float width, float height) {
 	this->setPhysicsBody(physicsBody);
 	
 	this->setTag(BOSS_T);
-	this->hp = 5;
+	this->hp = BOSS_HP;
 	this->damagable = 1;
 
 	contentSize = this->getContentSize();
@@ -83,4 +85,9 @@ void Boss::comeBack(float ft)
 {
 	this->runAction(MoveTo::create(2.0f, position));
 	this->scheduleOnce(schedule_selector(Boss::setDamagable), 2.5f);
+}
+
+void Boss::resetHP()
+{
+	hp = BOSS_HP;
 }

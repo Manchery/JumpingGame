@@ -39,7 +39,7 @@ void Chapter2Level1::messageUpdate(float dt)
 
 void Chapter2Level1::initBackgroundMusic()
 {
-	SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/water.wav", true);
+	BGM(CHAPTER2BGM);
 }
 
 

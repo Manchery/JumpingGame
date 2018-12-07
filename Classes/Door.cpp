@@ -2,6 +2,8 @@
 #include "common.h"
 #include <cmath>
 #include <algorithm>
+#include "SimpleAudioEngine.h"
+using namespace CocosDenshion;
 USING_NS_CC;
 
 Door* Door::create(const std::string& filename, float width, float height)
@@ -121,6 +123,8 @@ void DoorKey::lock(){
 	this->setContentSize(contentSize);
 	enabled = false;
 	this->scheduleOnce(schedule_selector(DoorKey::enableAgain), 1.0f);
+
+	EFFECT("stoneDoor.wav");
 }
 
 void DoorKey::enableAgain(float dt)

@@ -28,6 +28,11 @@ bool Chapter6Level1::init()
 	return true;
 }
 
+void Chapter6Level1::initBackgroundMusic()
+{
+	BGM(CHAPTER6BGM);
+}
+
 
 void Chapter6Level1::messageUpdate(float dt)
 {
@@ -42,8 +47,8 @@ void Chapter6Level1::gamePass()
 	win();
 }
 
-void Chapter6Level1::mapUpdate(float dt){
-	GameScene::mapUpdate(dt);
+void Chapter6Level1::dashboardUpdate(float dt){
+	GameScene::dashboardUpdate(dt);
 	if (coinCount == coinTotal)
 		gamePass();
 }

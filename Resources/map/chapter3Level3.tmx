@@ -614,6 +614,12 @@
   <object id="289" type="sign" gid="47" x="513" y="1602" width="160" height="128"/>
  </objectgroup>
  <objectgroup id="4" name="castle">
+  <object id="153" type="platform4" gid="29" x="363" y="388" width="192" height="64" rotation="90"/>
+  <object id="154" type="platform4" gid="29" x="427" y="388" width="192" height="64" rotation="-270"/>
+  <object id="155" type="platform4" gid="29" x="235" y="388" width="192" height="64" rotation="90"/>
+  <object id="156" type="platform4" gid="29" x="299" y="388" width="192" height="64" rotation="-270"/>
+  <object id="157" type="platform4" gid="29" x="107" y="388" width="192" height="64" rotation="90"/>
+  <object id="158" type="platform4" gid="29" x="171" y="388" width="192" height="64" rotation="-270"/>
   <object id="25" type="platformBase4" gid="33" x="139" y="1188" width="256" height="96"/>
   <object id="26" type="platformBase4" gid="33" x="139" y="1124" width="256" height="96"/>
   <object id="27" type="platformBase4" gid="33" x="139" y="1060" width="256" height="96"/>
@@ -636,12 +642,6 @@
   <object id="147" type="platformBase4" gid="33" x="75" y="612" width="256" height="96"/>
   <object id="150" type="platformBase4" gid="2147483681" x="235" y="548" width="256" height="96"/>
   <object id="151" type="platformBase4" gid="33" x="75" y="548" width="256" height="96"/>
-  <object id="153" type="platform4" gid="29" x="363" y="388" width="192" height="64" rotation="90"/>
-  <object id="154" type="platform4" gid="29" x="427" y="388" width="192" height="64" rotation="-270"/>
-  <object id="155" type="platform4" gid="29" x="235" y="388" width="192" height="64" rotation="90"/>
-  <object id="156" type="platform4" gid="29" x="299" y="388" width="192" height="64" rotation="-270"/>
-  <object id="157" type="platform4" gid="29" x="107" y="388" width="192" height="64" rotation="90"/>
-  <object id="158" type="platform4" gid="29" x="171" y="388" width="192" height="64" rotation="-270"/>
   <object id="159" type="platform4" gid="29" x="139" y="580" width="192" height="64" rotation="-90"/>
   <object id="261" type="platformBase4" gid="33" x="140" y="1325" width="256" height="96"/>
   <object id="262" type="platformBase4" gid="33" x="140" y="1261" width="256" height="96"/>
@@ -663,12 +663,12 @@
  <objectgroup id="5" name="castledeco">
   <object id="285" type="window1" gid="55" x="253.5" y="1278.5" width="65" height="64"/>
   <object id="286" type="window1" gid="55" x="253.5" y="1137.5" width="65" height="64"/>
+  <object id="297" type="exit" gid="78" x="204" y="1603" width="160" height="192"/>
   <object id="295" type="doorStroked" gid="13" x="149" y="1608" width="160" height="192">
    <properties>
     <property name="map" value="scene/game/map/sandbox2.json"/>
    </properties>
   </object>
-  <object id="297" type="exit" gid="78" x="204" y="1600" width="160" height="192"/>
  </objectgroup>
  <objectgroup id="6" name="shading" visible="0" opacity="0.36">
   <object id="78" type="shadow" gid="45" x="139" y="1156" width="32" height="512"/>

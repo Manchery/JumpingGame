@@ -831,7 +831,7 @@
     <property name="friction" value="1.00"/>
    </properties>
   </object>
-  <object id="1091" name="SlidingLand" type="platform3" gid="28" x="1396" y="2658" width="192" height="41">
+  <object id="1091" name="SlidingLand" type="platform3" gid="28" x="1396" y="2640" width="192" height="41">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="endX" type="float" value="1396"/>
@@ -839,7 +839,8 @@
     <property name="floating" value="true"/>
     <property name="friction" value="1.00"/>
     <property name="startX" type="float" value="1396"/>
-    <property name="startY" type="float" value="2658"/>
+    <property name="startY" type="float" value="2640"/>
+    <property name="stopTime" type="float" value="2"/>
    </properties>
   </object>
   <object id="1092" name="Trap" type="trap" gid="51" x="2045" y="2657" width="128" height="48" rotation="-90"/>

@@ -15,6 +15,7 @@ public:
 	bool damaged();
 	void setDamagable(float dt);
 	void comeBack(float ft);
+	void resetHP();
 private:
 	bool damagable;
 	Vec2 position;

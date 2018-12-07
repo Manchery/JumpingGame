@@ -25,6 +25,11 @@ bool Chapter0Level2::init()
 	return true;
 }
 
+void Chapter0Level2::initBackgroundMusic()
+{
+	BGM(CHAPTER0BGM);
+}
+
 void Chapter0Level2::gamePass()
 {
 	win();

@@ -16,10 +16,11 @@ public:
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
+	virtual void initBackgroundMusic() override;
 	virtual void messageUpdate(float dt) override;
 
 	virtual void gamePass() override;
-	virtual void mapUpdate(float ft) override;
+	virtual void dashboardUpdate(float dt) override;
 
 	CREATE_FUNC(Chapter6Level1);
 private:

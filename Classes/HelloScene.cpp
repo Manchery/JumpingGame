@@ -95,7 +95,7 @@ bool HelloScene::init()
 	keyListener->onKeyReleased = CC_CALLBACK_2(HelloScene::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
 
-	BGM("titletheme.wav");
+	BGM(HELLOBGM);
 
 	return true;
 }

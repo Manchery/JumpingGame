@@ -15,6 +15,7 @@ class Chapter0Level2 : public GameScene
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
+	virtual void initBackgroundMusic() override;
 
 	virtual void gamePass() override;
 

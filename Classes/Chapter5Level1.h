@@ -18,6 +18,7 @@ public:
 
 	virtual bool init();
 	virtual void messageUpdate(float dt) override;
+	virtual void initBackgroundMusic() override;
 	void drawBoss(const std::string & tmxFile);
 
 	virtual void gamePass() override;

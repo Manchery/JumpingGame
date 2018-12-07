@@ -16,6 +16,7 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual void onEnterTransitionDidFinish() override;
 	virtual bool init();
+	virtual void initBackgroundMusic() override;
 	virtual void messageUpdate(float dt) override;
 
 	virtual void gamePass() override;

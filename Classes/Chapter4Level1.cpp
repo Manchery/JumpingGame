@@ -71,6 +71,11 @@ bool Chapter4Level1::init()
 	return true;
 }
 
+void Chapter4Level1::initBackgroundMusic()
+{
+	BGM(CHAPTER4BGM);
+}
+
 void Chapter4Level1::messageUpdate(float dt)
 {
 	if (!toldHello && runningTime>=2.0f) {

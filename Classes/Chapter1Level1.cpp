@@ -37,6 +37,11 @@ void Chapter1Level1::messageUpdate(float dt)
 	}
 }
 
+void Chapter1Level1::initBackgroundMusic()
+{
+	BGM(CHAPTER1BGM);
+}
+
 void Chapter1Level1::drawMap(const TMXTiledMap *tileMap)
 {
 	GameScene::drawMap(tileMap);

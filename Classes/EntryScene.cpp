@@ -107,8 +107,6 @@ bool EntryScene::init()
 	leftButton->setPosition(Vec2(-visibleSize.width / 4 + visibleSize.width / 2 + 80+15, visibleSize.height / 2-50));
 	this->addChild(leftButton,2);
 
-	leftButton->setVisible(false);
-
 	auto rightButton = Button::create("ui/rightTriangle.png");
 	rightButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 		switch (type) {
@@ -162,9 +160,9 @@ bool EntryScene::init()
 	chapters[iter]->setVisible(true);
 	if (chapters[iter]->getChildByName("Button") != nullptr)
 		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
+	updateLeftRightButton();
 
 	//key listener
-
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(EntryScene::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(EntryScene::onKeyReleased, this);
@@ -172,7 +170,7 @@ bool EntryScene::init()
 
 	//bgm
 
-	STOPBGM;
+	BGM(ENTRYBGM);
 
 	return true;
 }
@@ -326,11 +324,8 @@ void EntryScene::nextChapter()
 	chapters[iter]->setVisible(true);
 	if (chapters[iter]->getChildByName("Button") != nullptr)
 		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
-	
-	this->getChildByName("LeftButton")->setVisible(true);
-	this->getChildByName("RightButton")->setVisible(true);
-	if (iter == 0) this->getChildByName("LeftButton")->setVisible(false);
-	if (iter == chapterTotal - 1) this->getChildByName("RightButton")->setVisible(false);
+
+	updateLeftRightButton();
 }
 
 void EntryScene::previousChapter()
@@ -346,6 +341,11 @@ void EntryScene::previousChapter()
 	if (chapters[iter]->getChildByName("Button") != nullptr)
 		((Button*)chapters[iter]->getChildByName("Button"))->setEnabled(true);
 
+	updateLeftRightButton();
+}
+
+void EntryScene::updateLeftRightButton()
+{
 	this->getChildByName("LeftButton")->setVisible(true);
 	this->getChildByName("RightButton")->setVisible(true);
 	if (iter == 0) this->getChildByName("LeftButton")->setVisible(false);

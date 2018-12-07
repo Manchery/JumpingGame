@@ -235,6 +235,12 @@
   <object id="245" type="wallDecor1" gid="52" x="2676" y="1299" width="128" height="96"/>
  </objectgroup>
  <objectgroup id="4" name="castle">
+  <object id="153" type="platform4" gid="29" x="2655" y="320" width="192" height="64" rotation="90"/>
+  <object id="154" type="platform4" gid="29" x="2719" y="320" width="192" height="64" rotation="-270"/>
+  <object id="155" type="platform4" gid="29" x="2527" y="320" width="192" height="64" rotation="90"/>
+  <object id="156" type="platform4" gid="29" x="2591" y="320" width="192" height="64" rotation="-270"/>
+  <object id="157" type="platform4" gid="29" x="2399" y="320" width="192" height="64" rotation="90"/>
+  <object id="158" type="platform4" gid="29" x="2463" y="320" width="192" height="64" rotation="-270"/>
   <object id="25" type="platformBase4" gid="33" x="2431" y="1120" width="256" height="96"/>
   <object id="26" type="platformBase4" gid="33" x="2431" y="1056" width="256" height="96"/>
   <object id="27" type="platformBase4" gid="33" x="2431" y="992" width="256" height="96"/>
@@ -257,12 +263,6 @@
   <object id="147" type="platformBase4" gid="33" x="2367" y="544" width="256" height="96"/>
   <object id="150" type="platformBase4" gid="2147483681" x="2527" y="480" width="256" height="96"/>
   <object id="151" type="platformBase4" gid="33" x="2367" y="480" width="256" height="96"/>
-  <object id="153" type="platform4" gid="29" x="2655" y="320" width="192" height="64" rotation="90"/>
-  <object id="154" type="platform4" gid="29" x="2719" y="320" width="192" height="64" rotation="-270"/>
-  <object id="155" type="platform4" gid="29" x="2527" y="320" width="192" height="64" rotation="90"/>
-  <object id="156" type="platform4" gid="29" x="2591" y="320" width="192" height="64" rotation="-270"/>
-  <object id="157" type="platform4" gid="29" x="2399" y="320" width="192" height="64" rotation="90"/>
-  <object id="158" type="platform4" gid="29" x="2463" y="320" width="192" height="64" rotation="-270"/>
   <object id="159" type="platform4" gid="29" x="2431" y="512" width="192" height="64" rotation="-90"/>
  </objectgroup>
  <objectgroup id="5" name="castledeco">

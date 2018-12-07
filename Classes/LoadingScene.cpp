@@ -15,8 +15,8 @@ static const std::vector<std::string> mapImages = {
 "blobBlue.png",
 "blobGreen.png",
 "blue.png",
-"bombStroked.png",
 "boss.png",
+"bossDamaged.png",
 "castleWall.png",
 "cloud.png",
 "column1.png",
@@ -59,11 +59,13 @@ static const std::vector<std::string> mapImages = {
 "pushBlock3.png",
 "row1.png",
 "row2.png",
+"row3.png",
 "shadow.png",
 "shieldStroked.png",
 "sign.png",
 "sign2.png",
 "skeleton.png",
+"star.png",
 "swordStroked.png",
 "torch.png",
 "trap.png",
@@ -77,8 +79,8 @@ static const std::vector<std::string> mapImages = {
 "window3.png"
 };
 static const std::vector<std::string> uiImages = {
+"arrow.png",
 "backgroundSet.png",
-"bitmapRed.png",
 "block.png",
 "buttonBackNormal.png",
 "buttonBackSelected.png",
@@ -100,14 +102,7 @@ static const std::vector<std::string> uiImages = {
 "buttonStartSelected.png",
 "buttonSureNormal.png",
 "buttonSureSelected.png",
-"CheckBoxNode_Disable.png",
-"CheckBoxNode_Normal.png",
-"CheckBox_Disable.png",
-"CheckBox_Normal.png",
-"CheckBox_Press.png",
-"cloud.png",
 "gem.png",
-"heart.png",
 "helloground.png",
 "helpBackground.png",
 "helppage1.png",
@@ -115,21 +110,19 @@ static const std::vector<std::string> uiImages = {
 "helppage3.png",
 "helppage4.png",
 "helppage5.png",
-"LoadingBarFile.png",
+"hourglass.png",
+"icon.png",
+"key.png",
+"leftTriangle.png",
 "lock.png",
 "messageBox.png",
-"shield.png",
-"SliderNode_Disable.png",
-"SliderNode_Normal.png",
-"SliderNode_Press.png",
+"rightTriangle.png",
+"sliderBackground.png",
 "sliderProgress.png",
 "sliderTrack.png",
-"Slider_Back.png",
-"Slider_PressBar.png",
 "title.png"
 };
-static const std::vector<std::string> heroImages = {
-	"boss.png",
+static const std::vector<std::string> heroImages = { 
 "bullet.png",
 "EnemyLeft1.png",
 "EnemyLeft2.png",
@@ -199,6 +192,26 @@ static const std::vector<std::string> heroImages = {
 static const std::vector<std::string> snapshotImages = {
 	"chapter0.png","chapter1.png","chapter2.png","chapter3.png","chapter4.png","chapter5.png","chapter6.png"
 };
+static const std::vector<std::string> effects = {
+"coin.wav",
+"door.wav",
+"equip.mp3",
+"fail.mp3",
+"ghostbirth.wav",
+"ghostdeath.wav",
+"hit.wav",
+"hurt1.wav",
+"hurt2.wav",
+"revive.mp3",
+"shield.wav",
+"slime.wav",
+"squish.wav",
+"stoneDoor.wav",
+"sword.wav",
+"thud.wav",
+"water.wav",
+"win.wav"
+};
 
 Scene* LoadingScene::createScene()
 {
@@ -223,7 +236,7 @@ bool LoadingScene::init()
 	title->setPosition(visibleSize.width / 2, visibleSize.height / 4 * 3);
 	this->addChild(title, 1);
 
-	totalNum = uiImages.size()+mapImages.size() + heroImages.size()+snapshotImages.size();
+	totalNum = uiImages.size()+mapImages.size() + heroImages.size()+snapshotImages.size()+effects.size();
 	loadedNum = 0;
 
 	Sprite *progressBkground = Sprite::create("ui/sliderTrack.png"); 
@@ -271,31 +284,13 @@ void LoadingScene::loadingCallBack(Texture2D *texture)
 	loadedNum++;
 	loadProgress->setPercentage((float)loadedNum / totalNum * 100);
 
-	if (loadedNum == totalNum)
+	if (loadedNum == totalNum-effects.size())
 	{
-		/*auto boyAnimation = Animation::create();
-		boyAnimation->setDelayPerUnit(0.1f);
-		for (int i = 1; i <= 12; i++)
-		{
-			char str[100] = { 0 };
-			sprintf(str, "boy%d.png", i);
-			boyAnimation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(str));
+		for (auto effect : effects) {
+			SimpleAudioEngine::getInstance()->preloadEffect(effect.c_str());
+			loadedNum++;
+			loadProgress->setPercentage((float)loadedNum / totalNum * 100);
 		}
-
-		AnimationCache::getInstance()->addAnimation(boyAnimation, "boyAnimation");
-
-		auto girlAnimation = Animation::create();
-		girlAnimation->setDelayPerUnit(0.2f);
-		for (int i = 1; i <= 8; i++)
-			girlAnimation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("girl" + std::to_string(i) + ".png"));
-		AnimationCache::getInstance()->addAnimation(girlAnimation, "girlAnimation");
-
-		SimpleAudioEngine::getInstance()->preloadBackgroundMusic("spring_music.wav");
-		SimpleAudioEngine::getInstance()->preloadBackgroundMusic("winter_music.mp3");
-
-		SimpleAudioEngine::getInstance()->preloadEffect("jump.wav");
-		SimpleAudioEngine::getInstance()->preloadEffect("point.mp3");
-		SimpleAudioEngine::getInstance()->preloadEffect("gameover.wav");*/
 
 		auto helloScene = HelloScene::createScene();
 		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, helloScene));

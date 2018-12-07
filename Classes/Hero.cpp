@@ -183,17 +183,24 @@ void Hero::shot() {
 		bullet->getPhysicsBody()->setVelocity(Vec2(500, 0));
 	}
 	parent->addChild(bullet, 10);
+
+	EFFECT("sword.wav");
 }
 
 void Hero::shield() {
 	if (heroType != HEROSHIELD) return;
 	if (shielded) return;
 	float runningTime = ((GameScene*)(Director::getInstance()->getRunningScene()))->getRunningTime();
-	if (runningTime - lastShieldTime < 5.0f) return;
+	if (runningTime - lastShieldTime < 5.0f) {
+		EFFECT("fail.mp3");
+		return;
+	}
 	lastShieldTime = runningTime;
 	shielded = true;
 	switchTexture(3);
 	this->scheduleOnce(schedule_selector(Hero::unshield),3.0f);
+
+	EFFECT("shield.wav");
 }
 void Hero::unshield(float dt){
 	switchTexture(HEROSHIELD);

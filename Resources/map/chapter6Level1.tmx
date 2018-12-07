@@ -772,17 +772,17 @@
     <property name="wait" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="383" name="SwingLand" type="row1" gid="193" x="448" y="2081" width="384" height="48">
+  <object id="383" name="SwingLand" type="row3" gid="193" x="448" y="2081" width="384" height="48">
    <properties>
     <property name="velocity" type="float" value="1.5"/>
    </properties>
   </object>
-  <object id="384" name="SwingLand" type="row1" gid="193" x="1024" y="2081" width="384" height="48">
+  <object id="384" name="SwingLand" type="row3" gid="193" x="1024" y="2081" width="384" height="48">
    <properties>
     <property name="velocity" type="float" value="-1.5"/>
    </properties>
   </object>
-  <object id="385" name="SwingLand" type="row1" gid="193" x="1600" y="2081" width="384" height="48">
+  <object id="385" name="SwingLand" type="row3" gid="193" x="1600" y="2081" width="384" height="48">
    <properties>
     <property name="velocity" type="float" value="1.5"/>
    </properties>
@@ -792,9 +792,9 @@
     <property name="jump" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="387" name="SwingLand" type="row1" gid="193" x="928" y="1349" width="576" height="72">
+  <object id="387" name="SwingLand" type="row3" gid="193" x="928" y="1349" width="576" height="72">
    <properties>
-    <property name="stopTime" type="float" value="0"/>
+    <property name="stopTime" type="float" value="0.5"/>
    </properties>
   </object>
   <object id="388" name="DropLand" type="platform1" gid="26" x="544" y="969" width="192" height="41"/>

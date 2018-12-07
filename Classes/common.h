@@ -7,6 +7,19 @@ USING_NS_CC;
 #define EFFECT(__FILE__) SimpleAudioEngine::getInstance()->playEffect("sounds/"##__FILE__##, false, 1.0f, 1.0f, 1.0f)
 #define BGM(__FILE__) SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/loops/"##__FILE__##, true)
 #define STOPBGM SimpleAudioEngine::getInstance()->stopBackgroundMusic()
+#define PAUSEBGM SimpleAudioEngine::getInstance()->pauseBackgroundMusic()
+#define RESUMEBGM  SimpleAudioEngine::getInstance()->resumeBackgroundMusic()
+
+#define HELLOBGM "BGM_SCENARIO_SAD.mp3"
+#define ENTRYBGM "spacewind.mp3"
+#define CHAPTER0INTROBGM "spacewind.mp3"
+#define CHAPTER0BGM "titletheme.wav"
+#define CHAPTER1BGM "BGM_OPENING MOVIE.mp3"
+#define CHAPTER2BGM "BGM_SCENARIO_SCENE.mp3"
+#define CHAPTER3BGM "BGM_SCENARIO_CALM.mp3"
+#define CHAPTER4BGM "BGM_BATTLE_LAST DRAGON.mp3"
+#define CHAPTER5BGM "bgm_raidboss.mp3"
+#define CHAPTER6BGM "BGM_SCENARIO_HOPE.mp3" 
 
 #define INFTIME (1<<30)
 

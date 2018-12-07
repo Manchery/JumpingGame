@@ -22,6 +22,7 @@ public:
 	void previousChapter();
 	CREATE_FUNC(EntryScene);
 private:
+	void updateLeftRightButton();
 	std::vector<Node*> chapters;
 	Node *curChapter;
 	int chapterTotal,iter;
