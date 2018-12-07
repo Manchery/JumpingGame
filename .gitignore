@@ -126,4 +126,4 @@ Makefile
 cmake_install.cmake
 
 cocos2d/
-
+proj.win32/.vs/
