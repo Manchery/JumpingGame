@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 using namespace cocos2d::ui;
 
+USING_NS_CC;
+
 class OptionScene : public cocos2d::Scene
 {
 public:
@@ -14,6 +16,10 @@ public:
 	//void initAudioSet();
 	void initResetOption();
 	void initResetGame();
+
+	bool onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event);
+
+	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);
 
 private:
 	CheckBox* resolutionCheckbox[4];

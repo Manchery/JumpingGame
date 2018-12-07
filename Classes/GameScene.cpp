@@ -24,10 +24,13 @@ const float PI = acos(-1.0);
 void GameScene::onEnterTransitionDidFinish()
 {
 	//flush
+	//log("%d", hero->getOnGround());
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
-	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	//lastKey = EventKeyboard::KeyCode::KEY_NONE;
 	heroJumped = heroBounced = 0;
+
+	hero->resetOnGround(); // ?
 
 	if (heroDied) {
 		for (auto node : destroyedList) {
@@ -122,7 +125,7 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 			hero->setPosition(x, y);
 			hero->setName("Hero");
 			hero->setTag(HERO_T);
-			frontGroundLayer->addChild(hero, 1);
+			frontGroundLayer->addChild(hero, 2);
 		}
 		else if (name == "Enemy") {
 			float minX = dic.at("minX").asFloat(), maxX = dic.at("maxX").asFloat();
@@ -259,8 +262,14 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 				if (rotation != 0)
 					sprite->setRotation(rotation);
 
-				if (dic.find("revivePoint")!=dic.end() && dic.at("revivePoint").asBool())
+				if (dic.find("revivePoint") != dic.end() && dic.at("revivePoint").asBool()) {
 					sprite->setName("RevivePoint");
+					auto star = Sprite::create("map/star.png");
+					star->setContentSize(Size(64,64));
+					star->setPosition(Vec2(sprite->getPosition()+
+						Vec2(sprite->getContentSize().width/2, sprite->getContentSize().height+72)));
+					backGroundLayer->addChild(star, 2);
+				}
 				if (dic.find("jump") != dic.end() && dic.at("jump").asBool())
 					sprite->setName("Jump");
 
@@ -285,7 +294,10 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 
 				auto physicsSize = Size(sprite->getContentSize().width, sprite->getContentSize().height*0.5);
 				auto physicsBody = PhysicsBody::createBox(physicsSize, PhysicsMaterial(0.1f, 0.0f, 0.0f));
-				physicsBody->setPositionOffset(Vec2(0, -sprite->getContentSize().height*0.5 / 2));
+				if (rotation==-180.0f || rotation==180.0f)
+					physicsBody->setPositionOffset(Vec2(0, sprite->getContentSize().height*0.5 / 2));
+				else
+					physicsBody->setPositionOffset(Vec2(0, -sprite->getContentSize().height*0.5 / 2));
 
 				physicsBody->setDynamic(false);
 				physicsBody->setCategoryBitmask(LAND_M);
@@ -342,6 +354,33 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 		}
 
 	}
+
+	//attach trap
+	for (int i = 1; i; i++) {
+		auto slidingLand = (SlidingLand*)(frontGroundLayer->getChildByName("SlidingLand" + std::to_string(i)));
+		if (slidingLand == nullptr) {
+			slidingLand = (SlidingLand*)(backGroundLayer->getChildByName("SlidingLand" + std::to_string(i)));
+		}
+		if (slidingLand == nullptr) break;
+		auto trap = (Sprite*)(frontGroundLayer->getChildByName("Trap" + std::to_string(i)));
+		if (trap != nullptr) {
+			trap->retain();
+			slidingLand->setAttachedTrap(trap);
+		}
+	}
+	for (int i = 1; i; i++) {
+		auto door = (Door*)(frontGroundLayer->getChildByName("Door" + std::to_string(i)));
+		if (door == nullptr) {
+			door = (Door*)(backGroundLayer->getChildByName("Door" + std::to_string(i)));
+		}
+		if (door == nullptr) break;
+		auto trap = (Sprite*)(frontGroundLayer->getChildByName("Trap" + std::to_string(i)));
+		if (trap != nullptr) {
+			trap->retain();
+			door->setAttachedTrap(trap);
+		}
+	}
+
 	arrObj = tileMap->getObjectGroup("bounds")->getObjects();
 	for (auto object : arrObj)
 	{
@@ -357,8 +396,12 @@ void GameScene::drawMap(const TMXTiledMap *tileMap) {
 		sprite->setAnchorPoint(Vec2::ZERO);
 		sprite->setPosition(x, y);
 		auto physicsBody = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.0f));
-		
-		sprite->setTag(LAND_T);
+
+		if (dic.find("trap") != dic.end() && dic.at("trap").asBool())
+			sprite->setTag(TRAP_T);
+		else
+			sprite->setTag(LAND_T);
+		//sprite->setTag(LAND_T);
 
 		physicsBody->setDynamic(false);
 		physicsBody->setCategoryBitmask(LAND_M);

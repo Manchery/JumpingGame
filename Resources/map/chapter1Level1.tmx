@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="196" height="128" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="10" nextobjectid="1026">
- <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="63" columns="0">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="196" height="128" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="10" nextobjectid="1035">
+ <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="64" columns="0">
   <tile id="0">
    <image width="160" height="192" source="alter.png"/>
   </tile>
@@ -189,6 +189,9 @@
   </tile>
   <tile id="63">
    <image width="384" height="48" source="row1.png"/>
+  </tile>
+  <tile id="64">
+   <image width="63" height="32" source="trapSmall.png"/>
   </tile>
  </tileset>
  <objectgroup id="1" name="background">
@@ -1159,12 +1162,12 @@
   <object id="738" name="Trap" type="trap" gid="51" x="3330" y="2871" width="128" height="48" rotation="90"/>
   <object id="739" name="Trap" type="trap" gid="51" x="3330" y="2999" width="128" height="48" rotation="90"/>
   <object id="740" name="Trap" type="trap" gid="51" x="3330" y="3115" width="128" height="48" rotation="90"/>
-  <object id="878" name="Door" type="pushBlock2" gid="43" x="1695" y="3776" width="54" height="240">
+  <object id="878" name="Door" type="pushBlock2" gid="43" x="1695" y="3777" width="54" height="240">
    <properties>
     <property name="doorID" type="int" value="3"/>
    </properties>
   </object>
-  <object id="879" name="Door" type="pushBlock3" gid="44" x="1747" y="3776" width="54" height="240">
+  <object id="879" name="Door" type="pushBlock3" gid="44" x="1747" y="3777" width="54" height="240">
    <properties>
     <property name="doorID" type="int" value="4"/>
    </properties>
@@ -1283,9 +1286,19 @@
   <object id="1023" name="Coin" type="gemRedStroked" gid="18" x="2082.38" y="2533.38" width="64" height="64"/>
   <object id="1024" name="Coin" type="gemRedStroked" gid="18" x="773" y="3104.25" width="64" height="64"/>
   <object id="1025" name="Coin" type="gemBlueStroked" gid="17" x="3424.25" y="3169.25" width="64" height="64"/>
+  <object id="1029" name="Trap" type="trapSmall" gid="65" x="3804" y="1151" width="42" height="32" rotation="180">
+   <properties>
+    <property name="ID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="1030" name="Trap" type="trapSmall" gid="65" x="3843" y="1151" width="42" height="32" rotation="180">
+   <properties>
+    <property name="ID" type="int" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="7" name="above" visible="0"/>
- <objectgroup id="8" name="bounds" visible="0">
+ <objectgroup id="8" name="bounds">
   <object id="377" x="222" y="151" width="32" height="1770">
    <properties>
     <property name="bodyType" value="static"/>
@@ -1331,17 +1344,17 @@
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="787" x="5014" y="580" width="32" height="682">
+  <object id="787" x="5017" y="580" width="95.75" height="682">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="788" x="5480" y="583" width="32" height="316">
+  <object id="788" x="5432.5" y="583" width="79.5" height="316">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="789" x="5867" y="156" width="52" height="3304">
+  <object id="789" x="5867" y="156" width="93.25" height="3304">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
@@ -1356,7 +1369,7 @@
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="792" x="4497" y="2187" width="44" height="1110">
+  <object id="792" x="4497" y="2187" width="177.75" height="1110">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
@@ -1371,12 +1384,12 @@
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="795" x="1958" y="2107" width="40" height="1418">
+  <object id="795" x="1866.75" y="2107" width="131.25" height="1418">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="796" x="2463" y="2777" width="40" height="1078">
+  <object id="796" x="2468" y="2777" width="106.25" height="1078">
    <properties>
     <property name="bodyType" value="static"/>
    </properties>
@@ -1476,9 +1489,21 @@
     <property name="bodyType" value="static"/>
    </properties>
   </object>
-  <object id="989" x="6124" y="3426" width="52" height="416">
+  <object id="989" x="6124" y="3426" width="117" height="416">
    <properties>
     <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+  <object id="1026" x="5952.75" y="89.25" width="312" height="3334">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="trap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1027" x="5116.5" y="631.75" width="312" height="2584">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="trap" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

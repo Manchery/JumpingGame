@@ -16,7 +16,6 @@ void Chapter4Level1::onEnterTransitionDidFinish()
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
 	//lastKey = EventKeyboard::KeyCode::KEY_NONE;
-	lastKey = EventKeyboard::KeyCode::KEY_LEFT_ARROW; 
 	heroJumped = heroBounced = 0;
 
 	if (heroDied) {
@@ -57,6 +56,8 @@ bool Chapter4Level1::init()
 	coinTotal = chapterCoinTotal[4];
 
 	commonInitAfterMap();
+
+	lastKey = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
 
 	followEnemy = FollowEnemy::create(hero);
 	followEnemy->retain();

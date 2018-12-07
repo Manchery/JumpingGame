@@ -17,7 +17,7 @@ void Chapter5Level1::onEnterTransitionDidFinish()
 	//flush
 	hero->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	upKeyDown = leftKeyDown = rightKeyDown = downKeyDown = 0;
-	lastKey = EventKeyboard::KeyCode::KEY_NONE;
+	//lastKey = EventKeyboard::KeyCode::KEY_NONE;
 	heroJumped = heroBounced = 0;
 
 	if (heroDied || firstLoad) {

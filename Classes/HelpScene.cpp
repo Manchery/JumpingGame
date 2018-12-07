@@ -72,6 +72,9 @@ bool HelpScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
 	return true;
 }
 bool HelpScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
+		Director::getInstance()->popScene();
+	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
 		if (iter<helpPageTotal-1)
 		((Sprite*)this->getChildByName("HelpPage"))->setTexture(

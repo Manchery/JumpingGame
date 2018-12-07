@@ -147,6 +147,11 @@ bool OptionScene::init(bool canResetGame)
 	menuNode->setPosition(visibleSize / 2);
 	this->addChild(menuNode, 1);
 
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(OptionScene::onKeyPressed, this);
+	keyListener->onKeyReleased = CC_CALLBACK_2(OptionScene::onKeyReleased, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
 	return true;
 }
 
@@ -292,4 +297,15 @@ void OptionScene::initResetGame()
 	});
 
 	//this->addChild(button);
+}
+
+
+bool OptionScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event) {
+	return true;
+}
+bool OptionScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
+		Director::getInstance()->popScene();
+	}
+	return true;
 }

@@ -45,15 +45,23 @@ void Door::setTrack(float posx, float starty, float endy)
 void Door::move() {
 	if (state == 0) {
 		this->stopAllActions();
-		auto moveTo = MoveTo::create(
-			2.0f*fabs(this->getPositionY()-endY)/fabs(endY-startY), Vec2(posX, endY));
-		this->runAction(moveTo);
+		auto moveBy = MoveBy::create(
+			2.0f*fabs(this->getPositionY() - endY) / fabs(endY - startY), Vec2(0, endY - this->getPositionY()));
+		this->runAction(moveBy);
+		if (attachedTrap!=nullptr){
+			attachedTrap->stopAllActions();
+			attachedTrap->runAction(moveBy->clone());
+		}
 	}
 	else {
 		this->stopAllActions();
-		auto moveTo = MoveTo::create(
-			2.0f*fabs(this->getPositionY() - startY) / fabs(endY - startY), Vec2(posX, startY));
-		this->runAction(moveTo);
+		auto moveBy = MoveBy::create(
+			2.0f*fabs(this->getPositionY() - startY) / fabs(endY - startY), Vec2(0, startY - this->getPositionY()));
+		this->runAction(moveBy);
+		if (attachedTrap != nullptr) {
+			attachedTrap->stopAllActions();
+			attachedTrap->runAction(moveBy->clone());
+		}
 	}
 	state ^= 1;
 }
@@ -106,7 +114,10 @@ void DoorKey::lock(){
 	if (!enabled) return;
 	for (auto door:doors)
 		door->move();
-	this->setTexture("map/blobGreen.png");
+	if (state ^= 1)
+		this->setTexture("map/blobGreen.png");
+	else
+		this->setTexture("map/blobBlue.png");
 	this->setContentSize(contentSize);
 	enabled = false;
 	this->scheduleOnce(schedule_selector(DoorKey::enableAgain), 1.0f);
@@ -114,7 +125,7 @@ void DoorKey::lock(){
 
 void DoorKey::enableAgain(float dt)
 {
-	this->setTexture("map/blobBlue.png");
+	//this->setTexture("map/blobBlue.png");
 	this->setContentSize(contentSize);
 	enabled = true;
 }

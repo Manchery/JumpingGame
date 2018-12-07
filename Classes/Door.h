@@ -13,10 +13,15 @@ public:
 	void setTrack(float posx, float starty, float endy);
 
 	void move();
+	void setAttachedTrap(Sprite *trap) {
+		trap->retain();
+		attachedTrap = trap;
+	}
 	
 protected:
 	float startY,endY,posX;
 	int state;
+	Sprite *attachedTrap;
 };
 
 class DoorKey : public cocos2d::Sprite
@@ -34,6 +39,7 @@ protected:
 	std::vector<Door*> doors;
 	Size contentSize;
 	bool enabled;
+	int state;
 };
 
 #endif // __SLIDING_TRAP_H__

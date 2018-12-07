@@ -10,7 +10,7 @@ USING_NS_CC;
 
 #define INFTIME (1<<30)
 
-#define PHYSICS_DRAW_DEBUG false
+#define PHYSICS_DRAW_DEBUG true
 #define AUDIO_PLAY true
 
 #define HERO_T 1
