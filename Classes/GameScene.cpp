@@ -31,6 +31,7 @@ void GameScene::onEnterTransitionDidFinish()
 	heroJumped = heroBounced = 0;
 
 	hero->resetOnGround(); // ?
+	hero->resetInWater();
 
 	if (heroDied) {
 		for (auto node : destroyedList) {
@@ -843,7 +844,7 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
-	log("%d", hero->getOnGround());
+	log("%d", hero->getInWater());
 	//died
 	if (heroDied) {
 		heroDie();

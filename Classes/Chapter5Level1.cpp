@@ -45,7 +45,7 @@ void Chapter5Level1::onEnterTransitionDidFinish()
 			if (sprite->getTag() == GAME_KEY_T)
 				gotGameKey = 0;
 		}
-		((Boss*)(frontGroundLayer->getChildByTag(BOSS_T)))->resetHP();
+		((Boss*)(this->getChildByTag(BOSS_T)))->resetHP();
 		destroyedList.clear();
 		heroDied = 0;
 	}

@@ -79,7 +79,7 @@ void Chapter4Level1::initBackgroundMusic()
 void Chapter4Level1::messageUpdate(float dt)
 {
 	if (!toldHello && runningTime>=2.0f) {
-		messageDoubleLine("Do not abandon your shadow,", "Or he will chase you and kill you.");
+		messageDoubleLine("Once you abandon your shadow,", "he will chase you and kill you!");
 		toldHello = 1;
 	}
 }
