@@ -16,6 +16,9 @@ public:
 
 	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);
 
+	void nextPage();
+	void previousPage();
+
 	// implement the "static create()" method manually
 	CREATE_FUNC(HelpScene);
 private:

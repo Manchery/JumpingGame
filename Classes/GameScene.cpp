@@ -72,7 +72,7 @@ void GameScene::commonInitAfterMap(){
 	this->schedule(schedule_selector(GameScene::mapUpdate));
 	this->schedule(schedule_selector(GameScene::regenerateUpdate));
 	this->schedule(schedule_selector(GameScene::messageUpdate));
-	this->schedule(schedule_selector(GameScene::timerUpdate));
+	this->schedule(schedule_selector(GameScene::dashboardUpdate));
 }
 
 void GameScene::drawBackGround(ValueVector &arrObj, int zOrder = 0) {
@@ -538,11 +538,13 @@ void GameScene::initDashboard(){
 	scoreLabel->setAnchorPoint(Vec2(1.0f, 1.0f)); scoreLabel->setPosition(Vec2::ZERO);
 	scoreLabel->setName("ScoreLabel");
 
-	auto label = Label::createWithTTF("Coin", "fonts/GermaniaOne-Regular.ttf", 64);
-	label->setAnchorPoint(Vec2(1.0f, 1.0f));
-	label->setPosition(Vec2(-(scoreLabel->getContentSize().width) - padding, 0.0f));
+	auto coin = Sprite::create("ui/gem.png");
+	coin->setContentSize(Size(72, 72));
+	//auto label = Label::createWithTTF("Coin", "fonts/GermaniaOne-Regular.ttf", 64);
+	coin->setAnchorPoint(Vec2(1.0f, 1.0f));
+	coin->setPosition(Vec2(-(scoreLabel->getContentSize().width) - padding-40, 0.0f));
 
-	coinScoreBoard->addChild(label, 0);
+	coinScoreBoard->addChild(coin, 0);
 	coinScoreBoard->addChild(scoreLabel, 0);
 	coinScoreBoard->setName("CoinScoreBoard");
 	coinScoreBoard->setAnchorPoint(Vec2(1.0f, 1.0f));
@@ -550,10 +552,20 @@ void GameScene::initDashboard(){
 
 	this->addChild(coinScoreBoard, 100);
 
-	auto timeLabel = Label::createWithTTF("0", "fonts/GermaniaOne-Regular.ttf", 64);
+	auto key = Sprite::create("ui/key.png");
+	key->setContentSize(key->getContentSize()*1.2);
+	key->setAnchorPoint(Vec2(1.0f, 1.0f));
+	key->setPosition(Vec2(visibleSize.width - 450,
+		visibleSize.height - padding-10));
+	key->setName("KeyLabel");
+	key->setVisible(false);
+
+	this->addChild(key, 100);
+
+	auto timeLabel = Label::createWithTTF("00  :  00", "fonts/GermaniaOne-Regular.ttf", 64);
 
 	timeLabel->setAnchorPoint(Vec2(1.0f, 1.0f));
-	timeLabel->setPosition(Vec2(visibleSize.width-500, visibleSize.height - padding));
+	timeLabel->setPosition(Vec2(visibleSize.width - padding, visibleSize.height - padding - 48 - padding));
 	timeLabel->setName("TimeLabel");
 	this->addChild(timeLabel, 100);
 }
@@ -940,15 +952,25 @@ void GameScene::messageUpdate(float dt)
 {
 }
 
-void GameScene::timerUpdate(float dt)
+void GameScene::dashboardUpdate(float dt)
 {
 	//dashboard
 	std::stringstream sstr;  sstr << coinCount << " / " << coinTotal;
 	auto scoreLabel = (Label*)this->getChildByName("CoinScoreBoard")->getChildByName("ScoreLabel");
 	scoreLabel->setString(sstr.str());
 
-	if ((int)(runningTime + dt) != (int)runningTime)
-		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime + dt)));
+	if (gotGameKey) {
+		this->getChildByName("KeyLabel")->setVisible(true);
+	}
+	else {
+		this->getChildByName("KeyLabel")->setVisible(false);
+	}
+
+	if (dt==0 || (int)(runningTime + dt) != (int)runningTime) {
+		char buf[100];
+		sprintf(buf, "%02d  :  %02d", ((int)(runningTime + dt)) / 60, ((int)(runningTime + dt)) % 60);
+		((Label*)(this->getChildByName("TimeLabel")))->setString(buf);
+	}
 	runningTime += dt;
 }
 
@@ -1108,6 +1130,7 @@ void GameScene::nextLevel(GameScene * scene)
 	scene->setCoinCount(this->coinCount);
 	scene->getHero()->switchTypeTo(hero->getHeroType());
 	scene->setRunningTime(runningTime);
+	scene->dashboardUpdate(0.0f);
 	Director::getInstance()->replaceScene(TransitionCrossFade::create(2.0f, scene));
 
 	EFFECT("door.wav");

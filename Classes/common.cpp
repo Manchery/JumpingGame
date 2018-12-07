@@ -4,19 +4,19 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
-float getMinYOffset(Sprite *sprite) {
+static float getMinYOffset(Sprite *sprite) {
 	return sprite->getPhysicsBody()->getPositionOffset().y
 		- ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().width / 2;
 }
-float getMaxYOffset(Sprite *sprite) {
+static float getMaxYOffset(Sprite *sprite) {
 	return sprite->getPhysicsBody()->getPositionOffset().y
 		+ ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().width / 2;
 }
-float getMinXOffset(Sprite *sprite) {
+static float getMinXOffset(Sprite *sprite) {
 	return sprite->getPhysicsBody()->getPositionOffset().x
 		- ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().height / 2;
 }
-float getMaxXOffset(Sprite *sprite) {
+static float getMaxXOffset(Sprite *sprite) {
 	return sprite->getPhysicsBody()->getPositionOffset().x
 		+ ((PhysicsShapeBox*)(sprite->getPhysicsBody()->getShape(0)))->getSize().height / 2;
 }

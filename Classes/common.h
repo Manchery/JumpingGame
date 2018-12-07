@@ -10,7 +10,7 @@ USING_NS_CC;
 
 #define INFTIME (1<<30)
 
-#define PHYSICS_DRAW_DEBUG true
+#define PHYSICS_DRAW_DEBUG false
 #define AUDIO_PLAY true
 
 #define HERO_T 1
@@ -55,10 +55,6 @@ USING_NS_CC;
 
 const int chapterCoinTotal[] = { 20,30,30,30,30,30,30};
 
-float getMinYOffset(Sprite *sprite);
-float getMaxYOffset(Sprite *sprite);
-float getMinXOffset(Sprite *sprite);
-float getMaxXOffset(Sprite *sprite);
 float getPhysicsMinX(Sprite *sprite);
 float getPhysicsMinY(Sprite *sprite);
 float getPhysicsMaxX(Sprite *sprite);

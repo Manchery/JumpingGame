@@ -18,6 +18,8 @@ public:
 
 	bool onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event);
 
+	void nextChapter();
+	void previousChapter();
 	CREATE_FUNC(EntryScene);
 private:
 	std::vector<Node*> chapters;

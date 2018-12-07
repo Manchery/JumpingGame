@@ -34,7 +34,7 @@ public:
 	virtual void mapUpdate(float dt);
 	virtual void regenerateUpdate(float dt);
 	virtual void messageUpdate(float dt);
-	virtual void timerUpdate(float dt);
+	virtual void dashboardUpdate(float dt);
 
 	void setRevivePoint(Vec2 revive);
 
@@ -75,7 +75,6 @@ public:
 	}
 	void setRunningTime(float rtime) {
 		runningTime = rtime;
-		((Label*)(this->getChildByName("TimeLabel")))->setString(std::to_string((int)(runningTime)));
 	}
 	bool getGotShot() {
 		return gotShot;

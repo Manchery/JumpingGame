@@ -32,7 +32,7 @@ bool Chapter6Level1::init()
 void Chapter6Level1::messageUpdate(float dt)
 {
 	if (!toldHello && runningTime >= 2.0f) {
-		messageDoubleLine("A fancy land full of diamonds and happiness,", "collect them !");
+		messageDoubleLine("A fancy land full of gems and happiness,", "collect them !");
 		toldHello = 1;
 	}
 }
