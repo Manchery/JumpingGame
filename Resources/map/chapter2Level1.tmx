@@ -247,7 +247,7 @@
   <object id="871" type="flare" gid="16" x="1766" y="1998" width="192" height="192"/>
   <object id="872" type="torch" gid="50" x="2732" y="3536" width="96" height="96"/>
   <object id="873" type="flare" gid="16" x="2684" y="3528" width="192" height="192"/>
-  <object id="1278" type="sign2" gid="47" x="1120" y="2294" width="160" height="128"/>
+  <object id="1278" type="sign2" gid="47" x="1646" y="2393" width="160" height="128"/>
  </objectgroup>
  <objectgroup id="3" name="castledeco">
   <object id="370" type="window2" gid="56" x="1120" y="2838" width="64" height="64"/>
