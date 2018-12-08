@@ -554,7 +554,7 @@ void GameScene::initDashboard(){
 	this->addChild(coinScoreBoard, 100);
 
 	auto key = Sprite::create("ui/key.png");
-	key->setContentSize(key->getContentSize()*1.2);
+	key->setContentSize(key->getContentSize()*1.2f);
 	key->setAnchorPoint(Vec2(1.0f, 1.0f));
 	key->setPosition(Vec2(visibleSize.width - 450,
 		visibleSize.height - padding-10));
