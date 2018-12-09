@@ -715,9 +715,9 @@ bool GameScene::onContactPostSolve(PhysicsContact & contact, const PhysicsContac
 
 	if (isHero(nodeA)) {
 		bool *heroSetOnGround = (bool*)contact.getData();
-		//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
 		if (isLand(nodeB)) {
 			if (!(*heroSetOnGround)) {
+				//log("%f %f", nodeB->getPositionY() + nodeB->getContentSize().height, hero->getPositionY());
 				if (nodeB->getTag()==SWING_LAND_T || heroBottomTouched(nodeB)) {
 					hero->resetJumpTimes();
 					hero->addOnGround();
@@ -844,7 +844,7 @@ bool GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event) {
 
 void GameScene::heroUpdate(float dt)
 {
-	log("%d", hero->getInWater());
+	//log("%d", hero->getInWater());
 	//died
 	if (heroDied) {
 		heroDie();
@@ -879,13 +879,13 @@ void GameScene::heroUpdate(float dt)
 	velocity.x = 0;
 	if (rightKeyDown) velocity.x += delta;
 	if (leftKeyDown) velocity.x -= delta;
-	if (hero->getSlidingGround() != nullptr) {
+	if (hero->getSlidingGround() != nullptr && heroBottomTouched(hero->getSlidingGround())) {
 		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
 		velocity.x += slidingVel.x;
 	}
 
 	//velocityY
-	if (hero->getSlidingGround() != nullptr) {
+	if (hero->getSlidingGround() != nullptr && heroBottomTouched(hero->getSlidingGround())) {
 		auto slidingVel = hero->getSlidingGround()->getPhysicsBody()->getVelocity();
 		velocity.y = slidingVel.y;
 	}
@@ -897,7 +897,7 @@ void GameScene::heroUpdate(float dt)
 	}
 	if (hero->getInWater()) {
 		velocity.y = std::max(-800.0f*0.4f, velocity.y);
-		if (downKeyDown)
+		if (downKeyDown && !hero->getOnGround())
 			velocity.y = -800.0f*0.8f;
 	}
 	else

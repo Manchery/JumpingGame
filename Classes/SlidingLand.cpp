@@ -47,6 +47,7 @@ bool SlidingLand::initWithFile(const std::string & filename, float width, float 
 void SlidingLand::setTrack(float startx, float starty, float endx, float endy)
 {	
 	startX = startx; startY = starty; endX = endx; endY = endy;
+	this->getPhysicsBody()->setVelocity(Vec2::ZERO);
 	this->setPosition(startX, startY);
 	this->unscheduleAllCallbacks();
 	launched = false;
